@@ -1,0 +1,49 @@
+---
+- name: Check for SSH and GPG Gnome Keyring desktop files
+  stat:
+    path: /etc/xdg/autostart/gnome-keyring-{{ item }}.desktop
+  with_items:
+    - ssh
+    - pkcs11
+  register: keyring
+
+- name: Copy desktop files to .disabled
+  copy:
+    src: "{{ item.stat.path }}"
+    dest: "{{ item.stat.path}}.disabled"
+  with_items: "{{ keyring.results }}"
+  when: item.stat.exists
+  become: true
+
+- name: Nuke Gnome Keyring SSH and GPG desktop files
+  file:
+    path: "{{ item.stat.path }}"
+    state: absent
+  with_items: "{{ keyring.results }}"
+  when: item.stat.exists
+  become: true
+
+- set_fact:
+    pinentry: /usr/bin/pinentry-qt
+  when: ansible_env["XDG_SESSION_DESKTOP"] == 'KDE'
+- set_fact:
+    pinentry: /usr/bin/pinentry-gtk-2
+  when: ansible_env["XDG_SESSION_DESKTOP"] in ('GNOME', 'ubuntu', 'gnome-xorg')
+- name: Check for current pinentry
+  stat:
+    path: /usr/bin/pinentry
+  register: pinentry_current
+
+- block:
+  - name: Nuke old pinentry link
+    file:
+      path: /usr/bin/pinentry
+      state: absent
+  - name: Set new pinentry link
+    file:
+      path: /usr/bin/pinentry
+      src: "{{ pinentry }}"
+      state: link
+  become: true
+  when: pinentry_current.stat.islnk and pinentry_current.stat.lnk_target != pinentry
+

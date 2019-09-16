@@ -1,0 +1,77 @@
+---
+- hosts: all
+  connection: local
+
+  pre_tasks:
+    - name: Install and enable requirements
+      block:
+        - name: Install python2-pip and python3-pip
+          package:
+            name: ['python-pip', 'python3-pip']
+        - name: Install workstation repositories rpm
+          package:
+            name: fedora-workstation-repositories
+      become: true
+    - name: Enable extra repositories (and change when dnf_repository finally exists)
+      block:
+        - name: Get enabled repositories
+          command: "dnf repolist"
+          args:
+            warn: false
+          register: enabled_dnf_repositories
+          changed_when: false
+        - name: Enable repositories
+          command: "dnf config-manager --set-enabled {{ item }}"
+          args:
+            warn: false
+          with_items:
+            - rpmfusion-nonfree-nvidia-driver
+            - google-chrome
+          when: item not in enabled_dnf_repositories.stdout
+      become: true
+
+  roles:
+    - {role: azmodude.rpmfusion, tags: ['packages', 'system']}
+    - {role: azmodude.packages, tags: ['packages']}
+    - {role: azmodude.users, tags: ['users', 'system']}
+    - {role: azmodude.pyenv, tags: ['python', 'packages']}
+    - {role: azmodude.visual-studio-code, tags: ['packages']}
+    - {role: azmodude.tomb, tags: ['packages']}
+    - {role: samba, when: install_samba, tags: ['system', 'samba', 'services']}
+    - {role: misc, tags: ['system']}
+
+  tasks:
+#    - import_role:
+#        name: azmodude.docker
+
+    - name: Install Python user packages
+      pip:
+        executable: "{{ item.pip | default('pip') }}"
+        name: "{{ item.name }}"
+        extra_args: --user
+        version: "{{ item.version | default(omit) }}"
+      with_items: "{{ pip_user_packages }}"
+      when: pip_user_packages is defined
+      tags:
+        - python
+        - pip
+
+    - name: Install Ruby user gems
+      gem:
+        name: "{{ item.name }}"
+        user_install: true
+      with_items: "{{ ruby_user_gems }}"
+      tags:
+        - ruby
+      when: ruby_user_gems is defined
+
+    - name: Install go applications
+      shell: "go get {{ item.url }}"
+      environment:
+        GOPATH: "{{ GOPATH }}"
+      with_items: "{{ go_get }}"
+      when: go_get is defined
+      changed_when: false
+      become: azmo
+      tags:
+        - go

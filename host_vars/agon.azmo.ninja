@@ -1,0 +1,8 @@
+---
+install_samba: false
+
+packages:
+  Fedora:
+    - xorg-x11-drv-nvidia
+    - akmod-nvidia
+    - nvidia-settings

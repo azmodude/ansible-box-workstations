@@ -1,0 +1,6 @@
+---
+- name: Reload Samba
+  systemd:
+    service: smbd
+    state: restarted
+  become: True

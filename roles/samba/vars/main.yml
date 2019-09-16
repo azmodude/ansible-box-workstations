@@ -1,0 +1,17 @@
+---
+smb_service:
+  Fedora: smb
+  Debian: smbd
+  Ubuntu: smbd
+
+samba_guestuser: smbguest
+
+shares:
+  tmp:
+    comment: tmp@azmo
+    path: /home/azmo/tmp
+    browseable: "yes"
+    writable: "yes"
+    hide_unreadable: "yes"
+    valid_users: azmo
+    allow_guest: false

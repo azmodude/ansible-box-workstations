@@ -1,0 +1,76 @@
+---
+ansible_python_interpreter: /usr/bin/python3
+
+users:
+  - name: azmo
+    shell: /bin/zsh
+    group: azmo
+    groups: libvirt
+    append: true
+    uid: 1337
+
+packages_group:
+  Fedora:
+    - dnf-plugin-system-upgrade
+    - neovim
+    - python3-neovim
+    - expect
+    - zsh
+    - gocryptfs
+    - redhat-lsb-core
+    - tmux
+    - ripgrep
+    - sshfs
+    - htop
+
+    - google-chrome-stable
+    - rofi
+    - xdotool
+    - copyq
+    - xorg-x11-utils
+
+    - gnome-tweaks
+
+    - hplip
+    - hplip-gui
+
+    - texlive-scheme-medium
+    - texlive-chktex
+
+    - nodejs
+    - python3-poetry
+    - myrepos
+    - git
+    - git-crypt
+    - golang
+    - ShellCheck
+    - yamllint
+    - ansible-lint
+
+    - "@virtualization"
+    - edk2-ovmf
+    - vagrant
+    - vagrant-libvirt
+    - vagrant-sshfs
+    - cockpit
+    - cockpit-selinux
+    - cockpit-dashboard
+    - cockpit-packagekit
+    - cockpit-podman
+    - cockpit-docker
+    - cockpit-machines
+    - cockpit-kdump
+    - cockpit-storaged
+    - cockpit-networkmanager
+    - cockpit-system
+
+    - adobe-source-code-pro-fonts
+    - adobe-source-sans-pro-fonts
+    - adobe-source-serif-pro-fonts
+
+GOPATH: /home/azmo/go
+go_get:
+  - name: gopass
+    url: github.com/gopasspw/gopass
+  - name: envtpl
+    url: github.com/subfuzion/envtpl/...

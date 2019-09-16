@@ -1,0 +1,31 @@
+[global]
+
+vfs objects = catia fruit streams_xattr
+fruit:encoding = native
+ea support = yes
+mangled names = no
+
+workgroup = gobagroup
+server string = Samba %v on %L
+
+# disable printing
+load printers = no
+printing = bsd
+printcap name = /dev/null
+disable spoolss = yes
+
+[homes]
+   comment = Home Directories
+   browseable = no
+   writable = yes
+
+{% for name, values in shares | dictsort('path', by='value') %}
+[{{ name }}]
+  comment = {{ values.comment }}
+  path = {{ values.path }}
+  browseable = {{ values.browseable }}
+  writable = {{ values.writable }}
+  hide unreadable = {{ values.hide_unreadable }}
+  valid users = {{ values.valid_users }} {% if values.allow_guest|default(False) %}{{ samba_guestuser }}{% endif %}
+
+{% endfor %}

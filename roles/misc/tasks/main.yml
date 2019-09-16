@@ -1,0 +1,40 @@
+---
+- import_tasks: gnomekeyring.yml
+
+- name: Enable and start services
+  systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  with_items:
+    - libvirtd
+    - fstrim.timer
+    - cockpit.socket
+  become: true
+
+- name: Enable services for notebooks
+  block:
+    - name: Enable and start services
+      systemd:
+        name: "{{ item }}"
+        enabled: true
+        state: started
+      with_items:
+        - tlp
+
+    - name: Enable services
+      systemd:
+        name: "{{ item }}"
+        enabled: true
+      with_items:
+        - tlp-sleep
+  when: ansible_form_factor == 'Notebook'
+  become: true
+
+- name: Extend maximum number of inotify watches
+  lineinfile:
+    path: /etc/sysctl.conf
+    line: "fs.inotify.max_user_watches=524288"
+    backup: true
+  become: true
+  notify: Reload sysctl

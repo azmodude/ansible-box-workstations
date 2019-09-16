@@ -1,0 +1,15 @@
+---
+- src: https://github.com/azmodude/ansible-role-pyenv
+  name: azmodude.pyenv
+- src: https://github.com/azmodude/ansible-role-packages
+  name: azmodude.packages
+- src: https://github.com/azmodude/ansible-role-users
+  name: azmodude.users
+- src: https://github.com/azmodude/ansible-role-docker
+  name: azmodude.docker
+- src: https://github.com/azmodude/ansible-role-visual-studio-code
+  name: azmodude.visual-studio-code
+- src: https://github.com/azmodude/ansible-role-rpmfusion
+  name: azmodude.rpmfusion
+- src: https://github.com/azmodude/ansible-role-tomb
+  name: azmodude.tomb

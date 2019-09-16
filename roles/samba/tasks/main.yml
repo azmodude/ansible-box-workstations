@@ -1,0 +1,32 @@
+---
+- name: Create Samba configuration and users
+  block:
+    - name: Template smb.conf
+      template:
+        src: smb.conf.tmpl.j2
+        dest: /etc/samba/smb.conf
+        owner: root
+        group: root
+        mode: 0600
+        backup: true
+      notify: Reload Samba
+
+    - name: Create Samba users
+      shell: "(echo {{ item.password }}; echo {{ item.password }}) | smbpasswd -s -a {{ item.name }}"
+      register: smbpasswd
+      with_items:
+        - "{{ samba_users }}"
+      when: samba_users is defined
+      no_log: true
+  become: true
+
+- name: Decide how distribution smb service is named
+  set_fact:
+    smb: "{{ smb_service[ansible_distribution] }}"
+
+- name: Enable and start samba
+  systemd:
+    name: "{{ smb }}"
+    enabled: true
+    state: started
+  become: true
