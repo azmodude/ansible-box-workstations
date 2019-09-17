@@ -9,6 +9,9 @@ users:
     append: true
     uid: 1337
 
+pyenv_users:
+  - name: azmo
+
 packages_group:
   Fedora:
     - dnf-plugin-system-upgrade
@@ -22,12 +25,15 @@ packages_group:
     - ripgrep
     - sshfs
     - htop
+    - openvpn
+    - oathtool
 
     - google-chrome-stable
     - rofi
     - xdotool
     - copyq
     - xorg-x11-utils
+    - NetworkManager-openvpn
 
     - gnome-tweaks
 
@@ -38,6 +44,7 @@ packages_group:
     - texlive-chktex
 
     - nodejs
+    - poetry
     - python3-poetry
     - myrepos
     - git
@@ -67,6 +74,15 @@ packages_group:
     - adobe-source-code-pro-fonts
     - adobe-source-sans-pro-fonts
     - adobe-source-serif-pro-fonts
+    - fontawesome-fonts
+
+    - i3
+    - dunst
+    - xss-lock
+    - udiskie
+    - compton-ng
+    - network-manager-applet
+    - polkit-gnome
 
 GOPATH: /home/azmo/go
 go_get:
