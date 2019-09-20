@@ -53,6 +53,7 @@ packages_group:
     - fasd
     - ripgrep
     - silversearcher-ag
+    - bat
     - neovim
     - python3-neovim
     - renameutils
