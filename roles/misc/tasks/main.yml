@@ -9,7 +9,7 @@
   with_items:
     - libvirtd
     - fstrim.timer
-    - cockpit.socket
+    - docker
   become: true
 
 - name: Enable services for notebooks

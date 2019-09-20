@@ -5,11 +5,7 @@
   name: azmodude.packages
 - src: https://github.com/azmodude/ansible-role-users
   name: azmodude.users
-- src: https://github.com/azmodude/ansible-role-docker
-  name: azmodude.docker
-- src: https://github.com/azmodude/ansible-role-visual-studio-code
-  name: azmodude.visual-studio-code
-- src: https://github.com/azmodude/ansible-role-rpmfusion
-  name: azmodude.rpmfusion
-- src: https://github.com/azmodude/ansible-role-tomb
-  name: azmodude.tomb
+- src: https://github.com/azmodude/ansible-role-google-chrome
+  name: azmodude.google-chrome
+- src: https://github.com/azmodude/ansible-role-unclutter-xfixes
+  name: azmodude.unclutter-xfixes

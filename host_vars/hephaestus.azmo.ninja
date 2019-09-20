@@ -2,6 +2,8 @@
 install_samba: false
 
 packages:
-  Fedora:
+  Ubuntu:
+    - intel-microcode
     - tlp
-    - brightlight
+    - vainfo
+    - brightnessctl

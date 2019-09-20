@@ -5,45 +5,32 @@
   pre_tasks:
     - name: Install and enable requirements
       block:
-        - name: Install python2-pip and python3-pip
+        - name: Install python packages required
           package:
-            name: ['python-pip', 'python3-pip']
-        - name: Install workstation repositories rpm
-          package:
-            name: fedora-workstation-repositories
-      become: true
-    - name: Enable extra repositories (and change when dnf_repository finally exists)
-      block:
-        - name: Get enabled repositories
-          command: "dnf repolist"
-          args:
-            warn: false
-          register: enabled_dnf_repositories
-          changed_when: false
-        - name: Enable repositories
-          command: "dnf config-manager --set-enabled {{ item }}"
-          args:
-            warn: false
+            name: ['python-pip', 'python3-pip', 'python3-setuptools']
+        - name: Install snaps
+          snap:
+            name: "{{ item.name }}"
+            state: present
+            classic: "{{ item.classic | default(false) }}"
           with_items:
-            - rpmfusion-nonfree-nvidia-driver
-            - google-chrome
-          when: item not in enabled_dnf_repositories.stdout
+            - "{{ snaps_group | default([]) }}"
+            - "{{ snaps | default([]) }}"
+          become: true
+          tags:
+            - packages
       become: true
 
   roles:
-    - {role: azmodude.rpmfusion, tags: ['packages', 'system']}
     - {role: azmodude.packages, tags: ['packages']}
+    - {role: azmodude.google-chrome, tags: ['packages']}
     - {role: azmodude.users, tags: ['users', 'system']}
     - {role: azmodude.pyenv, tags: ['python', 'packages']}
-    - {role: azmodude.visual-studio-code, tags: ['packages']}
-    - {role: azmodude.tomb, tags: ['packages']}
+    - {role: azmodude.unclutter-xfixes, tags: ['packages', 'i3']}
     - {role: samba, when: install_samba, tags: ['system', 'samba', 'services']}
     - {role: misc, tags: ['system']}
 
   tasks:
-#    - import_role:
-#        name: azmodude.docker
-
     - name: Install Python user packages
       pip:
         executable: "{{ item.pip | default('pip') }}"
