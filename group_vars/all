@@ -122,6 +122,7 @@ packages_group:
     - hplip
     - zathura
     - zathura-pdf-poppler
+    - sxiv
     - zeal
 
     - texlive
