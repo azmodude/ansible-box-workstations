@@ -157,7 +157,6 @@ packages_group:
     # i3
     - i3
     - i3lock-fancy
-    - kitty
     - dunst
     - xss-lock
     - udiskie
