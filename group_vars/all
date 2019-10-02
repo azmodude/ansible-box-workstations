@@ -5,7 +5,7 @@ users:
   - name: azmo
     shell: /bin/zsh
     group: azmo
-    groups: libvirt,libvirt-qemu,docker,lxd
+    groups: video,libvirt,libvirt-qemu,docker,lxd
     append: true
     uid: 1337
 
@@ -151,6 +151,9 @@ packages_group:
     - copyq-plugins
     - gnome-session
     - gnome-tweaks
+    - gnome-themes-extra
+    - adwaita-icon-theme-full
+    - policykit-1-gnome
     - pinentry-gtk2
     - dconf-editor
     - evolution
@@ -168,11 +171,9 @@ packages_group:
     - physlock
     - pavucontrol
     - dbus-x11
-    - policykit-1-gnome
-    - gnome-themes-extra
-    - adwaita-icon-theme-full
     - qt5ct
     - qt5-style-plugins
+    - brightnessctl
 
 packages_remove:
   Ubuntu:
