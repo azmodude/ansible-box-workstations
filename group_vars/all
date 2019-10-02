@@ -124,6 +124,7 @@ packages_group:
     - zathura-pdf-poppler
     - sxiv
     - zeal
+    - kitty
 
     - texlive
     - texlive-lang-german
