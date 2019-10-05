@@ -171,9 +171,11 @@ packages_group:
     - physlock
     - pavucontrol
     - dbus-x11
+    - brightnessctl
     - qt5ct
     - qt5-style-plugins
-    - brightnessctl
+    - adwaita-qt
+    - qt4-qtconfig
 
 packages_remove:
   Ubuntu:
