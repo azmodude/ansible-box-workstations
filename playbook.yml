@@ -5,7 +5,7 @@
   pre_tasks:
     - name: Install and enable requirements
       block:
-        - name: Install python packages required
+        - name: Install required python packages
           package:
             name: ['python-pip', 'python3-pip', 'python3-setuptools']
         - name: Install snaps
