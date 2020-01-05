@@ -155,6 +155,7 @@ packages_group:
     - gnome-tweaks
     - gnome-themes-extra
     - gnome-boxes
+    - gnome-photos
     - gthumb
     - adwaita-icon-theme-full
     - policykit-1-gnome
