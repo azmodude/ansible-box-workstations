@@ -14,6 +14,7 @@ pyenv_users:
 
 packages_group:
   Ubuntu:
+    - pdftk
     - nmap
     - iptraf-ng
     - nethogs
@@ -109,10 +110,12 @@ packages_group:
     - yamllint
     - ansible-lint
 
+    - fonts-hack
     - fonts-liberation2
     - fonts-roboto
     - fonts-roboto-slab
     - fonts-noto
+    - fonts-noto-mono
     - fonts-firacode
     - fonts-linuxlibertine
 
@@ -124,7 +127,6 @@ packages_group:
     - zathura-pdf-poppler
     - sxiv
     - zeal
-    - kitty
 
     - texlive
     - texlive-lang-german
@@ -152,6 +154,7 @@ packages_group:
     - gnome-session
     - gnome-tweaks
     - gnome-themes-extra
+    - gnome-boxes
     - adwaita-icon-theme-full
     - policykit-1-gnome
     - pinentry-gtk2
@@ -176,6 +179,9 @@ packages_group:
     - qt5-style-plugins
     - adwaita-qt
     - qt4-qtconfig
+    - geoclue-2.0
+    - redshift
+    - redshift-gtk
 
 packages_remove:
   Ubuntu:
@@ -183,8 +189,8 @@ packages_remove:
 
 GOPATH: /home/azmo/go
 go_get:
-  - name: gopass
-    url: github.com/gopasspw/gopass
+  #  - name: gopass
+  #    url: github.com/gopasspw/gopass
   - name: envtpl
     url: github.com/subfuzion/envtpl/...
 
@@ -194,5 +200,9 @@ pip_user_packages:
 
 snaps_group:
   - name: code
+    classic: true
+  - name: google-cloud-sdk
+    classic: true
+  - name: snapcraft
     classic: true
   - name: lxd
