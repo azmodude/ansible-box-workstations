@@ -1,2 +1,3 @@
 ---
+ansible_become_pass: "{{ vault_sudo_passwd }}"
 samba_users: "{{ vault_samba_users }}"
