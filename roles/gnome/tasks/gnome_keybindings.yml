@@ -30,7 +30,7 @@
     # which is good.
     - name: Write/Enable Key binding list
       dconf:
-        key: "/org/gnome/settings-daemon/plugins/media-keys/custom_keybindings"
+        key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
         value: "{{ custom_keybindings }}"
   when: ansible_loop.last
 
