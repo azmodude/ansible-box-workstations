@@ -106,6 +106,9 @@ packages_group:
     - nodejs
     - npm
 
+    - ansible
+    - python3-psutil
+
     - shellcheck
     - yamllint
     - ansible-lint
