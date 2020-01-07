@@ -1,6 +1,4 @@
 ---
-- import_tasks: gnomekeyring.yml
-
 - name: Enable and start services
   systemd:
     name: "{{ item }}"

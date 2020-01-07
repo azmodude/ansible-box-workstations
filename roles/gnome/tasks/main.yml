@@ -1,0 +1,113 @@
+---
+- import_tasks: gnome_keyring.yml
+
+- name: Copy monitor configuration
+  copy:
+    src: files/monitors.xml.{{ ansible_hostname }}
+    dest: "{{ ansible_env.HOME }}/.config/monitors.xml"
+    backup: true
+    owner: "{{ ansible_env.USER }}"
+
+- name: Set Keyboard Delay Rate
+  dconf:
+    key: "/org/gnome/desktop/peripherals/keyboard/delay"
+    value: "{{ gnome_settings[ansible_hostname].keyboard.delay }}"
+
+- name: Set Keyboard Repeat Interval
+  dconf:
+    key: "/org/gnome/desktop/peripherals/keyboard/repeat-interval"
+    value: "{{ gnome_settings[ansible_hostname].keyboard.repeat }}"
+
+- name: Set input sources
+  dconf:
+    key: "/org/gnome/desktop/input-sources/sources"
+    value: "{{ gnome_settings[ansible_hostname].keyboard.input_sources | string}}"
+- name: Set xkb options
+  dconf:
+    key: "/org/gnome/desktop/input-sources/xkb-options"
+    value: "{{ gnome_settings[ansible_hostname].keyboard.xkb_options | string}}"
+
+- name: Set inactive ac timeout
+  dconf:
+    key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-timeout"
+    value: "{{ gnome_settings[ansible_hostname].power.sleep_inactive_ac_timeout }}"
+- name: Set inactive ac type
+  dconf:
+    key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type"
+    value: "'{{ gnome_settings[ansible_hostname].power.sleep_inactive_ac_type }}'"
+
+- name: Set location services status
+  dconf:
+    key: "/org/gnome/system/location/enabled"
+    value: "{{ gnome_settings[ansible_hostname].location_enabled }}"
+
+- name: Set nightlight status
+  dconf:
+    key: "/org/gnome/settings-daemon/plugins/color/night-light-enabled"
+    value: "{{ gnome_settings[ansible_hostname].nightlight.enabled }}"
+
+- name: Set session idle delay
+  dconf:
+    key: "/org/gnome/desktop/session/idle-delay"
+    value: "{{ gnome_settings[ansible_hostname].session_idle_delay }}"
+
+- name: Set font hinting
+  dconf:
+    key: "/org/gnome/settings-daemon/plugins/xsettings/hinting"
+    value: "{{ gnome_settings[ansible_hostname].interface.fonts.hinting }}"
+- name: Set font antialiasing
+  dconf:
+    key: "/org/gnome/settings-daemon/plugins/xsettings/antialiasing"
+    value: "{{ gnome_settings[ansible_hostname].interface.fonts.antialiasing }}"
+- name: Set titlebar font
+  dconf:
+    key: "/org/gnome/desktop/wm/preferences/titlebar-font"
+    value: "{{ gnome_settings[ansible_hostname].interface.fonts.titlebar_font_name }}"
+- name: Set main font
+  dconf:
+    key: "/org/gnome/desktop/interface/font-name"
+    value: "{{ gnome_settings[ansible_hostname].interface.fonts.font_name }}"
+- name: Set document font
+  dconf:
+    key: "/org/gnome/desktop/interface/document-font-name"
+    value: "{{ gnome_settings[ansible_hostname].interface.fonts.document_font_name }}"
+- name: Set monospace font
+  dconf:
+    key: "/org/gnome/desktop/interface/monospace-font-name"
+    value: "{{ gnome_settings[ansible_hostname].interface.fonts.monospace_font_name }}"
+
+- name: Set GTK theme
+  dconf:
+    key: "/org/gnome/desktop/interface/gtk-theme"
+    value: "{{ gnome_settings[ansible_hostname].interface.theme.gtk_theme }}"
+- name: Set icon theme
+  dconf:
+    key: "/org/gnome/desktop/interface/icon-theme"
+    value: "{{ gnome_settings[ansible_hostname].interface.theme.icon_theme }}"
+- name: Set cursor theme
+  dconf:
+    key: "/org/gnome/desktop/interface/cursor-theme"
+    value: "{{ gnome_settings[ansible_hostname].interface.theme.cursor_theme }}"
+
+- name: Set resize with right mouse button
+  dconf:
+    key: "/org/gnome/desktop/wm/preferences/resize-with-right-button"
+    value: "{{ gnome_settings[ansible_hostname].interface.tweaks.resize_with_right_button }}"
+- name: Set weekday shown in clock
+  dconf:
+    key: "/org/gnome/desktop/interface/clock-show-weekday"
+    value: "{{ gnome_settings[ansible_hostname].interface.tweaks.clock_show_weekday }}"
+- name: Set show battery percentage
+  dconf:
+    key: "/org/gnome/desktop/interface/show-battery-percentage"
+    value: "{{ gnome_settings[ansible_hostname].interface.tweaks.show_battery_percentage }}"
+- name: Set show calendar weekdate
+  dconf:
+    key: "/org/gnome/desktop/calendar/show-weekdate"
+    value: "{{ gnome_settings[ansible_hostname].interface.tweaks.calendar_show_weekdate }}"
+
+- name: Set custom Keybindings
+  include_tasks: gnome_keybindings.yml
+  loop: "{{ gnome_settings[ansible_hostname].keybindings }}"
+  loop_control:
+    extended: true
