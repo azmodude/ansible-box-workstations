@@ -51,6 +51,11 @@
         name: fonts
       tags:
         - fonts
+    - name: Configure Gnome settings
+      import_role:
+        name: gnome
+      tags:
+        - gnome
     - name: Do miscellaneous configuration tasks
       import_role:
         name: miscellaneous
