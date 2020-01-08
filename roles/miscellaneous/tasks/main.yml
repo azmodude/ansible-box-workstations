@@ -1,4 +1,6 @@
 ---
+- import_tasks: pacman.yml
+
 - name: Enable and start services
   systemd:
     name: "{{ item }}"
