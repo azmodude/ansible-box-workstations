@@ -9,6 +9,10 @@
           package:
             name: ['python-pip', 'python-setuptools']
       become: true
+    - name: Install github3.py dependency
+      pip:
+        name: github3.py >= 1.0.0a3
+        extra_args: --user
 
   tasks:
     - name: Install packages
