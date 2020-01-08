@@ -10,6 +10,7 @@
     - libvirtd
     - fstrim.timer
     - docker
+    - org.cups.cupsd
   become: true
 
 - name: Enable services for notebooks
