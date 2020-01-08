@@ -1,65 +1,18 @@
 ---
-- name: Ensure destination in $HOME/.local/share/fonts is present
+- name: Ensure destination in {{ ansible_user_dir }}/.local/share/fonts is present
   file:
-    path: "{{ ansible_env.HOME }}/.local/share/fonts/{{ item }}"
+    path: "{{ ansible_user_dir }}/.local/share/fonts/{{ item }}"
     state: directory
   loop:
     - hack-nerd-font
-    - fira-code
-    - adobe-source-code-pro
-    - adobe-source-sans-pro
-    - adobe-source-serif-pro
 - name: Install Fonts
   get_url:
     url: "{{ item.url }}"
-    dest: "{{ ansible_env.HOME }}/.local/share/fonts/{{ item.name }}/{{ item.dest }}"
+    dest: "{{ ansible_user_dir }}/.local/share/fonts/{{ item.name }}/{{ item.dest }}"
   loop:
     - {name: "hack-nerd-font", url: "https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Hack/Bold/complete/Hack%20Bold%20Nerd%20Font%20Complete.ttf", dest: "Hack Bold Nerd Font Complete.ttf"}
     - {name: "hack-nerd-font", url: "https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Hack/BoldItalic/complete/Hack%20Bold%20Italic%20Nerd%20Font%20Complete.ttf", dest: "Hack Bold Italic Nerd Font Complete.ttf"}
     - {name: "hack-nerd-font", url: "https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Hack/Italic/complete/Hack%20Italic%20Nerd%20Font%20Complete.ttf", dest: "Hack Italic Nerd Font Complete.ttf"}
     - {name: "hack-nerd-font", url: "https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Hack/Regular/complete/Hack%20Regular%20Nerd%20Font%20Complete.ttf", dest: "Hack Regular Nerd Font Complete.ttf"}
-    - {name: "fira-code", url: "https://github.com/tonsky/FiraCode/raw/master/distr/otf/FiraCode-Bold.otf", dest: "FiraCode-Bold.otf"}
-    - {name: "fira-code", url: "https://github.com/tonsky/FiraCode/raw/master/distr/otf/FiraCode-Light.otf", dest: "FiraCode-Light.otf"}
-    - {name: "fira-code", url: "https://github.com/tonsky/FiraCode/raw/master/distr/otf/FiraCode-Medium.otf", dest: "FiraCode-Medium.otf"}
-    - {name: "fira-code", url: "https://github.com/tonsky/FiraCode/raw/master/distr/otf/FiraCode-Regular.otf", dest: "FiraCode-Regular.otf"}
-    - {name: "fira-code", url: "https://github.com/tonsky/FiraCode/raw/master/distr/otf/FiraCode-Retina.otf", dest: "FiraCode-Retina.otf"}
-    - {name: "adobe-source-code-pro", url: "https://github.com/adobe-fonts/source-code-pro/raw/release/OTF/SourceCodePro-Black.otf", dest: "SourceCodePro-Black.otf"}
-    - {name: "adobe-source-code-pro", url: "https://github.com/adobe-fonts/source-code-pro/raw/release/OTF/SourceCodePro-BlackIt.otf", dest: "SourceCodePro-BlackIt.otf"}
-    - {name: "adobe-source-code-pro", url: "https://github.com/adobe-fonts/source-code-pro/raw/release/OTF/SourceCodePro-Bold.otf", dest: "SourceCodePro-Bold.otf"}
-    - {name: "adobe-source-code-pro", url: "https://github.com/adobe-fonts/source-code-pro/raw/release/OTF/SourceCodePro-BoldIt.otf", dest: "SourceCodePro-BoldIt.otf"}
-    - {name: "adobe-source-code-pro", url: "https://github.com/adobe-fonts/source-code-pro/raw/release/OTF/SourceCodePro-ExtraLight.otf", dest: "SourceCodePro-ExtraLight.otf"}
-    - {name: "adobe-source-code-pro", url: "https://github.com/adobe-fonts/source-code-pro/raw/release/OTF/SourceCodePro-ExtraLightIt.otf", dest: "SourceCodePro-ExtraLightIt.otf"}
-    - {name: "adobe-source-code-pro", url: "https://github.com/adobe-fonts/source-code-pro/raw/release/OTF/SourceCodePro-It.otf", dest: "SourceCodePro-It.otf"}
-    - {name: "adobe-source-code-pro", url: "https://github.com/adobe-fonts/source-code-pro/raw/release/OTF/SourceCodePro-Light.otf", dest: "SourceCodePro-Light.otf"}
-    - {name: "adobe-source-code-pro", url: "https://github.com/adobe-fonts/source-code-pro/raw/release/OTF/SourceCodePro-LightIt.otf", dest: "SourceCodePro-LightIt.otf"}
-    - {name: "adobe-source-code-pro", url: "https://github.com/adobe-fonts/source-code-pro/raw/release/OTF/SourceCodePro-Medium.otf", dest: "SourceCodePro-Medium.otf"}
-    - {name: "adobe-source-code-pro", url: "https://github.com/adobe-fonts/source-code-pro/raw/release/OTF/SourceCodePro-MediumIt.otf", dest: "SourceCodePro-MediumIt.otf"}
-    - {name: "adobe-source-code-pro", url: "https://github.com/adobe-fonts/source-code-pro/raw/release/OTF/SourceCodePro-Regular.otf", dest: "SourceCodePro-Regular.otf"}
-    - {name: "adobe-source-code-pro", url: "https://github.com/adobe-fonts/source-code-pro/raw/release/OTF/SourceCodePro-Semibold.otf", dest: "SourceCodePro-Semibold.otf"}
-    - {name: "adobe-source-code-pro", url: "https://github.com/adobe-fonts/source-code-pro/raw/release/OTF/SourceCodePro-SemiboldIt.otf", dest: "SourceCodePro-SemiboldIt.otf"}
-    - {name: "adobe-source-sans-pro", url: "https://github.com/adobe-fonts/source-sans-pro/raw/release/OTF/SourceSansPro-Black.otf", dest: "SourceSansPro-Black.otf"}
-    - {name: "adobe-source-sans-pro", url: "https://github.com/adobe-fonts/source-sans-pro/raw/release/OTF/SourceSansPro-BlackIt.otf", dest: "SourceSansPro-BlackIt.otf"}
-    - {name: "adobe-source-sans-pro", url: "https://github.com/adobe-fonts/source-sans-pro/raw/release/OTF/SourceSansPro-Bold.otf", dest: "SourceSansPro-Bold.otf"}
-    - {name: "adobe-source-sans-pro", url: "https://github.com/adobe-fonts/source-sans-pro/raw/release/OTF/SourceSansPro-BoldIt.otf", dest: "SourceSansPro-BoldIt.otf"}
-    - {name: "adobe-source-sans-pro", url: "https://github.com/adobe-fonts/source-sans-pro/raw/release/OTF/SourceSansPro-ExtraLight.otf", dest: "SourceSansPro-ExtraLight.otf"}
-    - {name: "adobe-source-sans-pro", url: "https://github.com/adobe-fonts/source-sans-pro/raw/release/OTF/SourceSansPro-ExtraLightIt.otf", dest: "SourceSansPro-ExtraLightIt.otf"}
-    - {name: "adobe-source-sans-pro", url: "https://github.com/adobe-fonts/source-sans-pro/raw/release/OTF/SourceSansPro-It.otf", dest: "SourceSansPro-It.otf"}
-    - {name: "adobe-source-sans-pro", url: "https://github.com/adobe-fonts/source-sans-pro/raw/release/OTF/SourceSansPro-Light.otf", dest: "SourceSansPro-Light.otf"}
-    - {name: "adobe-source-sans-pro", url: "https://github.com/adobe-fonts/source-sans-pro/raw/release/OTF/SourceSansPro-LightIt.otf", dest: "SourceSansPro-LightIt.otf"}
-    - {name: "adobe-source-sans-pro", url: "https://github.com/adobe-fonts/source-sans-pro/raw/release/OTF/SourceSansPro-Regular.otf", dest: "SourceSansPro-Regular.otf"}
-    - {name: "adobe-source-sans-pro", url: "https://github.com/adobe-fonts/source-sans-pro/raw/release/OTF/SourceSansPro-Semibold.otf", dest: "SourceSansPro-Semibold.otf"}
-    - {name: "adobe-source-sans-pro", url: "https://github.com/adobe-fonts/source-sans-pro/raw/release/OTF/SourceSansPro-SemiboldIt.otf", dest: "SourceSansPro-SemiboldIt.otf"}
-    - {name: "adobe-source-serif-pro", url: "https://github.com/adobe-fonts/source-serif-pro/raw/release/OTF/SourceSerifPro-Black.otf", dest: "SourceSerifPro-Black.otf"}
-    - {name: "adobe-source-serif-pro", url: "https://github.com/adobe-fonts/source-serif-pro/raw/release/OTF/SourceSerifPro-BlackIt.otf", dest: "SourceSerifPro-BlackIt.otf"}
-    - {name: "adobe-source-serif-pro", url: "https://github.com/adobe-fonts/source-serif-pro/raw/release/OTF/SourceSerifPro-Bold.otf", dest: "SourceSerifPro-Bold.otf"}
-    - {name: "adobe-source-serif-pro", url: "https://github.com/adobe-fonts/source-serif-pro/raw/release/OTF/SourceSerifPro-BoldIt.otf", dest: "SourceSerifPro-BoldIt.otf"}
-    - {name: "adobe-source-serif-pro", url: "https://github.com/adobe-fonts/source-serif-pro/raw/release/OTF/SourceSerifPro-ExtraLight.otf", dest: "SourceSerifPro-ExtraLight.otf"}
-    - {name: "adobe-source-serif-pro", url: "https://github.com/adobe-fonts/source-serif-pro/raw/release/OTF/SourceSerifPro-ExtraLightIt.otf", dest: "SourceSerifPro-ExtraLightIt.otf"}
-    - {name: "adobe-source-serif-pro", url: "https://github.com/adobe-fonts/source-serif-pro/raw/release/OTF/SourceSerifPro-It.otf", dest: "SourceSerifPro-It.otf"}
-    - {name: "adobe-source-serif-pro", url: "https://github.com/adobe-fonts/source-serif-pro/raw/release/OTF/SourceSerifPro-Light.otf", dest: "SourceSerifPro-Light.otf"}
-    - {name: "adobe-source-serif-pro", url: "https://github.com/adobe-fonts/source-serif-pro/raw/release/OTF/SourceSerifPro-LightIt.otf", dest: "SourceSerifPro-LightIt.otf"}
-    - {name: "adobe-source-serif-pro", url: "https://github.com/adobe-fonts/source-serif-pro/raw/release/OTF/SourceSerifPro-Regular.otf", dest: "SourceSerifPro-Regular.otf"}
-    - {name: "adobe-source-serif-pro", url: "https://github.com/adobe-fonts/source-serif-pro/raw/release/OTF/SourceSerifPro-Semibold.otf", dest: "SourceSerifPro-Semibold.otf"}
-    - {name: "adobe-source-serif-pro", url: "https://github.com/adobe-fonts/source-serif-pro/raw/release/OTF/SourceSerifPro-SemiboldIt.otf", dest: "SourceSerifPro-SemiboldIt.otf"}
   notify:
     - Regenerate font cache
