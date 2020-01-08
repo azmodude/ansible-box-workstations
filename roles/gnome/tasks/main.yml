@@ -1,32 +1,142 @@
 ---
 - import_tasks: gnome_keyring.yml
 
+- name: Check whether a monitor configuration exists
+  local_action:
+    module: stat
+    path: "{{ role_path }}/files/monitors.xml.{{ ansible_hostname }}"
+  register: monitors
 - name: Copy monitor configuration
   copy:
     src: files/monitors.xml.{{ ansible_hostname }}
     dest: "{{ ansible_env.HOME }}/.config/monitors.xml"
     backup: true
     owner: "{{ ansible_env.USER }}"
+  when: monitors.stat.exists
+
+- name: Set system locale region
+  dconf:
+    key: "/system/locale/region"
+    value: "{{ gnome_settings[ansible_hostname].system_locale_region }}"
+- name: Set automatic timezone detection
+  dconf:
+    key: "/org/gnome/desktop/datetime/automatic-timezone"
+    value: "{{ gnome_settings[ansible_hostname].automatic_timezone }}"
+- name: Set clock format (GTK)
+  dconf:
+    key: "/org/gtk/settings/file-chooser/clock-format"
+    value: "{{ gnome_settings[ansible_hostname].interface.clock_format }}"
+- name: Set clock format (Desktop)
+  dconf:
+    key: "/org/gnome/desktop/interface/clock-format"
+    value: "{{ gnome_settings[ansible_hostname].interface.clock_format }}"
+
+- name: Set Screensaver status
+  dconf:
+    key: "/org/gnome/desktop/screensaver/lock-enabled"
+    value: "{{ gnome_settings[ansible_hostname].screensaver.lock_enabled }}"
+- name: Set Screensaver lock delay
+  dconf:
+    key: "/org/gnome/desktop/screensaver/lock-delay"
+    value: "{{ gnome_settings[ansible_hostname].screensaver.lock_delay }}"
+- name: Set Screensaver notification display
+  dconf:
+    key: "/org/gnome/desktop/notifications/show-in-lock-screen"
+    value: "{{ gnome_settings[ansible_hostname].screensaver.show_notifications }}"
+- name: Set Screensaver session idle delay
+  dconf:
+    key: "/org/gnome/desktop/session/idle-delay"
+    value: "{{ gnome_settings[ansible_hostname].screensaver.session_idle_delay }}"
+
+
+- name: Set location services status
+  dconf:
+    key: "/org/gnome/system/location/enabled"
+    value: "{{ gnome_settings[ansible_hostname].privacy.location_enabled }}"
+- name: Set camera status
+  dconf:
+    key: "/org/gnome/desktop/privacy/disable-camera"
+    value: "{{ gnome_settings[ansible_hostname].privacy.disable_camera }}"
+- name: Set microphone status
+  dconf:
+    key: "/org/gnome/desktop/privacy/disable-microphone"
+    value: "{{ gnome_settings[ansible_hostname].privacy.disable_microphone }}"
+- name: Set whether to delete old temp files
+  dconf:
+    key: "/org/gnome/desktop/privacy/remove-old-temp-files"
+    value: "{{ gnome_settings[ansible_hostname].privacy.remove_old_temp_files }}"
+- name: Set whether to empty trash after time
+  dconf:
+    key: "/org/gnome/desktop/privacy/remove-old-trash-files"
+    value: "{{ gnome_settings[ansible_hostname].privacy.remove_old_trash_files }}"
+- name: Set days after which to delete old files/empty trash
+  dconf:
+    key: "/org/gnome/desktop/privacy/old-files-age"
+    value: "{{ gnome_settings[ansible_hostname].privacy.old_files_age }}"
+- name: Set whether to retain recent files
+  dconf:
+    key: "/org/gnome/desktop/privacy/remember-recent-files"
+    value: "{{ gnome_settings[ansible_hostname].privacy.remember_recent_files }}"
+- name: Set for how long to remember recent files
+  dconf:
+    key: "/org/gnome/desktop/privacy/recent-files-max-age"
+    value: "{{ gnome_settings[ansible_hostname].privacy.remember_recent_files_max_age }}"
 
 - name: Set Keyboard Delay Rate
   dconf:
     key: "/org/gnome/desktop/peripherals/keyboard/delay"
-    value: "{{ gnome_settings[ansible_hostname].keyboard.delay }}"
-
+    value: "{{ gnome_settings[ansible_hostname].peripherals.keyboard.delay }}"
 - name: Set Keyboard Repeat Interval
   dconf:
     key: "/org/gnome/desktop/peripherals/keyboard/repeat-interval"
-    value: "{{ gnome_settings[ansible_hostname].keyboard.repeat }}"
-
+    value: "{{ gnome_settings[ansible_hostname].peripherals.keyboard.repeat }}"
 - name: Set input sources
   dconf:
     key: "/org/gnome/desktop/input-sources/sources"
-    value: "{{ gnome_settings[ansible_hostname].keyboard.input_sources | string}}"
+    value: "{{ gnome_settings[ansible_hostname].peripherals.keyboard.input_sources | string}}"
 - name: Set xkb options
   dconf:
     key: "/org/gnome/desktop/input-sources/xkb-options"
-    value: "{{ gnome_settings[ansible_hostname].keyboard.xkb_options | string}}"
+    value: "{{ gnome_settings[ansible_hostname].peripherals.keyboard.xkb_options | string}}"
 
+- name: Set Touchpad Status
+  dconf:
+    key: "/org/gnome/desktop/peripherals/touchpad/send-events"
+    value: "{{ gnome_settings[ansible_hostname].peripherals.touchpad.enabled }}"
+- name: Set Touchpad speed
+  dconf:
+    key: "/org/gnome/desktop/peripherals/touchpad/speed"
+    value: "{{ gnome_settings[ansible_hostname].peripherals.touchpad.speed }}"
+- name: Set Touchpad natural scrolling
+  dconf:
+    key: "/org/gnome/desktop/peripherals/touchpad/natural-scroll"
+    value: "{{ gnome_settings[ansible_hostname].peripherals.touchpad.natural_scrolling }}"
+- name: Set Touchpad two finger scrolling
+  dconf:
+    key: "/org/gnome/desktop/peripherals/touchpad/two-finger-scrolling-enabled"
+    value: "{{ gnome_settings[ansible_hostname].peripherals.touchpad.two_finger_scrolling }}"
+- name: Set Touchpad tap-to-click
+  dconf:
+    key: "/org/gnome/desktop/peripherals/touchpad/tap-to-click"
+    value: "{{ gnome_settings[ansible_hostname].peripherals.touchpad.tap_to_click }}"
+
+- name: Set Mouse speed
+  dconf:
+    key: "/org/gnome/desktop/peripherals/mouse/speed"
+    value: "{{ gnome_settings[ansible_hostname].peripherals.mouse.speed }}"
+
+- name: Set idle dim status
+  dconf:
+    key: "/org/gnome/settings-daemon/plugins/power/idle-dim"
+    value: "{{ gnome_settings[ansible_hostname].power.idle_dim }}"
+- name: Set inactive battery timeout
+  dconf:
+    key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-timeout"
+    value: "{{ gnome_settings[ansible_hostname].power.sleep_inactive_battery_timeout }}"
+- name: Set inactive battery type
+  dconf:
+    key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type"
+    value: "'{{ gnome_settings[ansible_hostname].power.sleep_inactive_battery_type }}'"
 - name: Set inactive ac timeout
   dconf:
     key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-timeout"
@@ -36,20 +146,10 @@
     key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type"
     value: "'{{ gnome_settings[ansible_hostname].power.sleep_inactive_ac_type }}'"
 
-- name: Set location services status
-  dconf:
-    key: "/org/gnome/system/location/enabled"
-    value: "{{ gnome_settings[ansible_hostname].location_enabled }}"
-
 - name: Set nightlight status
   dconf:
     key: "/org/gnome/settings-daemon/plugins/color/night-light-enabled"
     value: "{{ gnome_settings[ansible_hostname].nightlight.enabled }}"
-
-- name: Set session idle delay
-  dconf:
-    key: "/org/gnome/desktop/session/idle-delay"
-    value: "{{ gnome_settings[ansible_hostname].session_idle_delay }}"
 
 - name: Set font hinting
   dconf:
@@ -106,8 +206,14 @@
     key: "/org/gnome/desktop/calendar/show-weekdate"
     value: "{{ gnome_settings[ansible_hostname].interface.tweaks.calendar_show_weekdate }}"
 
+- name: Set Keybindings
+  dconf:
+    key: "/org/gnome/desktop/wm/keybindings/{{ item.command }}"
+    value: "[{{ item.binding }}]"
+  loop: "{{ gnome_settings[ansible_hostname].keybindings.wm }}"
+
 - name: Set custom Keybindings
-  include_tasks: gnome_keybindings.yml
-  loop: "{{ gnome_settings[ansible_hostname].keybindings }}"
+  include_tasks: gnome_keybindings_custom.yml
+  loop: "{{ gnome_settings[ansible_hostname].keybindings.custom }}"
   loop_control:
     extended: true
