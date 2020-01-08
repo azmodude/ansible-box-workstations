@@ -1,4 +1,6 @@
 ---
+- import_role:
+    name: ansible-gnome-extensions
 - import_tasks: gnome_keyring.yml
 
 - name: Check whether a monitor configuration exists
@@ -9,9 +11,10 @@
 - name: Copy monitor configuration
   copy:
     src: files/monitors.xml.{{ ansible_hostname }}
-    dest: "{{ ansible_env.HOME }}/.config/monitors.xml"
+    dest: "{{ ansible_user_dir }}/.config/monitors.xml"
     backup: true
-    owner: "{{ ansible_env.USER }}"
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
   when: monitors.stat.exists
 
 - name: Set system locale region
@@ -205,6 +208,11 @@
   dconf:
     key: "/org/gnome/desktop/calendar/show-weekdate"
     value: "{{ gnome_settings[ansible_hostname].interface.tweaks.calendar_show_weekdate }}"
+
+- name: Enable extensions
+  dconf:
+    key: "/org/gnome/shell/enabled-extensions"
+    value: "{{ gnome_settings[ansible_hostname].interface.enabled_extensions }}"
 
 - name: Set Keybindings
   dconf:
