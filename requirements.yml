@@ -1,11 +1,5 @@
 ---
-- src: https://github.com/azmodude/ansible-role-pyenv
-  name: azmodude.pyenv
 - src: https://github.com/azmodude/ansible-role-packages
   name: azmodude.packages
 - src: https://github.com/azmodude/ansible-role-users
   name: azmodude.users
-- src: https://github.com/azmodude/ansible-role-google-chrome
-  name: azmodude.google-chrome
-- src: https://github.com/azmodude/ansible-role-unclutter-xfixes
-  name: azmodude.unclutter-xfixes
