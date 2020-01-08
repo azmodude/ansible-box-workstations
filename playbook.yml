@@ -7,7 +7,7 @@
       block:
         - name: Install required python packages
           package:
-            name: ['python-pip', 'python3-pip', 'python3-setuptools']
+            name: ['python-pip', 'python-setuptools']
       become: true
 
   tasks:
@@ -21,23 +21,6 @@
         name: azmodude.users
       tags:
         - system
-    - name: Install Google-Chrome
-      import_role:
-        name: azmodude.google-chrome
-      tags:
-        - packages
-    - name: Install pyenv
-      import_role:
-        name: azmodude.pyenv
-      tags:
-        - packages
-        - python
-    - name: Install unclutter-xfixes
-      import_role:
-        name: azmodude.unclutter-xfixes
-      tags:
-        - packages
-        - i3
     - name: Install samba and template configuration
       import_role:
         name: samba
