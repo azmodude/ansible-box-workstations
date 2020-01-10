@@ -12,6 +12,7 @@ pyenv_users:
 
 packages_group:
   Archlinux:
+    - pacman-contrib
     - rsync
     - pass
     - oath-toolkit
@@ -22,6 +23,7 @@ packages_group:
     - cryfs
     - atool
     - ncdu
+    - zip
     - unrar
     - tree
     - aria2
