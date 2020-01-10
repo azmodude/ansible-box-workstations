@@ -4,3 +4,6 @@ install_samba: false
 packages:
   Archlinux:
     - tlp
+
+gnome:
+  installed: false

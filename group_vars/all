@@ -177,3 +177,92 @@ GOPATH: /home/azmo/go
 #pip_user_packages:
 #  - name: poetry
 #    pip: pip3
+
+gnome:
+  settings:
+    system_locale_region: "'de_DE.UTF-8'"
+    automatic_timezone: "true"
+
+    screensaver:
+      session_idle_delay: "uint32 480"
+      lock_enabled: "true"
+      lock_delay: "uint32 0"
+      show_notifications: "true"
+
+    privacy:
+      location_enabled: "true"
+      disable_camera: "false"
+      disable_microphone: "false"
+      remove_old_temp_files: "true"
+      remove_old_trash_files: "true"
+      old_files_age: "uint32 30"
+      remember_recent_files: "true"
+      remember_recent_files_max_age: "-1"
+
+    peripherals:
+      keyboard:
+        delay: "uint32 250"
+        repeat: "uint32 30"
+        input_sources: "[('xkb', 'de+nodeadkeys')]"
+        xkb_options: "['caps:escape']"
+      touchpad:
+        enabled: "true"
+        speed: "0.29999999999999999"
+        natural_scrolling: "true"
+        two_finger_scrolling: "true"
+        tap_to_click: "true"
+      mouse:
+        speed: "0.014705882352941124"
+
+    power:
+      idle_dim: "true"
+      sleep_inactive_ac_timeout: 3600
+      sleep_inactive_ac_type: "suspend"
+      sleep_inactive_battery_timeout: 1800
+      sleep_inactive_battery_type: suspend
+
+    nightlight:
+      enabled: "true"
+
+    keybindings:
+      custom:
+        - binding: "'<Shift><Super>p'"
+          command: "'/home/azmo/.local/bin/rofi-pass'"
+          name: "'rofi-pass'"
+        - binding: "'<Shift><Super>w'"
+          command: "'rofi -show window'"
+          name: "'rofi-window'"
+        - binding: "'<Shift>Return'"
+          command: "'/usr/bin/gnome-terminal'"
+          name: "'terminal'"
+      wm:
+        - binding: "'<Shift><Super>q', '<Alt>F4'"
+          command: "close"
+        - binding: "'<Super>Tab'"
+          command: "switch-applications"
+        - binding: "'<Shift><Super>Tab'"
+          command: "switch-applications-backward"
+        - binding: "'<Alt>Tab'"
+          command: "switch-windows"
+        - binding: "'<Shift><Alt>Tab'"
+          command: "switch-windows-backward"
+
+    interface:
+      clock_format: "'24h'"
+      theme:
+        gtk_theme: "'Adwaita'"
+        icon_theme: "'Adwaita'"
+        cursor_theme: "'Adwaita'"
+      fonts:
+        hinting: "'slight'"
+        antialiasing: "'rgba'"
+        titlebar_font_name: "'Source Sans Pro Semibold 10'"
+        font_name: "'Sans 10'"
+        document_font_name: "'Sans 10'"
+        monospace_font_name: "'Monospace 10'"
+      tweaks:
+        resize_with_right_button: "true"
+        clock_show_weekday: "true"
+        show_battery_percentage: "true"
+        calendar_show_weekdate: "true"
+      enabled_extensions: "['workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'gsconnect@andyholmes.github.io', 'appindicatorsupport@rgcjonas.gmail.com', 'places-menu@gnome-shell-extensions.gcampax.github.com', 'drive-menu@gnome-shell-extensions.gcampax.github.com']"

@@ -43,11 +43,13 @@
         name: gnome
       tags:
         - gnome
+      when: gnome.installed
     - name: Do miscellaneous configuration tasks
       import_role:
         name: miscellaneous
       tags:
         - system
+
     - name: Install Python user packages
       pip:
         executable: "{{ item.pip | default('pip') }}"
