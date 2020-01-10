@@ -1,214 +1,179 @@
 ---
-ansible_python_interpreter: /usr/bin/python3
-
 users:
   - name: azmo
-    shell: /bin/zsh
-    group: azmo
-    groups: video,libvirt,libvirt-qemu,docker,lxd
-    append: true
     uid: 1337
+    group: azmo
+    shell: /bin/zsh
+    groups: video,libvirt,docker
+    groups_append: true
 
 pyenv_users:
   - name: azmo
 
 packages_group:
-  Ubuntu:
+  Archlinux:
+    - rsync
+    - pass
+    - oath-toolkit
+    - gopass
+    - fasd
+    - ripgrep
     - pdftk
-    - nmap
-    - iptraf-ng
-    - nethogs
-    - iftop
     - cryfs
-    - tomb
     - atool
     - ncdu
-    - smartmontools
-    - sudo
-    - apt-file
-    - gdebi
-    - aptitude
     - unrar
     - tree
     - aria2
     - pandoc
+    - tmux
     - mosh
     - ranger
     - mc
-    - xz-utils
     - wget
     - curl
-    - gawk
-    - gnupg2
     - powertop
     - htop
-    - zsh
-    - iputils-tracepath
-    - mtr-tiny
+    - mtr
     - sshfs
-    - pass
-    - oathtool
-    - tmux
-    - mpv
+    - fuse2
     - youtube-dl
-    - fasd
-    - ripgrep
-    - silversearcher-ag
     - bat
     - neovim
-    - python3-neovim
+    - python-neovim
     - renameutils
-    - uidmap
-    - xsel
-    - xclip
 
     - neomutt
     - catdoc
     - urlscan
     - elinks
-    - par
-
-    - ethtool
-    - ncurses-term
-    - uuid-runtime
-    - libtiff-tools
-    - python-pygments
-    - libinput-tools
-    - xinput
 
     - smbclient
     - openvpn
     - vpnc
     - openconnect
-    - network-manager-vpnc
-    - network-manager-openvpn
-    - network-manager-openconnect
+    - networkmanager-vpnc
+    - networkmanager-openvpn
+    - networkmanager-openconnect
     - sshuttle
 
-    - build-essential
+    - vagrant
+    - libvirt
+    - ovmf
+    - ebtables
+    - dnsmasq
+    - bridge-utils
+    - openbsd-netcat
+    - qemu
+    - virt-manager
+    - docker
+    - docker-compose
+    - docker-machine
+
+    - cups
+    - hplip
+
+    - copyq
+    - qt5ct
+    - firefox
+    - gimp
+    - rofi
+    - xdotool
+    - mpv
+    - sxiv
+    - zeal
+    - zathura
+    - zathura-pdf-poppler
+    - vlc
+    - libmicrodns
+    - protobuf
+    - network-manager-applet
+    - redshift
+
+    - libreoffice-fresh
+    - hunspell
+    - hunspell-de
+    - hunspell-en_US
+    - hyphen
+    - hyphen-de
+    - hyphen-en
+    - libmythes
+    - mythes-de
+    - mythes-en
+
+    - texlive-most
+
+    - pyenv
+    - python-poetry
+    - python-psutil
+    - nodejs
+    - yarn
+    - npm
     - cmake
     - autoconf
     - automake
     - jq
-    - myrepos
     - git
     - git-crypt
-    - git-cola
-    - git-extras
     - expect
-    - python-pip
-    - python3-pip
     - ctags
-    - golang
+    - go-pie
+    - go-tools
     - ruby
-    - bumpversion
-    - python3-venv
-    - nodejs
-    - npm
-
-    - ansible
-    - python3-psutil
-
-    - shellcheck
+    - prettier
+    - shfmt
+    - python-pyaml
     - yamllint
+    - shellcheck
     - ansible-lint
 
-    - fonts-hack
-    - fonts-liberation2
-    - fonts-roboto
-    - fonts-roboto-slab
-    - fonts-noto
-    - fonts-noto-mono
-    - fonts-firacode
-    - fonts-linuxlibertine
+    - adobe-source-sans-pro-fonts
+    - adobe-source-serif-pro-fonts
+    - adobe-source-code-pro-fonts
+    - otf-fira-code
+    - noto-fonts
+    - ttf-roboto
+    - ttf-roboto-mono
+    - ttf-dejavu
+    - ttf-hack
+    - ttf-liberation
 
-    - rofi
-    - xdotool
-    - gimp
-    - hplip
-    - zathura
-    - zathura-pdf-poppler
-    - sxiv
-    - zeal
-
-    - texlive
-    - texlive-lang-german
-    - texlive-fonts-extra
-    - texlive-latex-extra
-    - texlive-luatex
-    - texlive-pstricks
-    - latexmk
-    - chktex
-
-    - virt-manager
-    - libvirt-daemon
-    - libvirt-daemon-system
-    - libvirt-clients
-    - ovmf
-    - vagrant
-    - vagrant-sshfs
-    - vagrant-libvirt
-    - docker.io
-    - docker-compose
-
-    # gnome
-    - copyq
-    - copyq-plugins
-    - gnome-session
-    - gnome-tweaks
-    - gnome-themes-extra
-    - gnome-boxes
-    - gnome-photos
-    - gthumb
-    - adwaita-icon-theme-full
-    - policykit-1-gnome
-    - pinentry-gtk2
-    - dconf-editor
-    - evolution
-    - libcanberra-gtk-module
-    - vlc
-    - gstreamer1.0-plugins-bad
-
-    # i3
-    - i3
-    - i3lock-fancy
-    - dunst
+    - i3-gaps
+    - i3status
+    - arandr
+    - pavucontrol
+    - pulseaudio
     - xss-lock
+    - scrot
+    - wmctrl
     - udiskie
+    - dunst
+    - compton
+    - polkit-gnome
+    - brightnessctl
     - feh
     - compton
-    - physlock
-    - pavucontrol
-    - dbus-x11
-    - brightnessctl
-    - qt5ct
-    - qt5-style-plugins
-    - adwaita-qt
-    - qt4-qtconfig
-    - geoclue-2.0
-    - redshift
-    - redshift-gtk
+    - kitty
+    - gnome-themes-extra
+    - adwaita-icon-theme
+    - polkit-gnome
+    - unclutter
 
-packages_remove:
-  Ubuntu:
-    - apport
+  AUR:
+    - go-envtpl
+    - google-chrome
+    - visual-studio-code-bin
+    - adwaita-qt
+    - jetbrains-toolbox
+    - par
+    - i3lock-fancy-git
+    - otf-font-awesome-4
 
 GOPATH: /home/azmo/go
-go_get:
-  #  - name: gopass
-  #    url: github.com/gopasspw/gopass
-  - name: envtpl
-    url: github.com/subfuzion/envtpl/...
+#go_get:
+#  - name: envtpl
+#    url: github.com/subfuzion/envtpl/...
 
-pip_user_packages:
-  - name: poetry
-    pip: pip3
-
-snaps_group:
-  - name: code
-    classic: true
-  - name: google-cloud-sdk
-    classic: true
-  - name: snapcraft
-    classic: true
-  - name: lxd
+#pip_user_packages:
+#  - name: poetry
+#    pip: pip3
