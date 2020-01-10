@@ -2,8 +2,5 @@
 install_samba: false
 
 packages:
-  Ubuntu:
-    - intel-microcode
+  Archlinux:
     - tlp
-    - vainfo
-    - brightnessctl
