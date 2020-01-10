@@ -40,7 +40,7 @@ gnome_settings:
       fonts:
         hinting: "'slight'"
         antialiasing: "'rgba'"
-        titlebar_font_name: "'Noto Sans Semi-Bold 10'"
+        titlebar_font_name: "'Noto Sans Medium 10'"
         font_name: "'Sans 10'"
         document_font_name: "'Sans 10'"
         monospace_font_name: "'Monospace 10'"
