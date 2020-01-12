@@ -7,3 +7,6 @@ packages:
     - tlp
     - vainfo
     - brightnessctl
+
+gnome:
+  installed: true

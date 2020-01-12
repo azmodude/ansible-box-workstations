@@ -5,47 +5,5 @@ packages:
   Ubuntu:
     - nvidia-driver-435
 
-gnome_settings:
-  agon:
-    keyboard:
-      delay: "uint32 250"
-      repeat: "uint32 30"
-      input_sources: "[('xkb', 'de+nodeadkeys')]"
-      xkb_options: "['caps:escape']"
-
-    power:
-      sleep_inactive_ac_timeout: 3600
-      sleep_inactive_ac_type: 'suspend'
-
-    location_enabled: 'true'
-
-    nightlight:
-      enabled: 'true'
-
-    session_idle_delay: "uint32 480"
-
-    keybindings:
-      - {binding: "'<Shift><Super>p'",
-         command: "'/home/azmo/.local/bin/rofi-pass'",
-         name: "'rofi-pass'"}
-      - {binding: "'<Shift><Super>w'",
-         command: "'rofi -show window'",
-         name: "'rofi-window'"}
-
-    interface:
-      theme:
-        gtk_theme: "'Adwaita'"
-        icon_theme: "'Adwaita'"
-        cursor_theme: "'Adwaita'"
-      fonts:
-        hinting: "'slight'"
-        antialiasing: "'rgba'"
-        titlebar_font_name: "'Noto Sans Semi-Bold 10'"
-        font_name: "'Sans 10'"
-        document_font_name: "'Sans 10'"
-        monospace_font_name: "'Monospace 10'"
-      tweaks:
-        resize_with_right_button: 'true'
-        clock_show_weekday: 'true'
-        show_battery_percentage: 'true'
-        calendar_show_weekdate: 'true'
+gnome:
+  installed: true

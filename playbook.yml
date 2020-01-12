@@ -7,7 +7,7 @@
       block:
         - name: Install required python packages
           package:
-            name: ['python-pip', 'python3-pip', 'python3-setuptools']
+            name: ["python-pip", "python3-pip", "python3-setuptools"]
       become: true
 
   tasks:
@@ -56,11 +56,13 @@
         name: gnome
       tags:
         - gnome
+      when: gnome.installed
     - name: Do miscellaneous configuration tasks
       import_role:
         name: miscellaneous
       tags:
         - system
+
     - name: Install Python user packages
       pip:
         executable: "{{ item.pip | default('pip') }}"
@@ -72,7 +74,6 @@
       tags:
         - python
         - pip
-
     - name: Install Ruby user gems
       gem:
         name: "{{ item.name }}"
@@ -81,9 +82,8 @@
       tags:
         - ruby
       when: ruby_user_gems is defined
-
     - name: Install go applications
-      shell: "go get {{ item.url }}"
+      command: "go get {{ item.url }}"
       environment:
         GOPATH: "{{ GOPATH }}"
       with_items: "{{ go_get }}"
