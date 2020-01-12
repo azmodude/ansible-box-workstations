@@ -154,13 +154,12 @@ packages_group:
     # gnome
     - copyq
     - copyq-plugins
-    - gnome-session
     - gnome-tweaks
     - gnome-themes-extra
+    - adwaita-icon-theme-full
     - gnome-boxes
     - gnome-photos
     - gthumb
-    - adwaita-icon-theme-full
     - policykit-1-gnome
     - pinentry-gtk2
     - dconf-editor
@@ -194,11 +193,11 @@ packages_remove:
     - apport
 
 GOPATH: /home/azmo/go
-go_get:
-  #  - name: gopass
-  #    url: github.com/gopasspw/gopass
-  - name: envtpl
-    url: github.com/subfuzion/envtpl/...
+#go_get:
+#  #  - name: gopass
+#  #    url: github.com/gopasspw/gopass
+#  - name: envtpl
+#    url: github.com/subfuzion/envtpl/...
 
 pip_user_packages:
   - name: poetry
@@ -212,3 +211,5 @@ snaps_group:
   - name: snapcraft
     classic: true
   - name: lxd
+  - name: multipass
+    classic: true
