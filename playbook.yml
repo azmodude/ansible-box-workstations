@@ -32,6 +32,19 @@
       tags:
         - packages
         - python
+    - name: Install i3-gaps
+      import_role:
+        name: azmodude.i3-gaps
+      tags:
+        - packages
+        - i3
+    - name: Install kitty
+      import_role:
+        name: azmodude.kitty
+      tags:
+        - packages
+        - kitty
+        - i3
     - name: Install unclutter-xfixes
       import_role:
         name: azmodude.unclutter-xfixes
@@ -56,7 +69,7 @@
         name: gnome
       tags:
         - gnome
-      when: gnome.installed
+      when: gnome_installed
     - name: Do miscellaneous configuration tasks
       import_role:
         name: miscellaneous
