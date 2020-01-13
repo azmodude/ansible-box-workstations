@@ -5,8 +5,8 @@ users:
   - name: azmo
     shell: /bin/zsh
     group: azmo
-    groups: video,libvirt,libvirt-qemu,docker,lxd
-    append: true
+    groups: users,sudo,lp,audio,video,libvirt,libvirt-qemu,docker,lxd
+    groups_append: true
     uid: 1337
 
 pyenv_users:
@@ -34,6 +34,7 @@ packages_group:
     - pandoc
     - mosh
     - ranger
+    - python3-willow
     - mc
     - xz-utils
     - wget
@@ -119,7 +120,6 @@ packages_group:
     - fonts-roboto-slab
     - fonts-noto
     - fonts-noto-mono
-    - fonts-firacode
     - fonts-linuxlibertine
 
     - rofi
@@ -160,6 +160,7 @@ packages_group:
     - gnome-boxes
     - gnome-photos
     - gthumb
+    - tilix
     - policykit-1-gnome
     - pinentry-gtk2
     - dconf-editor
@@ -169,8 +170,8 @@ packages_group:
     - gstreamer1.0-plugins-bad
 
     # i3
-    - i3
     - i3lock-fancy
+    - i3status
     - dunst
     - xss-lock
     - udiskie
@@ -268,9 +269,12 @@ gnome:
         - binding: "'<Shift><Super>w'"
           command: "'rofi -show window'"
           name: "'rofi-window'"
-        - binding: "'<Shift>Return'"
-          command: "'/usr/bin/gnome-terminal'"
+        - binding: "'<Super>Return'"
+          command: "'/usr/bin/tilix'"
           name: "'terminal'"
+        - binding: "'<Super><Shift>Return'"
+          command: "'/usr/bin/tilix --quake'"
+          name: "'quake terminal'"
       wm:
         - binding: "'<Shift><Super>q', '<Alt>F4'"
           command: "close"
