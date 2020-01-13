@@ -1,7 +1,8 @@
 ---
 packages:
-  Ubuntu:
-    - nvidia-driver-435
+  Archlinux:
+    - nvidia-settings
+    - vuescan-bin
 
 install_samba: false
 gnome_installed: false
