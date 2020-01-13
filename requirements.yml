@@ -9,4 +9,8 @@
   name: azmodude.google-chrome
 - src: https://github.com/azmodude/ansible-role-unclutter-xfixes
   name: azmodude.unclutter-xfixes
+- src: https://github.com/azmodude/ansible-role-i3-gaps
+  name: azmodude.i3-gaps
+- src: https://github.com/azmodude/ansible-role-kitty
+  name: azmodude.kitty
 - src: https://github.com/jaredhocutt/ansible-gnome-extensions.git
