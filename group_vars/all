@@ -143,6 +143,7 @@ packages_group:
 
     - i3-gaps
     - i3status
+    - python-i3ipc
     - arandr
     - pavucontrol
     - pulseaudio
@@ -161,6 +162,7 @@ packages_group:
     - adwaita-icon-theme
     - polkit-gnome
     - unclutter
+    - physlock
 
   AUR:
     - go-envtpl
@@ -171,6 +173,7 @@ packages_group:
     - par
     - i3lock-fancy-git
     - otf-font-awesome-4
+    - joplin
 
 GOPATH: /home/azmo/go
 #go_get:
