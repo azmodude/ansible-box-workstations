@@ -5,5 +5,4 @@ packages:
   Ubuntu:
     - nvidia-driver-435
 
-gnome:
-  installed: true
+gnome_installed: true

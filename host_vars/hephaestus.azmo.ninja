@@ -7,6 +7,9 @@ packages:
     - tlp
     - vainfo
     - brightnessctl
+    - cdemu-client
 
-gnome:
-  installed: true
+  ppas:
+    - cdemu/ppa
+
+gnome_installed: true
