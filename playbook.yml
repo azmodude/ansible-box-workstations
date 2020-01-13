@@ -43,7 +43,7 @@
         name: gnome
       tags:
         - gnome
-      when: gnome.installed
+      when: gnome_installed
     - name: Do miscellaneous configuration tasks
       import_role:
         name: miscellaneous

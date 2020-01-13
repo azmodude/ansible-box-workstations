@@ -1,6 +1,4 @@
 ---
-install_samba: false
-
 packages:
   Archlinux:
     - tlp
@@ -8,5 +6,5 @@ packages:
     - abcde
     - python-eyed3
 
-gnome:
-  installed: false
+install_samba: false
+gnome_installed: false
