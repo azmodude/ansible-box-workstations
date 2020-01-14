@@ -92,6 +92,7 @@ packages_group:
     - protobuf
     - network-manager-applet
     - redshift
+    - evince
 
     - libreoffice-fresh
     - hunspell
