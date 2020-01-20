@@ -5,4 +5,4 @@ packages:
     - vuescan-bin
 
 install_samba: false
-gnome_installed: false
+gnome_installed: true
