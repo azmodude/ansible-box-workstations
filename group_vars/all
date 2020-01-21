@@ -241,6 +241,7 @@ gnome:
 
     nightlight:
       enabled: "true"
+      temperature: "uint32 3500"
 
     keybindings:
       custom:
