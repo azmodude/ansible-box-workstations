@@ -152,6 +152,10 @@
   dconf:
     key: "/org/gnome/settings-daemon/plugins/color/night-light-enabled"
     value: "{{ gnome.settings.nightlight.enabled }}"
+- name: Set nightlight temperature
+  dconf:
+    key: "/org/gnome/settings-daemon/plugins/color/night-light-temperature"
+    value: "{{ gnome.settings.nightlight.temperature }}"
 
 - name: Set font hinting
   dconf:
