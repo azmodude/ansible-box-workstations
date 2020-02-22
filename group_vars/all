@@ -12,6 +12,9 @@ pyenv_users:
 
 packages_group:
   Archlinux:
+    - progress
+    - pv
+    - ntfs-3g
     - bash-completion
     - fd
     - fwupd
