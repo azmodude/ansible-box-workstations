@@ -12,6 +12,8 @@ pyenv_users:
 
 packages_group:
   Archlinux:
+    - broot
+    - pdfgrep
     - progress
     - pv
     - ntfs-3g
