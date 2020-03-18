@@ -17,6 +17,7 @@ packages_group:
     - progress
     - pv
     - ntfs-3g
+    - arch-install-scripts
     - bash-completion
     - fd
     - fwupd
@@ -137,6 +138,7 @@ packages_group:
     - yamllint
     - shellcheck
     - ansible-lint
+    - python-black
 
     - adobe-source-sans-pro-fonts
     - adobe-source-serif-pro-fonts
@@ -190,7 +192,7 @@ packages_group:
     - otf-font-awesome-4
     - gnome-shell-extension-appindicator
     - gnome-shell-extension-gsconnect
-    #    - joplin
+    - joplin
 
 GOPATH: /home/azmo/go
 #go_get:

@@ -2,6 +2,7 @@
 packages:
   Archlinux:
     - nvidia-settings
+  AUR:
     - vuescan-bin
 
 install_samba: false
