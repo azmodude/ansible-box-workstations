@@ -184,7 +184,6 @@ packages_group:
     - qt5ct
     - qt5-style-plugins
     - adwaita-qt
-    - qt4-qtconfig
     - geoclue-2.0
     - redshift
     - redshift-gtk
@@ -249,7 +248,7 @@ gnome:
         two_finger_scrolling: "true"
         tap_to_click: "true"
       mouse:
-        speed: "0.014705882352941124"
+        speed: "0.100000"
 
     power:
       idle_dim: "true"
