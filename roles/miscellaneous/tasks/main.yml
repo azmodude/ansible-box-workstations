@@ -28,7 +28,7 @@
         name: "{{ item }}"
         enabled: true
       with_items:
-        - tlp-sleep
+        - []
   when: ansible_form_factor == 'Notebook'
   become: true
 
