@@ -2,6 +2,7 @@
 packages:
   Archlinux:
     - tlp
+    - acpi_call
     - cdemu-client
     - abcde
     - python-eyed3
