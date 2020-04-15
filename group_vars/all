@@ -12,6 +12,10 @@ pyenv_users:
 
 packages_group:
   Archlinux:
+    - smartmontools
+    - ethtool
+    - nethogs
+    - alsa-utils
     - broot
     - pdfgrep
     - progress
@@ -160,6 +164,11 @@ packages_group:
 
     - i3-gaps
     - i3status
+    - i3blocks
+    - lightdm
+    - lightdm-webkit2-greeter
+    - light-locker
+    - physlock
     - python-i3ipc
     - arandr
     - pavucontrol
@@ -179,7 +188,6 @@ packages_group:
     - adwaita-icon-theme
     - polkit-gnome
     - unclutter
-    - physlock
 
   AUR:
     - go-envtpl
@@ -237,7 +245,7 @@ gnome:
         two_finger_scrolling: "true"
         tap_to_click: "true"
       mouse:
-        speed: "0.100000"
+        speed: "0.10000000000000001"
 
     power:
       idle_dim: "true"
@@ -259,7 +267,7 @@ gnome:
           command: "'rofi -show window'"
           name: "'rofi-window'"
         - binding: "'<Super>Return'"
-          command: "'/usr/bin/tilix'"
+          command: "'/usr/bin/kitty'"
           name: "'terminal'"
         - binding: "'<Super><Shift>Return'"
           command: "'/usr/bin/tilix --quake'"
