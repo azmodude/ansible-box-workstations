@@ -12,6 +12,7 @@ pyenv_users:
 
 packages_group:
   Archlinux:
+    - borg
     - smartmontools
     - ethtool
     - nethogs
@@ -155,12 +156,12 @@ packages_group:
     - ttf-hack
     - ttf-liberation
 
-    - gnome
-    - gnome-extra
+    #    - gnome
+    #    - gnome-extra
     - gtk2
-    - copyq
-    - evince
-    - tilix
+    #    - copyq
+    #    - evince
+    #    - tilix
 
     - i3-gaps
     - i3status
@@ -188,9 +189,10 @@ packages_group:
     - adwaita-icon-theme
     - polkit-gnome
     - unclutter
+    - qalculate-gtk
 
   AUR:
-    - go-envtpl
+    - yadm
     - google-chrome
     - visual-studio-code-bin
     - adwaita-qt
@@ -198,9 +200,10 @@ packages_group:
     - par
     - i3lock-fancy-git
     - otf-font-awesome-4
-    - gnome-shell-extension-appindicator
-    - gnome-shell-extension-gsconnect
+    #    - gnome-shell-extension-appindicator
+    #    - gnome-shell-extension-gsconnect
     - joplin
+    - rofi-calc
 
 GOPATH: /home/azmo/go
 #go_get:
@@ -261,13 +264,13 @@ gnome:
     keybindings:
       custom:
         - binding: "'<Shift><Super>p'"
-          command: "'/home/azmo/.local/bin/rofi-pass'"
+          command: "'/home/azmo/bin/rofi-pass'"
           name: "'rofi-pass'"
         - binding: "'<Shift><Super>w'"
           command: "'rofi -show window'"
           name: "'rofi-window'"
         - binding: "'<Super>Return'"
-          command: "'/usr/bin/kitty'"
+          command: "'/usr/bin/tilix'"
           name: "'terminal'"
         - binding: "'<Super><Shift>Return'"
           command: "'/usr/bin/tilix --quake'"
