@@ -204,6 +204,7 @@ packages_group:
     #    - gnome-shell-extension-gsconnect
     - joplin
     - rofi-calc
+    - bcompare
 
 GOPATH: /home/azmo/go
 #go_get:
