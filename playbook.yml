@@ -49,6 +49,7 @@
         name: miscellaneous
       tags:
         - system
+        - misc
 
     - name: Install Python user packages
       pip:

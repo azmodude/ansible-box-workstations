@@ -75,6 +75,14 @@ packages_group:
     - networkmanager-openconnect
     - sshuttle
 
+    - qutebrowser
+    - gst-libav
+    - gst-plugins-base
+    - gst-plugins-good
+    - gst-plugins-bad
+    - gst-plugins-ugly
+    - pdfjs
+
     - vagrant
     - libvirt
     - ovmf

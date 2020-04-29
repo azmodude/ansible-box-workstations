@@ -13,6 +13,16 @@
     - org.cups.cupsd
   become: true
 
+- name: Enable and start user services
+  systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+    scope: user
+  with_items:
+    - ssh-agent.service
+    - gpg-agent.service
+
 - name: Enable services for notebooks
   block:
     - name: Enable and start services
