@@ -29,6 +29,16 @@
   when: ansible_form_factor == 'Notebook'
   become: true
 
+- name: Enable and start user services
+  systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+    scope: user
+  with_items:
+    - ssh-agent.service
+    - gpg-agent.service
+
 - name: Extend maximum number of inotify watches
   sysctl:
     name: fs.inotify.max_user_watches
