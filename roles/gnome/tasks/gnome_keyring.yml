@@ -33,18 +33,7 @@
   stat:
     path: /usr/bin/pinentry
   register: pinentry_current
-
-- name: Set pinentry to desired state
-  block:
-    - name: Nuke old pinentry link
-      file:
-        path: /usr/bin/pinentry
-        state: absent
-    - name: Set new pinentry link
-      file:
-        path: /usr/bin/pinentry
-        src: "{{ pinentry }}"
-        state: link
-  become: true
-  when: pinentry_current.stat.islnk and pinentry_current.stat.lnk_target != pinentry
-
+- name: Select sane pinentry program
+  alternatives:
+    name: pinentry
+    path: "{{ pinentry }}"
