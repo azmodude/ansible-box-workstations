@@ -14,6 +14,7 @@ pyenv_users:
 
 packages_group:
   Ubuntu:
+    - borgbackup
     - pdftk
     - nmap
     - iptraf-ng
@@ -73,7 +74,7 @@ packages_group:
     - ncurses-term
     - uuid-runtime
     - libtiff-tools
-    - python-pygments
+    - python3-pygments
     - libinput-tools
     - xinput
 
@@ -97,18 +98,16 @@ packages_group:
     - git-cola
     - git-extras
     - expect
-    - python-pip
+    - python3-pip
     - python3-pip
     - ctags
     - golang
     - ruby
     - bumpversion
     - python3-venv
+    - python3-psutil
     - nodejs
     - npm
-
-    - ansible
-    - python3-psutil
 
     - shellcheck
     - yamllint
@@ -164,7 +163,6 @@ packages_group:
     - policykit-1-gnome
     - pinentry-gtk2
     - dconf-editor
-    - evolution
     - libcanberra-gtk-module
     - vlc
     - gstreamer1.0-plugins-bad
@@ -211,8 +209,6 @@ snaps_group:
   - name: snapcraft
     classic: true
   - name: lxd
-  - name: multipass
-    classic: true
 
 gnome:
   settings:
@@ -248,7 +244,7 @@ gnome:
         two_finger_scrolling: "true"
         tap_to_click: "true"
       mouse:
-        speed: "0.100000"
+        speed: "0.10000000000000001"
 
     power:
       idle_dim: "true"
@@ -264,7 +260,7 @@ gnome:
     keybindings:
       custom:
         - binding: "'<Shift><Super>p'"
-          command: "'/home/azmo/.local/bin/rofi-pass'"
+          command: "'/home/azmo/bin/rofi-pass'"
           name: "'rofi-pass'"
         - binding: "'<Shift><Super>w'"
           command: "'rofi -show window'"
