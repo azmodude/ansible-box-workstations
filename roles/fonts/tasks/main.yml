@@ -1,5 +1,5 @@
 ---
-- name: Ensure destination in $HOME/.local/share/fonts is present
+- name: Ensure destination in {{ ansible_user_dir }}/.local/share/fonts is present
   file:
     path: "{{ ansible_user_dir }}/.local/share/fonts/{{ item }}"
     state: directory
@@ -73,13 +73,13 @@
       url: "https://github.com/tonsky/FiraCode/raw/master/distr/otf/FiraCode-Light.otf"
       dest: "FiraCode-Light.otf"
     - name: "fira-code"
-      url: "https://github.com/tonsky/FiraCode/raw/master/distr/otf/FiraCode-Medium.otf"      
+      url: "https://github.com/tonsky/FiraCode/raw/master/distr/otf/FiraCode-Medium.otf"
       dest: "FiraCode-Medium.otf"
     - name: "fira-code"
-      url: "https://github.com/tonsky/FiraCode/raw/master/distr/otf/FiraCode-Regular.otf"     
+      url: "https://github.com/tonsky/FiraCode/raw/master/distr/otf/FiraCode-Regular.otf"
       dest: "FiraCode-Regular.otf"
     - name: "fira-code"
-      url: "https://github.com/tonsky/FiraCode/raw/master/distr/otf/FiraCode-Retina.otf"      
+      url: "https://github.com/tonsky/FiraCode/raw/master/distr/otf/FiraCode-Retina.otf"
       dest: "FiraCode-Retina.otf"
     - name: "adobe-source-code-pro"
       url: "https://github.com/adobe-fonts/source-code-pro/raw/release/OTF/SourceCodePro-Black.otf"
