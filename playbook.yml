@@ -21,11 +21,11 @@
         name: azmodude.users
       tags:
         - system
-    - name: Install Google-Chrome
-      import_role:
-        name: azmodude.google-chrome
-      tags:
-        - packages
+        #    - name: Install Google-Chrome
+        #      import_role:
+        #        name: azmodude.google-chrome
+        #      tags:
+        #        - packages
     - name: Install pyenv
       import_role:
         name: azmodude.pyenv

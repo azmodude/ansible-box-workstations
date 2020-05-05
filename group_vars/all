@@ -13,114 +13,42 @@ pyenv_users:
   - name: azmo
 
 packages_group:
-  Ubuntu:
-    - borgbackup
-    - pdftk
-    - nmap
-    - iptraf-ng
-    - nethogs
-    - iftop
-    - cryfs
-    - tomb
-    - atool
-    - ncdu
-    - smartmontools
-    - sudo
+  Debian:
+    # debian
     - apt-file
     - gdebi
     - aptitude
-    - unrar
-    - tree
-    - aria2
-    - pandoc
-    - mosh
-    - ranger
-    - python3-willow
-    - mc
-    - xz-utils
-    - wget
-    - curl
-    - gawk
-    - gnupg2
-    - powertop
-    - htop
-    - zsh
-    - iputils-tracepath
-    - mtr-tiny
-    - sshfs
-    - pass
-    - oathtool
-    - tmux
-    - mpv
-    - youtube-dl
-    - fasd
-    - ripgrep
-    - silversearcher-ag
-    - bat
-    - neovim
-    - python3-neovim
-    - renameutils
-    - uidmap
-    - xsel
-    - xclip
+    - snapd
 
-    - neomutt
-    - catdoc
-    - urlscan
-    - elinks
-    - par
-
-    - ethtool
+    # system
+    - sudo
+    - needrestart
+    - firmware-misc-nonfree
+    - smartmontools
     - ncurses-term
     - uuid-runtime
     - libtiff-tools
-    - python3-pygments
+
+    # xorg
+    - xinit
+    - xserver-xorg-video-intel
+    - intel-media-va-driver
+    - vainfo
+    - libxrender1
+    - libgl1
+    - mesa-utils
+    - dbus-x11
+    - x11-utils
+    - x11-xserver-utils
+    - pulseaudio
     - libinput-tools
     - xinput
+    - xsel
+    - xclip
 
-    - smbclient
-    - openvpn
-    - vpnc
-    - openconnect
-    - network-manager-vpnc
-    - network-manager-openvpn
-    - network-manager-openconnect
-    - sshuttle
-
-    - build-essential
-    - cmake
-    - autoconf
-    - automake
-    - jq
-    - myrepos
-    - git
-    - git-crypt
-    - git-cola
-    - git-extras
-    - expect
-    - python3-pip
-    - python3-pip
-    - ctags
-    - golang
-    - ruby
-    - bumpversion
-    - python3-venv
-    - python3-psutil
-    - nodejs
-    - npm
-
-    - shellcheck
-    - yamllint
-    - ansible-lint
-
-    - fonts-hack
-    - fonts-liberation2
-    - fonts-roboto
-    - fonts-roboto-slab
-    - fonts-noto
-    - fonts-noto-mono
-    - fonts-linuxlibertine
-
+    # gui apps
+    - pinentry-gtk2
+    - dconf-editor
     - rofi
     - xdotool
     - gimp
@@ -129,7 +57,162 @@ packages_group:
     - zathura-pdf-poppler
     - sxiv
     - zeal
+    - libnotify-bin
 
+    - libreoffice
+    - libreoffice-gtk3
+    - mythes-de
+    - mythes-en-us
+    - hyphen-de
+    - hyphen-en-us
+    - hunspell-de-de
+    - hunspell-en-us
+    - openclipart-libreoffice
+
+    # media
+    - vlc
+    - gstreamer1.0-plugins-good
+    - gstreamer1.0-plugins-bad
+    - gstreamer1.0-plugins-ugly
+    - mpv
+
+    # themes
+    - gnome-themes-extra
+    - adwaita-icon-theme
+
+    # i3
+    - i3
+    - i3status
+    - i3blocks
+    - dunst
+    - xss-lock
+    - physlock
+    - brightnessctl
+    - kitty
+    - udiskie
+    - feh
+    - pavucontrol
+    - brightnessctl
+    - qt5ct
+    - qt5-style-plugins
+    - adwaita-qt
+    - geoclue-2.0
+    - redshift
+    - redshift-gtk
+    - policykit-1-gnome
+    - gnome-keyring
+    - libcanberra-gtk-module
+
+    # fonts
+    - fonts-font-awesome
+    - fonts-hack
+    - fonts-liberation2
+    - fonts-roboto
+    - fonts-roboto-slab
+    - fonts-noto
+    - fonts-noto-mono
+    - fonts-linuxlibertine
+
+    # development
+    - build-essential
+    - autogen
+    - autoconf
+    - automake
+    - pkg-config
+    - meson
+    - ninja-build
+    - exuberant-ctags
+    - cmake
+    - jq
+    - myrepos
+    - git
+    - git-crypt
+    - git-cola
+    - git-extras
+    - expect
+    - python3-pip
+    - python3-venv
+    - python3-psutil
+    - python3-pygments
+    - python3-willow
+    - golang
+    - ruby
+    - nodejs
+    - npm
+    - bumpversion
+    - shellcheck
+    - yamllint
+    - ansible-lint
+
+    # console
+    - bc
+    - tmux
+    - neovim
+    - python3-neovim
+    - pass
+    - oathtool
+    - borgbackup
+    - pdftk
+    - tomb
+    - atool
+    - ncdu
+    - unrar
+    - tree
+    - pandoc
+    - mosh
+    - ranger
+    - mc
+    - xz-utils
+    - gawk
+    - gnupg2
+    - powertop
+    - htop
+    - zsh
+    - fasd
+    - ripgrep
+    - silversearcher-ag
+    - bat
+    - renameutils
+    - uidmap
+
+    # network
+    - mtr-tiny
+    - youtube-dl
+    - iputils-tracepath
+    - aria2
+    - curl
+    - wget
+    - firefox
+    - chromium
+    - qutebrowser
+    - iptraf-ng
+    - iftop
+    - nethogs
+    - nmap
+    - smbclient
+    - openvpn
+    - vpnc
+    - openconnect
+    - network-manager
+    - network-manager-gnome
+    - network-manager-vpnc
+    - network-manager-openvpn
+    - network-manager-openconnect
+    - sshuttle
+    - ethtool
+
+    # filesystems
+    - cryfs
+    - sshfs
+
+    # neomutt
+    - neomutt
+    - catdoc
+    - urlscan
+    - elinks
+    - par
+
+    # tex
     - texlive
     - texlive-lang-german
     - texlive-fonts-extra
@@ -139,6 +222,7 @@ packages_group:
     - latexmk
     - chktex
 
+    # virtualization
     - virt-manager
     - libvirt-daemon
     - libvirt-daemon-system
@@ -150,52 +234,14 @@ packages_group:
     - docker.io
     - docker-compose
 
-    # gnome
-    - copyq
-    - copyq-plugins
-    - gnome-tweaks
-    - gnome-themes-extra
-    - adwaita-icon-theme-full
-    - gnome-boxes
-    - gnome-photos
-    - gthumb
-    - tilix
-    - policykit-1-gnome
-    - pinentry-gtk2
-    - dconf-editor
-    - libcanberra-gtk-module
-    - vlc
-    - gstreamer1.0-plugins-bad
-
-    # i3
-    - i3lock-fancy
-    - i3status
-    - dunst
-    - xss-lock
-    - udiskie
-    - feh
-    - compton
-    - physlock
-    - pavucontrol
-    - dbus-x11
-    - brightnessctl
-    - qt5ct
-    - qt5-style-plugins
-    - adwaita-qt
-    - geoclue-2.0
-    - redshift
-    - redshift-gtk
-
-packages_remove:
-  Ubuntu:
-    - apport
+#packages_remove:
+#  Ubuntu:
+#    - apport
 
 GOPATH: /home/azmo/go
-#go_get:
-#  #  - name: gopass
-#  #    url: github.com/gopasspw/gopass
-#  - name: envtpl
-#    url: github.com/subfuzion/envtpl/...
+go_get:
+  - name: gopass
+    url: github.com/gopasspw/gopass
 
 pip_user_packages:
   - name: poetry

@@ -1,15 +1,10 @@
 ---
-install_samba: false
-
 packages:
-  Ubuntu:
+  Debian:
     - intel-microcode
     - tlp
     - vainfo
     - brightnessctl
-    - cdemu-client
 
-  ppas:
-    - cdemu/ppa
-
-gnome_installed: true
+install_samba: false
+gnome_installed: false
