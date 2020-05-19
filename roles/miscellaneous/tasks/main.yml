@@ -44,3 +44,19 @@
     name: fs.inotify.max_user_watches
     value: "524288"
   become: true
+
+- set_fact:
+    pinentry: /usr/bin/pinentry-qt
+  when: ansible_env["XDG_SESSION_DESKTOP"] == 'KDE'
+- set_fact:
+    pinentry: /usr/bin/pinentry-gtk-2
+  when: ansible_env["XDG_SESSION_DESKTOP"] in ('GNOME', 'ubuntu', 'gnome-xorg', 'i3', 'gnome')
+- name: Check for current pinentry
+  stat:
+    path: /usr/bin/pinentry
+  register: pinentry_current
+- name: Select sane pinentry program
+  alternatives:
+    name: pinentry
+    path: "{{ pinentry }}"
+  become: true
