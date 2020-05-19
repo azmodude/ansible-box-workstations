@@ -84,6 +84,7 @@ packages_group:
     - i3
     - i3status
     - i3blocks
+    - compton
     - dunst
     - xss-lock
     - physlock
@@ -130,6 +131,8 @@ packages_group:
     - git-cola
     - git-extras
     - expect
+    - python-gi
+    - python3-gi
     - python3-pip
     - python3-venv
     - python3-psutil
@@ -199,6 +202,7 @@ packages_group:
     - network-manager-openvpn
     - network-manager-openconnect
     - sshuttle
+    - wireguard-tools
     - ethtool
 
     # filesystems
