@@ -1,0 +1,6 @@
+---
+- name: Copy Intel xorg configuration into place
+  copy:
+    src: 20-intel.conf
+    dest: /etc/X11/xorg.conf.d/20-intel.conf
+  become: true
