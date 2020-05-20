@@ -56,6 +56,13 @@
         name: miscellaneous
       tags:
         - system
+        - misc
+    - name: Do host specific configuration tasks
+      import_role:
+        name: hosts
+      tags:
+        - system
+        - host
 
     - name: Install Python user packages
       pip:
