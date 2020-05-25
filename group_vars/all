@@ -14,70 +14,70 @@ pyenv_users:
 
 packages_group:
   Ubuntu:
+    # system
+    - smartmontools
+    - sudo
+    - uidmap
+    - hplip
+
+    # debian
+    - apt-listchanges
+    - apt-file
+    - gdebi
+    - aptitude
+
+    # console
     - borgbackup
     - pdftk
+    - cryfs
+    - tomb
+    - atool
+    - xz-utils
+    - unrar
+    - ncdu
+    - tree
+    - mosh
+    - ranger
+    - mc
+    - gawk
+    - powertop
+    - htop
+    - zsh
+    - pass
+    - oathtool
+    - tmux
+    - gnupg2
+    - fasd
+    - ripgrep
+    - silversearcher-ag
+    - neovim
+    - renameutils
+    - ncurses-term
+    - uuid-runtime
+    - libtiff-tools
+
+    # python
+    - python3-pip
+    - python3-neovim
+    - python3-willow
+    - python3-pygments
+
+    # network
+    - firefox
+    - chromium-browser
+    - chromium-codecs-ffmpeg
+    - chromium-codecs-ffmpeg-extra
     - nmap
     - iptraf-ng
     - nethogs
     - iftop
-    - cryfs
-    - tomb
-    - atool
-    - ncdu
-    - smartmontools
-    - sudo
-    - apt-file
-    - gdebi
-    - aptitude
-    - unrar
-    - tree
     - aria2
-    - pandoc
-    - mosh
-    - ranger
-    - python3-willow
-    - mc
-    - xz-utils
     - wget
     - curl
-    - gawk
-    - gnupg2
-    - powertop
-    - htop
-    - zsh
     - iputils-tracepath
     - mtr-tiny
     - sshfs
-    - pass
-    - oathtool
-    - tmux
-    - mpv
-    - youtube-dl
-    - fasd
-    - ripgrep
-    - silversearcher-ag
-    - bat
-    - neovim
-    - python3-neovim
-    - renameutils
-    - uidmap
-    - xsel
-    - xclip
-
-    - neomutt
-    - catdoc
-    - urlscan
-    - elinks
-    - par
-
     - ethtool
-    - ncurses-term
-    - uuid-runtime
-    - libtiff-tools
-    - python3-pygments
-    - libinput-tools
-    - xinput
-
     - smbclient
     - openvpn
     - vpnc
@@ -87,6 +87,42 @@ packages_group:
     - network-manager-openconnect
     - sshuttle
 
+    # media/documents
+    - pandoc
+    - mpv
+    - youtube-dl
+    - vlc
+    - gstreamer1.0-plugins-bad
+
+    # mutt
+    - neomutt
+    - catdoc
+    - urlscan
+    - elinks
+    - par
+
+    # x11
+    - xsel
+    - xclip
+    - libinput-tools
+    - xinput
+    - xdotool
+
+    # graphical
+    - gimp
+    - zathura
+    - zathura-pdf-poppler
+    - sxiv
+    - zeal
+    - copyq
+    - copyq-plugins
+    - gthumb
+    - tilix
+    - gnome-boxes
+    - gnome-photos
+    - pinentry-gtk2
+
+    # development
     - build-essential
     - cmake
     - autoconf
@@ -98,8 +134,6 @@ packages_group:
     - git-cola
     - git-extras
     - expect
-    - python3-pip
-    - python3-pip
     - ctags
     - golang
     - ruby
@@ -109,10 +143,12 @@ packages_group:
     - nodejs
     - npm
 
+    # linters
     - shellcheck
     - yamllint
     - ansible-lint
 
+    # fonts
     - fonts-hack
     - fonts-liberation2
     - fonts-roboto
@@ -121,15 +157,7 @@ packages_group:
     - fonts-noto-mono
     - fonts-linuxlibertine
 
-    - rofi
-    - xdotool
-    - gimp
-    - hplip
-    - zathura
-    - zathura-pdf-poppler
-    - sxiv
-    - zeal
-
+    # tex
     - texlive
     - texlive-lang-german
     - texlive-fonts-extra
@@ -139,6 +167,7 @@ packages_group:
     - latexmk
     - chktex
 
+    # virtualization
     - virt-manager
     - libvirt-daemon
     - libvirt-daemon-system
@@ -151,25 +180,20 @@ packages_group:
     - docker-compose
 
     # gnome
-    - copyq
-    - copyq-plugins
+    - gnome-session
     - gnome-tweaks
+    - gnome-shell-extensions
     - gnome-themes-extra
     - adwaita-icon-theme-full
-    - gnome-boxes
-    - gnome-photos
-    - gthumb
-    - tilix
-    - policykit-1-gnome
-    - pinentry-gtk2
     - dconf-editor
     - libcanberra-gtk-module
-    - vlc
-    - gstreamer1.0-plugins-bad
 
     # i3
+    - i3
+    - rofi
     - i3lock-fancy
     - i3status
+    - policykit-1-gnome
     - dunst
     - xss-lock
     - udiskie
@@ -209,6 +233,10 @@ snaps_group:
   - name: snapcraft
     classic: true
   - name: lxd
+
+gnome_extension_ids:
+  - 118
+  - 1319
 
 gnome:
   settings:
@@ -286,9 +314,9 @@ gnome:
     interface:
       clock_format: "'24h'"
       theme:
-        gtk_theme: "'Adwaita'"
-        icon_theme: "'Adwaita'"
-        cursor_theme: "'Adwaita'"
+        gtk_theme: "'Yaru'"
+        icon_theme: "'Yaru'"
+        cursor_theme: "'Yaru'"
       fonts:
         hinting: "'slight'"
         antialiasing: "'rgba'"
@@ -301,4 +329,4 @@ gnome:
         clock_show_weekday: "true"
         show_battery_percentage: "true"
         calendar_show_weekdate: "true"
-      enabled_extensions: "['workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'gsconnect@andyholmes.github.io', 'appindicatorsupport@rgcjonas.gmail.com', 'places-menu@gnome-shell-extensions.gcampax.github.com', 'drive-menu@gnome-shell-extensions.gcampax.github.com']"
+      enabled_extensions: "['native-window-placement@gnome-shell-extensions.gcampax.github.com', 'places-menu@gnome-shell-extensions.gcampax.github.com', 'drive-menu@gnome-shell-extensions.gcampax.github.com', 'ubuntu-appindicators@ubuntu.com', 'windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'nohotcorner@azuri.free.fr', 'gsconnect@andyholmes.github.io']"

@@ -3,6 +3,7 @@ install_samba: false
 
 packages:
   Ubuntu:
+    - xserver-xorg-video-intel
     - intel-microcode
     - tlp
     - vainfo
