@@ -262,6 +262,10 @@ snaps_group:
     classic: true
   - name: lxd
 
+gnome_extension_ids:
+  - 118
+  - 1319
+
 gnome:
   settings:
     system_locale_region: "'de_DE.UTF-8'"
@@ -353,4 +357,4 @@ gnome:
         clock_show_weekday: "true"
         show_battery_percentage: "true"
         calendar_show_weekdate: "true"
-      enabled_extensions: "['workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'gsconnect@andyholmes.github.io', 'appindicatorsupport@rgcjonas.gmail.com', 'places-menu@gnome-shell-extensions.gcampax.github.com', 'drive-menu@gnome-shell-extensions.gcampax.github.com']"
+      enabled_extensions: "['native-window-placement@gnome-shell-extensions.gcampax.github.com', 'places-menu@gnome-shell-extensions.gcampax.github.com', 'drive-menu@gnome-shell-extensions.gcampax.github.com', 'ubuntu-appindicators@ubuntu.com', 'windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'nohotcorner@azuri.free.fr', 'gsconnect@andyholmes.github.io']"
