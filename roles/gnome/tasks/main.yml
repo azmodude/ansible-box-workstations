@@ -1,6 +1,7 @@
 ---
 - import_role:
-    name: ansible-gnome-extensions
+    name: jaredhocutt.gnome-extensions
+
 - import_tasks: gnome_keyring.yml
 
 - name: Check whether a monitor configuration exists
@@ -216,6 +217,10 @@
   dconf:
     key: "/org/gnome/shell/enabled-extensions"
     value: "{{ gnome.settings.interface.enabled_extensions }}"
+- name: Empty disabled extensions (since we just explicitely enabled what we want)
+  dconf:
+    key: "/org/gnome/shell/disabled-extensions"
+    value: "'[]'"
 
 - name: Set Keybindings
   dconf:
