@@ -16,6 +16,8 @@ packages_group:
   Debian:
     # debian
     - apt-file
+    - apt-listchanges
+    - apt-listbugs
     - gdebi
     - aptitude
     - snapd
