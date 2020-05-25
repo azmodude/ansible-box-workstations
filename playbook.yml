@@ -46,14 +46,16 @@
       tags:
         - gnome
       when: gnome_installed
+
     - name: Do miscellaneous configuration tasks
       import_role:
         name: miscellaneous
       tags:
         - system
         - misc
+
     - name: Do host specific configuration tasks
-      import_role:
+      include_role:
         name: hosts
       tags:
         - system
