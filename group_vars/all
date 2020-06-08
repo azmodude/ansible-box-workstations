@@ -107,6 +107,10 @@ packages_group:
     - libinput-tools
     - xinput
     - xdotool
+    - libcanberra-gtk-module
+
+    # icons / themes
+    - adwaita-icon-theme-full
 
     # graphical
     - gimp
@@ -114,12 +118,6 @@ packages_group:
     - zathura-pdf-poppler
     - sxiv
     - zeal
-    - copyq
-    - copyq-plugins
-    - gthumb
-    - tilix
-    - gnome-boxes
-    - gnome-photos
     - pinentry-gtk2
 
     # development
@@ -168,6 +166,7 @@ packages_group:
     - chktex
 
     # virtualization
+    - virtualbox
     - virt-manager
     - libvirt-daemon
     - libvirt-daemon-system
@@ -180,13 +179,17 @@ packages_group:
     - docker-compose
 
     # gnome
-    - gnome-session
-    - gnome-tweaks
-    - gnome-shell-extensions
-    - gnome-themes-extra
-    - adwaita-icon-theme-full
-    - dconf-editor
-    - libcanberra-gtk-module
+    # - gnome-session
+    # - gnome-tweaks
+    # - gnome-shell-extensions
+    # - gnome-themes-extra
+    # - dconf-editor
+    # - copyq
+    # - copyq-plugins
+    # - gthumb
+    # - tilix
+    # - gnome-boxes
+    # - gnome-photos
 
     # i3
     - i3
