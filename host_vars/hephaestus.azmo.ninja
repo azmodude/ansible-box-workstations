@@ -13,4 +13,4 @@ packages:
   ppas:
     - cdemu/ppa
 
-gnome_installed: true
+gnome_installed: false
