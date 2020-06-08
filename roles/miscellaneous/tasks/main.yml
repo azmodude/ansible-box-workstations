@@ -47,10 +47,10 @@
 
 - set_fact:
     pinentry: /usr/bin/pinentry-qt
-  when: ansible_env["XDG_SESSION_DESKTOP"] == 'KDE'
+  when: '"XDG_SESSION_DESKTOP" in ansible_env and ansible_env["XDG_SESSION_DESKTOP"] == "KDE"'
 - set_fact:
     pinentry: /usr/bin/pinentry-gtk-2
-  when: ansible_env["XDG_SESSION_DESKTOP"] in ('GNOME', 'ubuntu', 'gnome-xorg', 'i3', 'gnome')
+  when: '"XDG_SESSION_DESKTOP" not in ansible_env or ("XDG_SESSION_DESKTOP" in ansible_env and ansible_env["XDG_SESSION_DESKTOP"] in ("GNOME", "ubuntu", "gnome-xorg", "i3", "gnome"))'
 - name: Check for current pinentry
   stat:
     path: /usr/bin/pinentry
