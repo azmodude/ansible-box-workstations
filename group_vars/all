@@ -206,6 +206,7 @@ packages_group:
     - sshuttle
     - wireguard-tools
     - ethtool
+    - cifs-utils
 
     # filesystems
     - cryfs
