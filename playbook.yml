@@ -16,6 +16,11 @@
         name: azmodude.packages
       tags:
         - packages
+    - name: Install Google Chrome
+      import_role:
+        name: azmodude.google-chrome
+      tags:
+        - packages
     - name: Create users
       import_role:
         name: azmodude.users
