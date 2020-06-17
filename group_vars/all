@@ -19,6 +19,7 @@ packages_group:
     - sudo
     - uidmap
     - hplip
+    - snapd
 
     # debian
     - apt-listchanges
