@@ -199,6 +199,7 @@ packages_group:
     - chktex
 
     # virtualization
+    - virtualbox
     - virt-manager
     - libvirt-daemon
     - libvirt-daemon-system
