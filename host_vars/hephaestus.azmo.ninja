@@ -1,16 +1,15 @@
 ---
-install_samba: false
-
 packages:
   Ubuntu:
     - xserver-xorg-video-intel
     - intel-microcode
-    - tlp
     - vainfo
+    - tlp
     - brightnessctl
     - cdemu-client
 
   ppas:
     - cdemu/ppa
 
+install_samba: false
 gnome_installed: false

@@ -22,14 +22,15 @@ packages_group:
 
     # debian
     - apt-listchanges
+    - apt-listdifferences
     - apt-file
     - gdebi
     - aptitude
 
     # console
+    - bc
     - borgbackup
     - pdftk
-    - cryfs
     - tomb
     - atool
     - xz-utils
@@ -61,12 +62,12 @@ packages_group:
     - python3-neovim
     - python3-willow
     - python3-pygments
+    - python3-venv
+    - python3-psutil
 
     # network
     - firefox
-    - chromium-browser
-    - chromium-codecs-ffmpeg
-    - chromium-codecs-ffmpeg-extra
+    - qutebrowser
     - nmap
     - iptraf-ng
     - nethogs
@@ -76,23 +77,33 @@ packages_group:
     - curl
     - iputils-tracepath
     - mtr-tiny
-    - sshfs
     - ethtool
     - smbclient
     - openvpn
     - vpnc
     - openconnect
+    - network-manager
+    - network-manager-gnome
     - network-manager-vpnc
     - network-manager-openvpn
     - network-manager-openconnect
     - sshuttle
+    - wireguard-tools
+    - cifs-utils
+
+    # filesystems
+    - ntfs-3g
+    - cryfs
+    - sshfs
 
     # media/documents
     - pandoc
     - mpv
     - youtube-dl
     - vlc
+    - gstreamer1.0-plugins-good
     - gstreamer1.0-plugins-bad
+    - gstreamer1.0-plugins-ugly
 
     # mutt
     - neomutt
@@ -102,23 +113,45 @@ packages_group:
     - par
 
     # x11
+    - xinit
+    - x11-utils
+    - x11-xserver-utils
+    - libxrender1
+    - dbus-x11
+    - pulseaudio
+    - libinput-tools
     - xsel
     - xclip
-    - libinput-tools
     - xinput
     - xdotool
     - libcanberra-gtk-module
 
     # icons / themes
+    - yaru-theme-gtk
+    - yaru-theme-icon
     - adwaita-icon-theme-full
+    - gnome-themes-extra
 
-    # graphical
+    # gui apps
     - gimp
     - zathura
     - zathura-pdf-poppler
     - sxiv
     - zeal
     - pinentry-gtk2
+    - rofi
+    - libnotify-bin
+
+    # libreoffice
+    - libreoffice
+    - libreoffice-gtk3
+    - mythes-de
+    - mythes-en-us
+    - hyphen-de
+    - hyphen-en-us
+    - hunspell-de-de
+    - hunspell-en-us
+    - openclipart-libreoffice
 
     # development
     - build-essential
@@ -136,8 +169,6 @@ packages_group:
     - golang
     - ruby
     - bumpversion
-    - python3-venv
-    - python3-psutil
     - nodejs
     - npm
 
@@ -147,6 +178,7 @@ packages_group:
     - ansible-lint
 
     # fonts
+    - fonts-font-awesome
     - fonts-hack
     - fonts-liberation2
     - fonts-roboto
@@ -166,7 +198,6 @@ packages_group:
     - chktex
 
     # virtualization
-    - virtualbox
     - virt-manager
     - libvirt-daemon
     - libvirt-daemon-system
@@ -193,18 +224,17 @@ packages_group:
 
     # i3
     - i3
-    - rofi
-    - i3lock-fancy
     - i3status
     - policykit-1-gnome
+    - gnome-keyring
+    - compton
     - dunst
     - xss-lock
+    - physlock
+    - i3lock-fancy
     - udiskie
     - feh
-    - compton
-    - physlock
     - pavucontrol
-    - dbus-x11
     - brightnessctl
     - qt5ct
     - qt5-style-plugins
@@ -212,6 +242,7 @@ packages_group:
     - geoclue-2.0
     - redshift
     - redshift-gtk
+    - kitty
 
 packages_remove:
   Ubuntu:
