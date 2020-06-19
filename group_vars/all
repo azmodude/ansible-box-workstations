@@ -67,6 +67,7 @@ packages_group:
     - python3-psutil
 
     # network
+    - mbuffer
     - firefox
     - qutebrowser
     - nmap
