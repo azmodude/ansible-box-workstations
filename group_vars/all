@@ -181,6 +181,7 @@ packages_group:
     - uidmap
 
     # network
+    - mbuffer
     - mtr-tiny
     - youtube-dl
     - iputils-tracepath
