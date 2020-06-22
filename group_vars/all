@@ -20,6 +20,7 @@ packages_group:
     - uidmap
     - hplip
     - snapd
+    - fwupd
 
     # debian
     - apt-listchanges
