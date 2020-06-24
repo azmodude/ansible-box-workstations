@@ -6,7 +6,7 @@ case "$2" in
                 brightnessctl -q s 30%
             ;;
             00000001)
-                brightnessctl -q s 80%
+                brightnessctl -q s 70%
             ;;
         esac
 esac
