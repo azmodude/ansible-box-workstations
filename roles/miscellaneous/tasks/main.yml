@@ -10,25 +10,6 @@
     - docker
   become: true
 
-- name: Enable services for notebooks
-  block:
-    - name: Enable and start services
-      systemd:
-        name: "{{ item }}"
-        enabled: true
-        state: started
-      with_items:
-        - tlp
-
-    - name: Enable services
-      systemd:
-        name: "{{ item }}"
-        enabled: true
-      with_items:
-        - []
-  when: ansible_form_factor == 'Notebook'
-  become: true
-
 - name: Enable and start user services
   systemd:
     name: "{{ item }}"

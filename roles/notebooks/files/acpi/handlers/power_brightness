@@ -1,0 +1,12 @@
+#!/bin/bash
+case "$2" in
+    AC*|AD*)
+        case "$4" in
+            00000000)
+                brightnessctl -q s 30%
+            ;;
+            00000001)
+                brightnessctl -q s 80%
+            ;;
+        esac
+esac
