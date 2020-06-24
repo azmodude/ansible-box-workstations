@@ -30,6 +30,7 @@ packages_group:
     - aptitude
 
     # console
+    - rclone
     - bc
     - borgbackup
     - pdftk
@@ -127,6 +128,7 @@ packages_group:
     - xclip
     - xinput
     - xdotool
+    - xdo
     - libcanberra-gtk-module
 
     # icons / themes
@@ -247,6 +249,7 @@ packages_group:
     - redshift
     - redshift-gtk
     - kitty
+    - acpid
 
 packages_remove:
   Ubuntu:
