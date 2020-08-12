@@ -1,0 +1,8 @@
+---
+- name: Check whether host specific task exists
+  stat:
+    path: "{{ role_path }}/tasks/{{ inventory_hostname }}.yml"
+  register: host_file
+- name: Include host specific task
+  include: "{{ inventory_hostname }}.yml"
+  when: host_file.stat.exists

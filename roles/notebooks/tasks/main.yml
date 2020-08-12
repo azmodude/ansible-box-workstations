@@ -1,0 +1,37 @@
+---
+- name: Do notebook specific tasks
+  block:
+    - name: Enable and start services
+      systemd:
+        name: "{{ item }}"
+        enabled: true
+        state: started
+      become: true
+      with_items:
+        - tlp
+
+    - name: Enable services
+      systemd:
+        name: "{{ item }}"
+        enabled: true
+      become: true
+      with_items:
+        - []
+
+    - name: Copy acpid handlers and events files to destination
+      copy:
+        src: "acpi/{{ item }}"
+        dest: "/etc/acpi"
+        directory_mode: 0755
+      with_items:
+        - events
+        - handlers
+      notify:
+        - Restart acpid
+    - name: Ensure scripts in handlers do have execute permissions
+      file:
+        dest: "{{ item }}"
+        mode: 0755
+      with_fileglob:
+        - /etc/acpi/handlers/*
+  become: true

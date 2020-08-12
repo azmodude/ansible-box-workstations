@@ -1,0 +1,6 @@
+---
+- name: Restart acpid
+  systemd:
+    name: acpid
+    state: restarted
+  become: true
