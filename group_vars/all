@@ -90,6 +90,7 @@ packages_group:
 
     - vagrant
     - libvirt
+    - dmidecode
     - ovmf
     - ebtables
     - dnsmasq
