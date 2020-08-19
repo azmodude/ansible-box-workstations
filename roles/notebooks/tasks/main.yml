@@ -1,5 +1,5 @@
 ---
-- name: Do notebook specific tasks
+- name: Enable notebook specific services
   block:
     - name: Enable and start services
       systemd:
@@ -17,7 +17,10 @@
       become: true
       with_items:
         - []
+  become: true
 
+- name: Enable acpid when Gnome/KDE is not installed (e.g. i3)
+  block:
     - name: Copy acpid handlers and events files to destination
       copy:
         src: "acpi/{{ item }}"
@@ -35,3 +38,4 @@
       with_fileglob:
         - /etc/acpi/handlers/*
   become: true
+  when: gnome_installed != true

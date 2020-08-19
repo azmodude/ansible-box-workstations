@@ -50,6 +50,19 @@
       tags:
         - system
         - misc
+    - name: Do host specific configuration tasks
+      include_role:
+        name: hosts
+      tags:
+        - system
+        - host
+    - name: Do Notebook specific configuration tasks
+      import_role:
+        name: notebooks
+      tags:
+        - system
+        - notebooks
+      when: ansible_form_factor == "Notebook"
 
     - name: Install Python user packages
       pip:
