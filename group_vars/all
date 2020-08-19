@@ -21,6 +21,7 @@ packages_group:
     - pdfgrep
     - progress
     - pv
+    - lzop
     - ntfs-3g
     - arch-install-scripts
     - bash-completion
@@ -76,12 +77,16 @@ packages_group:
     - sshuttle
 
     - qutebrowser
+    - pulseaudio
+    - pulseaudio-alsa
     - gst-libav
     - gst-plugins-base
     - gst-plugins-good
     - gst-plugins-bad
     - gst-plugins-ugly
     - pdfjs
+    - bluez
+    - bluez-utils
 
     - vagrant
     - libvirt
@@ -106,14 +111,18 @@ packages_group:
     - xdotool
     - mpv
     - sxiv
-    - zeal
     - zathura
     - zathura-pdf-poppler
     - vlc
     - libmicrodns
     - protobuf
     - network-manager-applet
-    - redshift
+
+    - yubico-pam
+    - yubikey-manager
+    - yubikey-personalization
+    - yubikey-personalization-gui
+    - yubioath-desktop
 
     - libreoffice-fresh
     - hunspell
@@ -132,8 +141,8 @@ packages_group:
     - python-poetry
     - python-psutil
     - nodejs
-    - yarn
     - npm
+    - yarn
     - cmake
     - autoconf
     - automake
@@ -156,48 +165,50 @@ packages_group:
     - adobe-source-sans-pro-fonts
     - adobe-source-serif-pro-fonts
     - adobe-source-code-pro-fonts
-    - otf-fira-code
     - noto-fonts
     - ttf-roboto
     - ttf-roboto-mono
     - ttf-dejavu
     - ttf-hack
     - ttf-liberation
+    - ttf-fira-code
 
-    #    - gnome
-    #    - gnome-extra
+    - gnome
+    - gnome-extra
     - gtk2
-    #    - copyq
-    #    - evince
-    #    - tilix
+    - copyq
+    - evince
+    - tilix
+    - seahorse
+    - x11-ssh-askpass
 
-    - i3-gaps
-    - i3status
-    - i3blocks
-    - lightdm
-    - lightdm-webkit2-greeter
-    - light-locker
-    - physlock
-    - python-i3ipc
-    - arandr
-    - pavucontrol
-    - pulseaudio
-    - xss-lock
-    - maim
-    - wmctrl
-    - udiskie
-    - dunst
-    - compton
-    - polkit-gnome
-    - brightnessctl
-    - feh
-    - compton
-    - kitty
-    - gnome-themes-extra
-    - adwaita-icon-theme
-    - polkit-gnome
-    - unclutter
-    - qalculate-gtk
+    #- i3-gaps
+    #- i3status
+    #- i3blocks
+    #- lightdm
+    #- lightdm-webkit2-greeter
+    #- light-locker
+    #- physlock
+    #- python-i3ipc
+    #- arandr
+    #- pavucontrol
+    #- pulseaudio
+    #- xss-lock
+    #- maim
+    #- wmctrl
+    #- udiskie
+    #- dunst
+    #- compton
+    #- polkit-gnome
+    #- brightnessctl
+    #- feh
+    #- compton
+    #- kitty
+    #- gnome-themes-extra
+    #- adwaita-icon-theme
+    #- polkit-gnome
+    #- unclutter
+    #- qalculate-gtk
 
   AUR:
     - yadm
@@ -206,13 +217,19 @@ packages_group:
     - adwaita-qt
     - jetbrains-toolbox
     - par
-    - i3lock-fancy-git
+    - zeal
     - otf-font-awesome-4
-    #    - gnome-shell-extension-appindicator
-    #    - gnome-shell-extension-gsconnect
+    - gnome-shell-extension-dash-to-dock
+    - gnome-shell-extension-appindicator
+    - gnome-shell-extension-gsconnect
+    - gnome-shell-extension-disable-unredirect
     - joplin
     - rofi-calc
     - bcompare
+    - pulseaudio-modules-bt
+    - libldac
+    - sanoid
+    - mbuffer
 
 GOPATH: /home/azmo/go
 #go_get:
@@ -229,7 +246,7 @@ gnome:
     automatic_timezone: "true"
 
     screensaver:
-      session_idle_delay: "uint32 480"
+      session_idle_delay: "uint32 600"
       lock_enabled: "true"
       lock_delay: "uint32 0"
       show_notifications: "true"
@@ -314,4 +331,5 @@ gnome:
         clock_show_weekday: "true"
         show_battery_percentage: "true"
         calendar_show_weekdate: "true"
-      enabled_extensions: "['workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'gsconnect@andyholmes.github.io', 'appindicatorsupport@rgcjonas.gmail.com', 'places-menu@gnome-shell-extensions.gcampax.github.com', 'drive-menu@gnome-shell-extensions.gcampax.github.com']"
+
+      enabled_extensions: "['workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'gsconnect@andyholmes.github.io', 'appindicatorsupport@rgcjonas.gmail.com', 'places-menu@gnome-shell-extensions.gcampax.github.com', 'drive-menu@gnome-shell-extensions.gcampax.github.com', 'dash-to-dock@micxgx.gmail.com', 'unredirect@vaina.lt']"
