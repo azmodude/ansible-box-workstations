@@ -8,9 +8,12 @@
     state: started
   with_items:
     - libvirtd
-    - fstrim.timer
     - docker
     - org.cups.cupsd
+    - bluetooth
+    - pcscd
+    - fstrim.timer
+    - sanoid.timer
   become: true
 
 - name: Enable and start user services
