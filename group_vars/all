@@ -87,6 +87,7 @@ packages_group:
     - pdfjs
     - bluez
     - bluez-utils
+    - blueman
 
     - vagrant
     - libvirt
@@ -105,11 +106,18 @@ packages_group:
     - cups
     - hplip
 
+    - autorandr
     - qt5ct
+    - thunderbird
     - firefox
+    - chromium
+    - browserpass
+    - browserpass-chromium
+    - browserpass-firefox
     - gimp
     - rofi
     - xdotool
+    - xdo
     - mpv
     - sxiv
     - zathura
@@ -138,9 +146,6 @@ packages_group:
 
     - texlive-most
 
-    - pyenv
-    - python-poetry
-    - python-psutil
     - nodejs
     - npm
     - yarn
@@ -157,11 +162,16 @@ packages_group:
     - ruby
     - prettier
     - shfmt
-    - python-pyaml
     - yamllint
     - shellcheck
     - ansible-lint
+
+    - pygmentize
     - python-black
+    - python-pyaml
+    - python-poetry
+    - pyenv
+    - python-psutil
 
     - adobe-source-sans-pro-fonts
     - adobe-source-serif-pro-fonts
@@ -174,56 +184,61 @@ packages_group:
     - ttf-liberation
     - ttf-fira-code
 
-    - gnome
-    - gnome-extra
-    - gtk2
-    - copyq
-    - evince
-    - tilix
-    - seahorse
     - x11-ssh-askpass
+    - gtk2
 
-    #- i3-gaps
-    #- i3status
-    #- i3blocks
-    #- lightdm
-    #- lightdm-webkit2-greeter
-    #- light-locker
-    #- physlock
-    #- python-i3ipc
-    #- arandr
-    #- pavucontrol
-    #- pulseaudio
-    #- xss-lock
-    #- maim
-    #- wmctrl
-    #- udiskie
-    #- dunst
-    #- compton
-    #- polkit-gnome
-    #- brightnessctl
-    #- feh
-    #- compton
-    #- kitty
-    #- gnome-themes-extra
-    #- adwaita-icon-theme
-    #- polkit-gnome
-    #- unclutter
-    #- qalculate-gtk
+    #- gnome
+    #- gnome-extra
+    #- copyq
+    - evince
+    #- tilix
+    #- seahorse
+
+    - i3-gaps
+    - i3status
+    - i3blocks
+    - lightdm
+    - lightdm-webkit2-greeter
+    - light-locker
+    - physlock
+    - python-i3ipc
+    - arandr
+    - pavucontrol
+    - pulseaudio
+    - xss-lock
+    - maim
+    - wmctrl
+    - udiskie
+    - dunst
+    - compton
+    - polkit-gnome
+    - gnome-keyring
+    - brightnessctl
+    - feh
+    - picom
+    - libwnck3
+    - kitty
+    - alacritty
+    - gnome-themes-extra
+    - adwaita-icon-theme
+    - polkit-gnome
+    - unclutter
+    - redshift
+    - qalculate-gtk
 
   AUR:
     - yadm
-    - google-chrome
     - visual-studio-code-bin
     - adwaita-qt
     - jetbrains-toolbox
     - par
     - zeal
-    - otf-font-awesome-4
-    - gnome-shell-extension-dash-to-dock
-    - gnome-shell-extension-appindicator
-    - gnome-shell-extension-gsconnect
-    - gnome-shell-extension-disable-unredirect
+    - ttf-font-awesome-4
+    #- gnome-shell-extension-dash-to-dock
+    #- gnome-shell-extension-appindicator
+    #- gnome-shell-extension-gsconnect
+    #- gnome-shell-extension-disable-unredirect
+    #- gnome-shell-extension-paperwm-git
     - joplin
     - rofi-calc
     - bcompare
@@ -231,15 +246,16 @@ packages_group:
     - libldac
     - zrepl-bin
     - mbuffer
+    - markdownlint-cli
 
 GOPATH: /home/azmo/go
 #go_get:
 #  - name: envtpl
 #    url: github.com/subfuzion/envtpl/...
 
-#pip_user_packages:
-#  - name: poetry
-#    pip: pip3
+pip_user_packages:
+  - name: nord-pygments
+    pip: pip3
 
 gnome:
   settings:
@@ -297,7 +313,7 @@ gnome:
           command: "'rofi -show window'"
           name: "'rofi-window'"
         - binding: "'<Super>Return'"
-          command: "'/usr/bin/tilix'"
+          command: "'/usr/bin/gnome-terminal'"
           name: "'terminal'"
         - binding: "'<Super><Shift>Return'"
           command: "'/usr/bin/tilix --quake'"
@@ -333,4 +349,4 @@ gnome:
         show_battery_percentage: "true"
         calendar_show_weekdate: "true"
 
-      enabled_extensions: "['workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'gsconnect@andyholmes.github.io', 'appindicatorsupport@rgcjonas.gmail.com', 'places-menu@gnome-shell-extensions.gcampax.github.com', 'drive-menu@gnome-shell-extensions.gcampax.github.com', 'dash-to-dock@micxgx.gmail.com', 'unredirect@vaina.lt']"
+      enabled_extensions: "['workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'gsconnect@andyholmes.github.io', 'appindicatorsupport@rgcjonas.gmail.com', 'places-menu@gnome-shell-extensions.gcampax.github.com', 'drive-menu@gnome-shell-extensions.gcampax.github.com', 'dash-to-dock@micxgx.gmail.com', 'unredirect@vaina.lt', 'paperwm@hedning:matrix.org']"
