@@ -10,4 +10,4 @@ packages:
     - dvd+rw-tools
 
 install_samba: false
-gnome_installed: true
+gnome_installed: false
