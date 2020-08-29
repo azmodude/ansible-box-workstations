@@ -1,6 +1,26 @@
 ---
 - import_tasks: pacman.yml
 
+- name: Get zrepl in shape
+  block:
+    - name: Ensure /etc/zrepl exists
+      file:
+        path: /etc/zrepl
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+    - name: Template zrepl.yml
+      template:
+        src: zrepl.yml
+        dest: /etc/zrepl/zrepl.yml
+        backup: true
+        owner: root
+        group: root
+        mode: 0644
+      notify: Restart zrepl
+  become: true
+
 - name: Enable and start services
   systemd:
     name: "{{ item }}"
@@ -9,11 +29,11 @@
   with_items:
     - libvirtd
     - docker
+    - zrepl
     - org.cups.cupsd
     - bluetooth
     - pcscd
     - fstrim.timer
-    - sanoid.timer
   become: true
 
 - name: Enable and start user services
@@ -25,29 +45,6 @@
   with_items:
     - ssh-agent.service
     - gpg-agent.service
-
-- name: Get sanoid in shape
-  block:
-    - name: Check whether sanoid.conf.sample already exists
-      stat:
-        path: /etc/sanoid/sanoid.conf.sample
-      register: sanoid_conf
-
-    - name: Move sanoid.conf to sanoid.conf.sample
-      copy:
-        src: /etc/sanoid/sanoid.conf
-        dest: /etc/sanoid/sanoid.conf.sample
-      when: not sanoid_conf.stat.exists
-
-    - name: Template sanoid.conf
-      template:
-        src: sanoid.conf
-        dest: /etc/sanoid/sanoid.conf
-        backup: true
-        owner: root
-        group: root
-        mode: 0644
-  become: true
 
 - name: Extend maximum number of inotify watches
   sysctl:

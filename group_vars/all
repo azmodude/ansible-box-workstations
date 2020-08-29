@@ -229,7 +229,7 @@ packages_group:
     - bcompare
     - pulseaudio-modules-bt
     - libldac
-    - sanoid
+    - zrepl-bin
     - mbuffer
 
 GOPATH: /home/azmo/go

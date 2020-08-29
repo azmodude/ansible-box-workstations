@@ -1,0 +1,10 @@
+---
+- name: Get Service Facts
+  service_facts:
+
+- name: Restart zrepl
+  systemd:
+    name: zrepl
+    state: restarted
+  when: ansible_facts.services["zrepl.service"].state == "running"
+  become: true

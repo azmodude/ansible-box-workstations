@@ -10,3 +10,6 @@
 - name: Reload sysctl
   command: sysctl -p
   become: true
+
+- name: Restart zrepl
+  include_tasks: roles/miscellaneous/handlers/restart_zrepl.yml
