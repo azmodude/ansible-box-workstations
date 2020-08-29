@@ -86,7 +86,7 @@
       when: ruby_user_gems is defined
 
     - name: Install go applications
-      shell: "go get {{ item.url }}"
+      command: "go get {{ item.url }}"
       environment:
         GOPATH: "{{ GOPATH }}"
       with_items: "{{ go_get }}"
