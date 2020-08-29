@@ -36,6 +36,16 @@
     - fstrim.timer
   become: true
 
+- name: Enable and start services (conditional)
+  systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  with_items:
+    - acpid
+  become: true
+  when: gnome_installed is not true
+
 - name: Enable and start user services
   systemd:
     name: "{{ item }}"

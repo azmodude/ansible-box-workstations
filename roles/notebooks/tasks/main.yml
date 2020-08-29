@@ -38,4 +38,4 @@
       with_fileglob:
         - /etc/acpi/handlers/*
   become: true
-  when: gnome_installed != true
+  when: gnome_installed is not true
