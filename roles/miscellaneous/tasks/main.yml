@@ -57,6 +57,11 @@
   with_items:
     - ssh-agent.service
     - gpg-agent.service
+    - borgmatic-prune-create.timer
+    - borgmatic-check.timer
+    - borgmatic-rclone.timer
+    - systemd-tmpfiles-setup.service
+    - systemd-tmpfiles-clean.timer
 
 - name: Extend maximum number of inotify watches
   sysctl:
