@@ -29,7 +29,7 @@
     enabled: true
     state: started
   with_items:
-    - libvirtd
+    - libvirtd.socket
     - docker
     - zrepl
     - org.cups.cupsd
