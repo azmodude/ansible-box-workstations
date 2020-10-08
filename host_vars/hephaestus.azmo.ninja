@@ -9,5 +9,9 @@ packages:
     - dvdauthor
     - dvd+rw-tools
 
+# screen locker kicks in after 10, so suspend after about 60
+suspend_after: 50min
+suspend_action: suspend
+
 install_samba: false
 gnome_installed: false

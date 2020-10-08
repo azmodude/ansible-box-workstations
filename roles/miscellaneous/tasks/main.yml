@@ -1,5 +1,7 @@
 ---
 - import_tasks: pacman.yml
+- import_tasks: logind.yml
+  when: not gnome_installed
 
 - name: Get zrepl in shape
   block:
