@@ -4,10 +4,10 @@ ansible_python_interpreter: /usr/bin/python3
 users:
   - name: azmo
     shell: /bin/zsh
+    uid: 1000
     group: azmo
     groups: users,sudo,lp,audio,video,libvirt,libvirt-qemu,docker,lxd
     groups_append: true
-    uid: 1337
 
 pyenv_users:
   - name: azmo
@@ -30,8 +30,6 @@ packages_group:
     - pulseaudio-bluetooth
 
     # debian
-    - apt-listchanges
-    - apt-listdifferences
     - apt-file
     - gdebi
     - aptitude
@@ -224,39 +222,39 @@ packages_group:
 
     # gnome
     # - gnome-session
-    # - gnome-tweaks
-    # - gnome-shell-extensions
-    # - gnome-themes-extra
-    # - dconf-editor
+    - gnome-tweaks
+    - gnome-shell-extensions
+    - gnome-themes-extra
+    - dconf-editor
     # - copyq
     # - copyq-plugins
-    # - gthumb
+    - gthumb
     # - tilix
-    # - gnome-boxes
-    # - gnome-photos
+    - gnome-boxes
+    - gnome-photos
 
     # i3
-    - i3
-    - i3status
-    - policykit-1-gnome
-    - gnome-keyring
-    - compton
-    - dunst
-    - xss-lock
-    - physlock
-    - i3lock-fancy
-    - udiskie
-    - feh
-    - pavucontrol
-    - brightnessctl
-    - qt5ct
-    - qt5-style-plugins
-    - adwaita-qt
-    - geoclue-2.0
-    - redshift
-    - redshift-gtk
-    - kitty
-    - acpid
+    # - i3
+    # - i3status
+    # - policykit-1-gnome
+    # - gnome-keyring
+    # - compton
+    # - dunst
+    # - xss-lock
+    # - physlock
+    # - i3lock-fancy
+    # - udiskie
+    # - feh
+    # - pavucontrol
+    # - brightnessctl
+    # - qt5ct
+    # - qt5-style-plugins
+    # - adwaita-qt
+    # - geoclue-2.0
+    # - redshift
+    # - redshift-gtk
+    # - kitty
+    # - acpid
 
 packages_remove:
   Ubuntu:
