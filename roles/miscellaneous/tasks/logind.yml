@@ -1,0 +1,14 @@
+---
+- name: Make sure logind options are correctly set
+  lineinfile:
+    path: /etc/systemd/logind.conf
+    regexp: '^{{ item.name }}=.*$'
+    line: '{{ item.name }}={{ item.value }}'
+    owner: root
+    group: root
+    mode: '0644'
+  loop:
+    - {name: 'IdleAction', value: "{{ suspend_action }}"}
+    - {name: 'IdleActionSec', value: "{{ suspend_after }}"}
+  notify: Restart logind
+  become: true

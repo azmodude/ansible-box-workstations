@@ -3,6 +3,11 @@
   systemd:
     daemon_reload: true
   become: true
+- name: Restart logind
+  systemd:
+    name: systemd-logind
+    state: restarted
+  become: true
 
 - name: Update hwdb
   command: systemd-hwdb update

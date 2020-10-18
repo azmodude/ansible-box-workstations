@@ -1,14 +1,27 @@
 ---
+- import_tasks: logind.yml
+  when: not gnome_installed
+
 - name: Enable and start services
   systemd:
     name: "{{ item }}"
     enabled: true
     state: started
   with_items:
-    - libvirtd
+    - libvirtd.socket
     - fstrim.timer
     - docker
   become: true
+
+- name: Enable and start services (conditional)
+  systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  with_items:
+    - acpid
+  become: true
+  when: gnome_installed is not true
 
 - name: Enable and start user services
   systemd:
@@ -19,6 +32,11 @@
   with_items:
     - ssh-agent.service
     - gpg-agent.service
+    - borgmatic-prune-create.timer
+    - borgmatic-check.timer
+    - borgmatic-rclone.timer
+    - systemd-tmpfiles-setup.service
+    - systemd-tmpfiles-clean.timer
 
 - name: Extend maximum number of inotify watches
   sysctl:
@@ -26,18 +44,29 @@
     value: "524288"
   become: true
 
-- set_fact:
+- name: Set pinentry-qt when using KDE
+  set_fact:
     pinentry: /usr/bin/pinentry-qt
   when: '"XDG_SESSION_DESKTOP" in ansible_env and ansible_env["XDG_SESSION_DESKTOP"] == "KDE"'
-- set_fact:
+- name: Set pinentry-gtk-2 when using anything GTK based
+  set_fact:
     pinentry: /usr/bin/pinentry-gtk-2
   when: '"XDG_SESSION_DESKTOP" not in ansible_env or ("XDG_SESSION_DESKTOP" in ansible_env and ansible_env["XDG_SESSION_DESKTOP"] in ("GNOME", "ubuntu", "gnome-xorg", "i3", "gnome"))'
 - name: Check for current pinentry
   stat:
     path: /usr/bin/pinentry
   register: pinentry_current
-- name: Select sane pinentry program
-  alternatives:
-    name: pinentry
-    path: "{{ pinentry }}"
+
+- name: Set pinentry to desired state
+  block:
+    - name: Nuke old pinentry link
+      file:
+        path: /usr/bin/pinentry
+        state: absent
+    - name: Set new pinentry link
+      file:
+        path: /usr/bin/pinentry
+        src: "{{ pinentry }}"
+        state: link
   become: true
+  when: pinentry_current.stat.islnk and pinentry_current.stat.lnk_target != pinentry
