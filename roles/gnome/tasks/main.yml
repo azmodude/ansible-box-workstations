@@ -1,7 +1,6 @@
 ---
 - import_role:
     name: jaredhocutt.gnome-extensions
-
 - import_tasks: gnome_keyring.yml
 
 - name: Check whether a monitor configuration exists
