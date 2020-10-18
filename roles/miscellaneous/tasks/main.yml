@@ -29,6 +29,7 @@
     enabled: true
     state: started
   with_items:
+    - snapd.service
     - libvirtd.socket
     - docker
     - zrepl
@@ -55,6 +56,7 @@
     state: started
     scope: user
   with_items:
+    - emacs.service
     - ssh-agent.service
     - gpg-agent.service
     - borgmatic-prune-create.timer
@@ -69,10 +71,12 @@
     value: "524288"
   become: true
 
-- set_fact:
+- name: Set pinentry-qt when using KDE
+  set_fact:
     pinentry: /usr/bin/pinentry-qt
   when: '"XDG_SESSION_DESKTOP" in ansible_env and ansible_env["XDG_SESSION_DESKTOP"] == "KDE"'
-- set_fact:
+- name: Set pinentry-gtk-2 when using anything GTK based
+  set_fact:
     pinentry: /usr/bin/pinentry-gtk-2
   when: '"XDG_SESSION_DESKTOP" not in ansible_env or ("XDG_SESSION_DESKTOP" in ansible_env and ansible_env["XDG_SESSION_DESKTOP"] in ("GNOME", "ubuntu", "gnome-xorg", "i3", "gnome"))'
 - name: Check for current pinentry

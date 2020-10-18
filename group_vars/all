@@ -13,6 +13,7 @@ pyenv_users:
 
 packages_group:
   Archlinux:
+    - intel-gpu-tools
     - borg
     - smartmontools
     - ethtool
@@ -37,9 +38,9 @@ packages_group:
     - ripgrep
     - pdftk
     - cryfs
-    - atool
     - ncdu
     - zip
+    - unzip
     - unrar
     - tree
     - aria2
@@ -48,6 +49,11 @@ packages_group:
     - mosh
     - ranger
     - python-pillow
+    - highlight
+    - atool
+    - mediainfo
+    - poppler
+    - ueberzug
     - mc
     - wget
     - curl
@@ -60,13 +66,23 @@ packages_group:
     - youtube-dl
     - bat
     - neovim
-    - python-neovim
+    - python-pynvim
     - renameutils
+    - languagetool
+    - weechat
+    - perl-image-exiftool
+
+    - borgbackup
+    - borgmatic
+    - python-llfuse
 
     - neomutt
     - catdoc
     - urlscan
     - elinks
+    - isync
+    - notmuch
+    - afew
 
     - smbclient
     - openvpn
@@ -100,25 +116,24 @@ packages_group:
     - openbsd-netcat
     - qemu
     - virt-manager
+    - virt-viewer
     - docker
     - docker-compose
     - docker-machine
+    - terraform
 
     - cups
     - hplip
+    - libfido2
 
     - autorandr
     - qt5ct
     - thunderbird
     - firefox
     - chromium
-    - browserpass
-    - browserpass-chromium
-    - browserpass-firefox
     - gimp
     - rofi
     - xdotool
-    - xdo
     - mpv
     - sxiv
     - zathura
@@ -130,6 +145,7 @@ packages_group:
 
     - yubico-pam
     - yubikey-manager
+    - yubikey-manager-qt
     - yubikey-personalization
     - yubikey-personalization-gui
     - yubioath-desktop
@@ -138,6 +154,7 @@ packages_group:
     - hunspell
     - hunspell-de
     - hunspell-en_US
+    - hunspell-en_GB
     - hyphen
     - hyphen-de
     - hyphen-en
@@ -158,20 +175,33 @@ packages_group:
     - git-crypt
     - expect
     - ctags
-    - go-pie
+    - go
     - go-tools
+    - gopls
+    - rust
     - ruby
+    - android-tools
+
     - prettier
     - shfmt
     - yamllint
     - shellcheck
     - ansible-lint
 
+    - pyenv
     - pygmentize
+    - python-language-server
     - python-black
     - python-pyaml
     - python-poetry
-    - pyenv
+    - python-pydocstyle
+    - python-mccabe
+    - python-rope
+    - python-pyflakes
+    - flake8
+    - python-pycodestyle
+    - python-pylint
+    - python-pydocstyle
     - python-psutil
 
     - adobe-source-sans-pro-fonts
@@ -188,6 +218,7 @@ packages_group:
     - x11-ssh-askpass
     - gtk2
 
+    - emacs
     #- gnome
     #- gnome-extra
     #- copyq
@@ -200,8 +231,6 @@ packages_group:
     - i3blocks
     - lightdm
     - lightdm-webkit2-greeter
-    - light-locker
-    - physlock
     - python-i3ipc
     - arandr
     - pavucontrol
@@ -213,21 +242,21 @@ packages_group:
     - dunst
     - compton
     - polkit-gnome
-    - gnome-keyring
     - brightnessctl
     - feh
     - picom
     - libwnck3
     - kitty
-    - alacritty
     - gnome-themes-extra
     - adwaita-icon-theme
     - polkit-gnome
     - unclutter
     - redshift
     - qalculate-gtk
+    - xdo
 
   AUR:
+    - bat-extras
     - yadm
     - visual-studio-code-bin
     - adwaita-qt
@@ -240,14 +269,21 @@ packages_group:
     #- gnome-shell-extension-gsconnect
     #- gnome-shell-extension-disable-unredirect
     #- gnome-shell-extension-paperwm-git
-    - joplin
+    - joplin-appimage
     - rofi-calc
     - bcompare
     - pulseaudio-modules-bt
     - libldac
     - zrepl-bin
     - mbuffer
-    - markdownlint-cli
+    - nodejs-markdownlint-cli
+    - dive
+    - neovim-remote
+    - sxlock-git
+    - snapd
+
+    - yaml-language-server
+    - dockerfile-language-server-bin
 
 GOPATH: /home/azmo/go
 #go_get:
