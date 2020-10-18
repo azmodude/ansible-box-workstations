@@ -1,8 +1,0 @@
----
-install_samba: false
-
-packages:
-  Ubuntu:
-    - nvidia-driver-435
-
-gnome_installed: true
