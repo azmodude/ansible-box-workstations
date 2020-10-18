@@ -1,8 +1,10 @@
 #!/bin/bash
 
 ! hash pass 2>/dev/null && sudo apt -y install pass
-~/.venv/ansible/bin/ansible-galaxy install -r requirements.yml && \
+"${WORKON_HOME}/ansible/bin/ansible-galaxy" install -r requirements.yml && \
+#secret-tool lookup ansible-vault personal |
 pass show devel/ansible-vault/personal | \
-    ~/.venv/ansible/bin/ansible-playbook --vault-password-file /bin/cat -i inventory \
+    "${WORKON_HOME}/ansible/bin/ansible-playbook" \
+    --vault-password-file /bin/cat -i inventory \
     -l "$(hostname)*" "$@" playbook.yml
 
