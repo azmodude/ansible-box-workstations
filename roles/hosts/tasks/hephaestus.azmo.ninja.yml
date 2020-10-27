@@ -9,9 +9,20 @@
   become: true
 - name: Copy Intel xorg configuration into place
   copy:
-    src: 20-intel.conf
+    src: "{{ inventory_hostname }}/etc/X11/xorg.conf.d/20-intel.conf"
     dest: /etc/X11/xorg.conf.d/20-intel.conf
     mode: 0644
     owner: root
     group: root
   become: true
+
+- name: Copy systemd-networkd files into place
+  copy:
+    src: "{{ item }}"
+    dest: /etc/systemd/network
+    mode: 0644
+    owner: root
+    group: root
+  with_fileglob: "{{ inventory_hostname }}/etc/systemd/network/*"
+  become: true
+  notify: Restart systemd-networkd

@@ -15,11 +15,11 @@
         extra_args: --user
 
   tasks:
-    - name: Install packages
-      import_role:
-        name: azmodude.packages
-      tags:
-        - packages
+    #    - name: Install packages
+    #      import_role:
+    #        name: azmodude.packages
+    #      tags:
+    #        - packages
     - name: Create users
       import_role:
         name: azmodude.users
@@ -33,11 +33,11 @@
         - system
         - services
         - samba
-    - name: Install fonts
-      import_role:
-        name: fonts
-      tags:
-        - fonts
+        #    - name: Install fonts
+        #      import_role:
+        #        name: fonts
+        #      tags:
+        #        - fonts
     - name: Configure Gnome settings
       import_role:
         name: gnome

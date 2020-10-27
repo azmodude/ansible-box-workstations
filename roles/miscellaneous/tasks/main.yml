@@ -29,13 +29,12 @@
     enabled: true
     state: started
   with_items:
-    - snapd.service
-    - libvirtd.socket
-    - docker
-    - zrepl
+    - docker.service
+    - zrepl.service
     - org.cups.cupsd
-    - bluetooth
-    - pcscd
+    - bluetooth.service
+    - pcscd.socket
+    - libvirtd.socket
     - fstrim.timer
   become: true
 
@@ -56,7 +55,6 @@
     state: started
     scope: user
   with_items:
-    - emacs.service
     - ssh-agent.service
     - gpg-agent.service
     - borgmatic-prune-create.timer
