@@ -74,6 +74,7 @@ packages_group:
     - weechat
     - perl-image-exiftool
     - hopengpg-tools
+    - sshpass
 
     - borgbackup
     - borgmatic
@@ -126,6 +127,7 @@ packages_group:
     - docker-compose
     - docker-machine
     - terraform
+    - lxd
 
     - cups
     - hplip
