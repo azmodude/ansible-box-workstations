@@ -9,7 +9,7 @@
   become: true
 - name: Copy Intel xorg configuration into place
   copy:
-    src: 20-intel.conf
+    src: etc/X11/xorg.conf.d/20-intel.conf
     dest: /etc/X11/xorg.conf.d/20-intel.conf
     mode: 0644
     owner: root
