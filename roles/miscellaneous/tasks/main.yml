@@ -28,14 +28,21 @@
         owner: root
         group: root
         mode: 0644
-    - name: Template btrbk.timer
-      template:
-        src: etc/systemd/system/btrbk.timer
-        dest: /etc/systemd/system/btrbk.timer
-        backup: true
+    - name: Ensure /etc/systemd/system/btrbk.timer.d exists
+      file:
+        path: /etc/systemd/system/btrbk.timer.d
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+    - name: Copy override.conf for btrbk.timer
+      copy:
+        src: btrbk.timer.d/override.conf
+        dest: /etc/systemd/system/btrbk.timer.d/override.conf
         owner: root
         group: root
         mode: 0644
+      notify: Reload systemd
   become: true
 
 - name: Enable and start services
