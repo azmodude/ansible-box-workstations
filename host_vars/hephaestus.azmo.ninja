@@ -6,6 +6,9 @@ packages:
     - vainfo
     - tlp
     - brightnessctl
+    - pulseaudio-modules-bt
+  ppas:
+    - berglh/pulseaudio-a2dp
 
 install_samba: false
 gnome_installed: true

@@ -21,23 +21,31 @@ packages_group:
     - hplip
     - snapd
     - fwupd
+    - zfsutils-linux
+    - gpm
+    - zram-config
+    - zram-tools
 
     # bluetooth
     - bluez
-    - bluez-utils
+    - bluez-tools
     - bluez-btsco
-    - blueman
-    - pulseaudio-bluetooth
+    # - pulseaudio-module-bluetooth
 
     # debian
     - apt-file
-    - gdebi
+    - gdebi-core
     - aptitude
 
+    # backup
+    - sanoid
+    - borgbackup
+    - borgmatic
+
     # console
+    - util-linux
     - rclone
     - bc
-    - borgbackup
     - pdftk
     - tomb
     - atool
@@ -54,6 +62,8 @@ packages_group:
     - zsh
     - pass
     - oathtool
+    - webext-browserpass
+    - libsecret-tools
     - tmux
     - gnupg2
     - fasd
@@ -75,6 +85,7 @@ packages_group:
 
     # network
     - mbuffer
+    - pv
     - firefox
     - qutebrowser
     - nmap
@@ -99,6 +110,7 @@ packages_group:
     - sshuttle
     - wireguard-tools
     - cifs-utils
+    - ssh-askpass
 
     # filesystems
     - ntfs-3g
@@ -120,6 +132,10 @@ packages_group:
     - urlscan
     - elinks
     - par
+    - notmuch
+    - afew
+    - msmtp
+    - isync
 
     # x11
     - xinit
@@ -128,6 +144,7 @@ packages_group:
     - libxrender1
     - dbus-x11
     - pulseaudio
+    - pulseeffects
     - libinput-tools
     - xsel
     - xclip
@@ -151,6 +168,8 @@ packages_group:
     - pinentry-gtk2
     - rofi
     - libnotify-bin
+    - hplip-gui
+    - solaar
 
     # libreoffice
     - libreoffice
@@ -164,6 +183,8 @@ packages_group:
     - openclipart-libreoffice
 
     # development
+    - ninja-build
+    - meson
     - build-essential
     - cmake
     - autoconf
@@ -174,13 +195,20 @@ packages_group:
     - git-crypt
     - git-cola
     - git-extras
+    - meld
     - expect
-    - ctags
+    - universal-ctags
     - golang
     - ruby
     - bumpversion
     - nodejs
     - npm
+
+    # yubikey
+    - libyubikey-udev
+    - yubikey-manager
+    - yubikey-personalization
+    - yubikey-personalization-gui
 
     # linters
     - shellcheck
@@ -196,6 +224,7 @@ packages_group:
     - fonts-noto
     - fonts-noto-mono
     - fonts-linuxlibertine
+    - fonts-terminus
 
     # tex
     - texlive
@@ -208,7 +237,6 @@ packages_group:
     - chktex
 
     # virtualization
-    - virtualbox
     - virt-manager
     - libvirt-daemon
     - libvirt-daemon-system
@@ -221,7 +249,7 @@ packages_group:
     - docker-compose
 
     # gnome
-    # - gnome-session
+    - gnome-session
     - gnome-tweaks
     - gnome-shell-extensions
     - gnome-themes-extra
@@ -232,29 +260,34 @@ packages_group:
     # - tilix
     - gnome-boxes
     - gnome-photos
+    - gpaste
+    - gnome-shell-extensions-gpaste
 
     # i3
-    # - i3
-    # - i3status
-    # - policykit-1-gnome
-    # - gnome-keyring
-    # - compton
-    # - dunst
-    # - xss-lock
-    # - physlock
-    # - i3lock-fancy
-    # - udiskie
-    # - feh
-    # - pavucontrol
-    # - brightnessctl
-    # - qt5ct
-    # - qt5-style-plugins
-    # - adwaita-qt
-    # - geoclue-2.0
-    # - redshift
-    # - redshift-gtk
-    # - kitty
-    # - acpid
+    - i3
+    - i3status
+    - autorandr
+    - polybar
+    - policykit-1-gnome
+    - gnome-keyring
+    - dunst
+    - xss-lock
+    - physlock
+    - i3lock-fancy
+    - udiskie
+    - feh
+    - maim
+    - pavucontrol
+    - brightnessctl
+    - qt5ct
+    - qt5-style-plugins
+    - adwaita-qt
+    - geoclue-2.0
+    - redshift
+    - redshift-gtk
+    - kitty
+    - acpid
+    - numlockx
 
 packages_remove:
   Ubuntu:
@@ -282,6 +315,7 @@ snaps_group:
 
 gnome_extension_ids:
   - 118
+  - 307
   - 1319
 
 gnome:
@@ -290,7 +324,7 @@ gnome:
     automatic_timezone: "true"
 
     screensaver:
-      session_idle_delay: "uint32 480"
+      session_idle_delay: "uint32 600"
       lock_enabled: "true"
       lock_delay: "uint32 0"
       show_notifications: "true"
@@ -340,11 +374,11 @@ gnome:
           command: "'rofi -show window'"
           name: "'rofi-window'"
         - binding: "'<Super>Return'"
-          command: "'/usr/bin/tilix'"
+          command: "'/usr/bin/gnome-terminal'"
           name: "'terminal'"
-        - binding: "'<Super><Shift>Return'"
-          command: "'/usr/bin/tilix --quake'"
-          name: "'quake terminal'"
+        - binding: "'<Shift><Super>f'"
+          command: "'/usr/bin/nautilus'"
+          name: "'files'"
       wm:
         - binding: "'<Shift><Super>q', '<Alt>F4'"
           command: "close"
@@ -360,19 +394,20 @@ gnome:
     interface:
       clock_format: "'24h'"
       theme:
-        gtk_theme: "'Yaru'"
-        icon_theme: "'Yaru'"
-        cursor_theme: "'Yaru'"
+        gtk_theme: "'Adwaita'"
+        icon_theme: "'Adwaita'"
+        cursor_theme: "'Adwaita'"
       fonts:
         hinting: "'slight'"
         antialiasing: "'rgba'"
-        titlebar_font_name: "'Source Sans Pro Semibold 10'"
-        font_name: "'Sans 10'"
-        document_font_name: "'Sans 10'"
+        titlebar_font_name: "'Source Sans 3 Semibold 10'"
+        interface_font_name: "'Sans 10'"
+        document_font_name: "'Sans 11'"
         monospace_font_name: "'Monospace 10'"
       tweaks:
+        button_layout: "'appmenu:minimize,maximize,close'"
         resize_with_right_button: "true"
         clock_show_weekday: "true"
         show_battery_percentage: "true"
         calendar_show_weekdate: "true"
-      enabled_extensions: "['native-window-placement@gnome-shell-extensions.gcampax.github.com', 'places-menu@gnome-shell-extensions.gcampax.github.com', 'drive-menu@gnome-shell-extensions.gcampax.github.com', 'ubuntu-appindicators@ubuntu.com', 'windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'nohotcorner@azuri.free.fr', 'gsconnect@andyholmes.github.io']"
+      enabled_extensions: "['desktop-icons@csoriano', 'ubuntu-appindicators@ubuntu.com', 'drive-menu@gnome-shell-extensions.gcampax.github.com', 'windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'gsconnect@andyholmes.github.io', 'nohotcorner@azuri.free.fr', 'dash-to-dock@micxgx.gmail.com', 'GPaste@gnome-shell-extensions.gnome.org']"
