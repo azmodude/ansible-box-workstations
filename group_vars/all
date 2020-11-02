@@ -68,13 +68,14 @@ packages_group:
     - fuse2
     - youtube-dl
     - bat
+    - emacs
     - neovim
     - python-pynvim
     - renameutils
     - languagetool
     - weechat
     - perl-image-exiftool
-    - hopengpg-tools
+    - hopenpgp-tools
     - sshpass
 
     - borgbackup
@@ -93,6 +94,10 @@ packages_group:
     - afew
     - msmtp
 
+    - network-manager-applet
+    - networkmanager-vpnc
+    - networkmanager-openvpn
+    - networkmanager-openconnect
     - smbclient
     - openvpn
     - vpnc
@@ -139,7 +144,6 @@ packages_group:
 
     - autorandr
     - qt5ct
-    - thunderbird
     - firefox
     - gimp
     - rofi
@@ -151,6 +155,7 @@ packages_group:
     - vlc
     - libmicrodns
     - protobuf
+    - solaar
 
     - yubico-pam
     - yubikey-manager
@@ -158,6 +163,7 @@ packages_group:
     - yubikey-personalization
     - yubikey-personalization-gui
     - yubioath-desktop
+    - yubikey-touch-detector
 
     - libreoffice-fresh
     - hunspell
@@ -238,7 +244,6 @@ packages_group:
 
     - i3-gaps
     - i3status
-    - i3blocks
     - lightdm
     - lightdm-webkit2-greeter
     - python-i3ipc
@@ -266,6 +271,7 @@ packages_group:
     - xdo
 
   AUR:
+    - thunderbird-bin
     - google-chrome
     - bat-extras
     #- yadm
@@ -285,12 +291,14 @@ packages_group:
     - bcompare
     - pulseaudio-modules-bt
     - libldac
-    - zrepl-bin
     - mbuffer
     - nodejs-markdownlint-cli
     - dive
     - neovim-remote
     - sflock-git
+    - polybar
+    - btrbk
+    - betterlockscreen-git
 
     - yaml-language-server
     - dockerfile-language-server-bin
