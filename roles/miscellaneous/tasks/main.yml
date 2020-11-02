@@ -29,8 +29,8 @@
     state: started
   with_items:
     - libvirtd.socket
+    - docker.service
     - fstrim.timer
-    - docker
     - sanoid.timer
   become: true
 
