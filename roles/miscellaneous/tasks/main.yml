@@ -2,6 +2,26 @@
 - import_tasks: logind.yml
   when: not gnome_installed
 
+- name: Get sanoid in shape
+  block:
+    - name: Ensure /etc/sanoid exists
+      file:
+        state: directory
+        path: /etc/sanoid
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: Template sanoid.conf
+      template:
+        src: etc/sanoid/sanoid.conf
+        dest: /etc/sanoid/sanoid.conf
+        backup: true
+        owner: root
+        group: root
+        mode: 0644
+  become: true
+
 - name: Enable and start services
   systemd:
     name: "{{ item }}"
@@ -11,6 +31,7 @@
     - libvirtd.socket
     - fstrim.timer
     - docker
+    - sanoid.timer
   become: true
 
 - name: Enable and start services (conditional)
