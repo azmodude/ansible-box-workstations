@@ -172,7 +172,7 @@
 - name: Set main font
   dconf:
     key: "/org/gnome/desktop/interface/font-name"
-    value: "{{ gnome.settings.interface.fonts.font_name }}"
+    value: "{{ gnome.settings.interface.fonts.interface_font_name }}"
 - name: Set document font
   dconf:
     key: "/org/gnome/desktop/interface/document-font-name"
@@ -195,6 +195,10 @@
     key: "/org/gnome/desktop/interface/cursor-theme"
     value: "{{ gnome.settings.interface.theme.cursor_theme }}"
 
+- name: set button layout
+  dconf:
+    key: "/org/gnome/desktop/wm/preferences/button-layout"
+    value: "{{ gnome.settings.interface.tweaks.button_layout }}"
 - name: Set resize with right mouse button
   dconf:
     key: "/org/gnome/desktop/wm/preferences/resize-with-right-button"
