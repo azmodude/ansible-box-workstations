@@ -2,7 +2,8 @@
 ---
 users:
   - name: azmo
-    uid: 1337
+    uid: 1000
+    gid: 1000
     group: azmo
     shell: /bin/zsh
     groups: users,video,libvirt,docker
