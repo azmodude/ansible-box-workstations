@@ -269,6 +269,7 @@ packages_group:
     - redshift
     - qalculate-gtk
     - xdo
+    - numlockx
 
   AUR:
     - thunderbird-bin
