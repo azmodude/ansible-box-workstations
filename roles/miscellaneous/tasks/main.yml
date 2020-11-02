@@ -44,6 +44,7 @@
     enabled: true
     state: started
   with_items:
+    - avahi-daemon.service
     - btrbk.timer
     - docker.service
     - org.cups.cupsd
