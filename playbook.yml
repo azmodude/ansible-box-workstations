@@ -21,6 +21,7 @@
         name: azmodude.google-chrome
       tags:
         - packages
+        - chrome
     - name: Create users
       import_role:
         name: azmodude.users

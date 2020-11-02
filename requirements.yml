@@ -5,5 +5,7 @@
   name: azmodude.packages
 - src: https://github.com/azmodude/ansible-role-users
   name: azmodude.users
+- src: https://github.com/azmodude/ansible-role-google-chrome
+  name: azmodude.google-chrome
 - src: https://github.com/jaredhocutt/ansible-gnome-extensions.git
   name: jaredhocutt.gnome-extensions
