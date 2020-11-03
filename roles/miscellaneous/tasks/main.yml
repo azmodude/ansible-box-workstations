@@ -129,9 +129,8 @@
   with_items:
     - ssh-agent.service
     - gpg-agent.service
-    - borgmatic-prune-create.timer
-    - borgmatic-check.timer
-    - borgmatic-rclone.timer
+    - restic-backup.timer
+    - restic-backup-prune.timer
     - systemd-tmpfiles-setup.service
     - systemd-tmpfiles-clean.timer
 
