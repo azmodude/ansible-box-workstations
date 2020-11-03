@@ -45,6 +45,33 @@
       notify: Reload systemd
   become: true
 
+- name: Configure and enable btrfsmaintenance
+  block:
+    - name: Configure btrfsmaintenance
+      copy:
+        src: etc/default/btrfsmaintenance
+        dest: /etc/default/btrfsmaintenance
+        backup: true
+        owner: root
+        group: root
+        mode: 0644
+      register: btrfsmaint
+    - name: Configure path watcher for btrfsmaintenance-refresh
+      copy:
+        src: etc/systemd/system/btrfsmaintenance-refresh.path
+        dest: /etc/systemd/system/btrfsmaintenance-refresh.path
+        owner: root
+        group: root
+        mode: 0644
+  become: true
+
+- name: Refresh btrfsmaintenance timers
+  systemd:
+    name: btrfsmaintenance-refresh.service
+    state: started
+  when: btrfsmaint.changed
+  become: true
+
 - name: Disable pcspeaker
   copy:
     src: etc/modprobe.d/nobeep.conf
@@ -80,6 +107,7 @@
     - libvirtd.socket
     - fstrim.timer
     - NetworkManager.service
+    - btrfsmaintenance-refresh.path
   become: true
 
 - name: Enable and start services (conditional)

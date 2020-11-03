@@ -275,6 +275,7 @@ packages_group:
     - numlockx
 
   AUR:
+    - btrfsmaintenance-git
     - thunderbird-bin
     - google-chrome
     - bat-extras
