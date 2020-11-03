@@ -54,6 +54,17 @@
     mode: 0644
   become: true
 
+- name: Copy NetworkManager Dispatcher Scripts
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/NetworkManager/dispatcher.d/"
+    owner: "root"
+    group: "root"
+    mode: 0644
+  with_fileglob:
+    - "etc/NetworkManager/dispatcher.d/*"
+  become: true
+
 - name: Enable and start services
   systemd:
     name: "{{ item }}"
@@ -68,6 +79,7 @@
     - pcscd.socket
     - libvirtd.socket
     - fstrim.timer
+    - NetworkManager.service
   become: true
 
 - name: Enable and start services (conditional)
