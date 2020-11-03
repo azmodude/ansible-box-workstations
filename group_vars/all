@@ -136,6 +136,9 @@ packages_group:
     - lxd
 
     - cups
+    - cups-pdf
+    - nss-mdns
+    - avahi
     - hplip
     - libfido2
     - acpid

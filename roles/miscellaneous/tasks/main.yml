@@ -37,12 +37,21 @@
         mode: 0755
     - name: Copy override.conf for btrbk.timer
       copy:
-        src: btrbk.timer.d/override.conf
+        src: etc/systemd/system/btrbk.timer.d/override.conf
         dest: /etc/systemd/system/btrbk.timer.d/override.conf
         owner: root
         group: root
         mode: 0644
       notify: Reload systemd
+  become: true
+
+- name: Disable pcspeaker
+  copy:
+    src: etc/modprobe.d/nobeep.conf
+    dest: /etc/modprobe.d/nobeep.conf
+    owner: root
+    group: root
+    mode: 0644
   become: true
 
 - name: Enable and start services
