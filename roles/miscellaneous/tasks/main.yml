@@ -98,10 +98,12 @@
     enabled: true
     state: started
   with_items:
+    - thermald.service
+    - lxd.socket
     - avahi-daemon.service
     - btrbk.timer
     - docker.service
-    - org.cups.cupsd
+    - cups.service
     - bluetooth.service
     - pcscd.socket
     - libvirtd.socket
