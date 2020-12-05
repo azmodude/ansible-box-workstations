@@ -6,7 +6,7 @@ users:
     gid: 1000
     group: azmo
     shell: /bin/zsh
-    groups: users,video,libvirt,docker
+    groups: users,video,libvirt,docker,lxd
     groups_append: true
 
 pyenv_users:
@@ -14,6 +14,10 @@ pyenv_users:
 
 packages_group:
   Archlinux:
+    - trash-cli
+    - gocryptfs
+    - btrfs-progs
+    - compsize
     - intel-gpu-tools
     - smartmontools
     - ethtool
@@ -72,7 +76,6 @@ packages_group:
     - neovim
     - python-pynvim
     - renameutils
-    - languagetool
     - weechat
     - perl-image-exiftool
     - hopenpgp-tools
@@ -108,6 +111,7 @@ packages_group:
     - qutebrowser
     - pulseaudio
     - pulseaudio-alsa
+    - pulseeffects
     - gst-libav
     - gst-plugins-base
     - gst-plugins-good
@@ -117,6 +121,7 @@ packages_group:
     - bluez
     - bluez-utils
     - blueman
+    - v4l-utils
 
     - vagrant
     - libvirt
@@ -132,6 +137,9 @@ packages_group:
     - docker
     - docker-compose
     - docker-machine
+    - skopeo
+    - podman
+    - buildah
     - terraform
     - lxd
 
@@ -142,12 +150,14 @@ packages_group:
     - hplip
     - libfido2
     - acpid
+    - thermald
 
     - systemd-resolvconf
 
     - autorandr
     - qt5ct
     - firefox
+    - thunderbird
     - gimp
     - rofi
     - xdotool
@@ -200,12 +210,19 @@ packages_group:
     - rust
     - ruby
     - android-tools
+    - hcloud
+    - doctl
+
+    - bash-language-server
 
     - prettier
     - shfmt
     - yamllint
     - shellcheck
     - ansible-lint
+    - proselint
+    - vale
+    - languagetool
 
     - pyenv
     - pygmentize
@@ -222,6 +239,7 @@ packages_group:
     - python-pylint
     - python-pydocstyle
     - python-psutil
+    - python-hcloud
 
     - adobe-source-sans-pro-fonts
     - adobe-source-serif-pro-fonts
@@ -276,7 +294,6 @@ packages_group:
 
   AUR:
     - btrfsmaintenance-git
-    - thunderbird-bin
     - google-chrome
     - bat-extras
     #- yadm
@@ -300,10 +317,17 @@ packages_group:
     - nodejs-markdownlint-cli
     - dive
     - neovim-remote
-    - sflock-git
     - polybar
     - btrbk
     - betterlockscreen-git
+    - direnv
+
+    - vdirsyncer
+    - khard
+    - khal
+
+    # thermald
+    - dptfxtract-bin
 
     - yaml-language-server
     - dockerfile-language-server-bin
