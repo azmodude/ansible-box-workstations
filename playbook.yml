@@ -25,6 +25,7 @@
         name: azmodude.users
       tags:
         - system
+        - users
     - name: Install samba and template configuration
       import_role:
         name: samba
