@@ -92,7 +92,8 @@
         group: root
         mode: 0600
       loop:
-        - restic-password-workstations-borgbase-{{ ansible_hostname }}.j2
+        - restic-password-workstations-borgbase.j2
+        - restic-password-workstations-zeus.j2
     - name: Copy remaining static files over
       ansible.builtin.copy:
         src: "{{ item }}"

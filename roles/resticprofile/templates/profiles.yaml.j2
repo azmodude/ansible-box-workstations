@@ -28,8 +28,8 @@ default:
 
 workstations-borgbase:
   inherit: "default"
-  repository: "rest:https://{{ vars['resticprofile_borgbase_' + ansible_hostname].user }}:{{ vars['resticprofile_borgbase_' + ansible_hostname].password }}@{{ vars['resticprofile_borgbase_' + ansible_hostname].url }}"
-  password-file: {% raw %} "{{ .ConfigDir }}/restic-password-{{ .Profile.Name }}{% endraw %}-{{ ansible_hostname }}"
+  repository: "rest:https://{{ resticprofile_borgbase.user }}:{{ resticprofile_borgbase.password }}@{{ resticprofile_borgbase.url }}"
+  password-file: {% raw %} "{{ .ConfigDir }}/restic-password-{{ .Profile.Name }}{% endraw %}"
   limit-upload: 3000
 
   backup:
@@ -72,3 +72,47 @@ workstations-borgbase:
     schedule: "Sun 14:30"
     schedule-permission: "system"
 
+workstations-zeus:
+  inherit: "default"
+  repository: "rest:http://{{ resticprofile_zeus.user }}:{{ resticprofile_zeus.password }}@{{ resticprofile_zeus.url }}"
+  password-file: {% raw %} "{{ .ConfigDir }}/restic-password-{{ .Profile.Name }}{% endraw %}"
+
+  backup:
+    source: /home/azmo
+    exclude-file: {% raw %}"{{ .ConfigDir }}/restic-excludes-workstations-local"{% endraw +%}
+
+    schedule: "hourly"
+    schedule-permission: "system"
+
+  retention:
+    before-backup: false
+    after-backup: true
+    keep-last: 60
+    keep-hourly: 24
+    keep-daily: 90
+    keep-weekly: 12
+    keep-monthly: 24
+    keep-yearly: 2
+    keep-within: "24h"
+    tag: true
+
+  forget:
+    keep-last: 60
+    keep-hourly: 24
+    keep-daily: 90
+    keep-weekly: 12
+    keep-monthly: 24
+    keep-yearly: 2
+    keep-within: "24h"
+    tag: true
+
+  check:
+    cache-dir: {% raw %}"{{ .Env.XDG_CACHE_HOME }}/restic-check"{% endraw +%}
+    with-cache: true
+    read-data-subset: 10%
+    schedule: "Fri 08:45"
+    schedule-permission: "system"
+
+  prune:
+    schedule: "Mon 08:45"
+    schedule-permission: "system"
