@@ -1,0 +1,29 @@
+---
+- name: Disable pcspeaker
+  copy:
+    src: etc/modprobe.d/nobeep.conf
+    dest: /etc/modprobe.d/nobeep.conf
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+
+- name: Extend maximum number of inotify watches
+  sysctl:
+    name: fs.inotify.max_user_watches
+    value: "524288"
+  become: true
+
+- name: Copy dracut configuration files to destination
+  copy:
+    src: "{{ item }}"
+    dest: /etc/dracut.conf.d
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  with_fileglob:
+    - "etc/dracut.conf.d/*.conf"
+  notify:
+    Regenerate dracut initramfs
+

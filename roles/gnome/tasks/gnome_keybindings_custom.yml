@@ -1,0 +1,35 @@
+---
+- name: Set Key binding
+  dconf:
+    key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom{{ansible_loop.index0}}/binding"
+    value: "{{ item.binding }}"
+- name: Set Key command
+  dconf:
+    key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom{{ansible_loop.index0}}/command"
+    value: "{{ item.command }}"
+- name: Set Key name
+  dconf:
+    key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom{{ansible_loop.index0}}/name"
+    value: "{{ item.name }}"
+
+# create a string suitable for dconf, which is ... really picky
+- name: Write and enable custom keybindings list
+  block:
+    - set_fact:
+        custom_keybindings: ""
+    - name: Build initial string
+      set_fact:
+        custom_keybindings: "{{ custom_keybindings }}'/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom{{ custom_keybinding }}/', "
+      loop: "{{ range(0, ansible_loop.length ) | list }}"
+      loop_control:
+        loop_var: custom_keybinding
+    - name: Strip last comma from string and prepend/append square brackets
+      set_fact:
+        custom_keybindings: "[{{ custom_keybindings[:-2] }}]"
+    # ansible will complain here that the potential list [] is used as a string
+    # which is good.
+    - name: Write/Enable Key binding list
+      dconf:
+        key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+        value: "{{ custom_keybindings }}"
+  when: ansible_loop.last

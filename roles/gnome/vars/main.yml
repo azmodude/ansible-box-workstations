@@ -1,0 +1,185 @@
+---
+dash_to_panel:
+  - name: animate-appicon-hover
+    value: "false"
+  - name: animate-appicon-hover-animation-extent
+    value: "{'RIPPLE': 4, 'PLANK': 4, 'SIMPLE': 1}"
+  - name: appicon-margin
+    value: "6"
+  - name: appicon-padding
+    value: "4"
+  - name: dot-color-dominant
+    value: "true"
+  - name: dot-color-override
+    value: "false"
+  - name: dot-style-focused
+    value: "'CILIORA'"
+  - name: dot-style-unfocused
+    value: "'DASHES'"
+  - name: focus-highlight-dominant
+    value: "true"
+  - name: hot-keys
+    value: "true"
+  - name: hotkeys-overlay-combo
+    value: "'TEMPORARILY'"
+  - name: leftbox-padding
+    value: "-1"
+  - name: multi-monitors
+    value: "false"
+  - name: panel-anchors
+    value: >
+      {"0":"MIDDLE"}
+  - name: panel-element-positions
+    value: >
+      '{"0":[{"element":"showAppsButton","visible":true,"position":"stackedTL"},{"element":"activitiesButton","visible":false,"position":"stackedTL"},{"element":"leftBox","visible":true,"position":"stackedTL"},{"element":"taskbar","visible":true,"position":"stackedTL"},{"element":"centerBox","visible":true,"position":"stackedBR"},{"element":"dateMenu","visible":true,"position":"centered"},{"element":"rightBox","visible":true,"position":"stackedBR"},{"element":"systemMenu","visible":true,"position":"stackedBR"},{"element":"desktopButton","visible":true,"position":"stackedBR"}]}'
+  - name: panel-lengths
+    value: >
+      '{"0":100}'
+  - name: panel-positions
+    value: >
+      '{"0":"TOP","1":"TOP"}'
+  - name: panel-sizes
+    value: >
+      '{"0":36,"1":36}'
+  - name: primary-monitor
+    value: "1"
+  - name: show-apps-icon-file
+    value: "''"
+  - name: status-icon-padding
+    value: "-1"
+  - name: tray-padding
+    value: "-1"
+  - name: window-preview-title-position
+    value: "'TOP'"
+  - name: trans-dynamic-anim-target
+    value: "0.59999999999999998"
+  - name: trans-panel-opacity
+    value: "0.40000000000000002"
+  - name: trans-use-custom-opacity
+    value: "true"
+  - name: trans-use-dynamic-opacity
+    value: "true"
+
+gnome:
+  settings:
+    system_locale_region: "'de_DE.UTF-8'"
+    automatic_timezone: "true"
+
+    app_switcher:
+      current_workspace_only: "true"
+
+    screensaver:
+      session_idle_delay: "uint32 600"
+      lock_enabled: "true"
+      lock_delay: "uint32 0"
+      show_notifications: "true"
+
+    privacy:
+      location_enabled: "true"
+      disable_camera: "false"
+      disable_microphone: "false"
+      remove_old_temp_files: "true"
+      remove_old_trash_files: "true"
+      old_files_age: "uint32 30"
+      remember_recent_files: "true"
+      remember_recent_files_max_age: "-1"
+
+    peripherals:
+      keyboard:
+        remember_numlock_state: "true"
+        delay: "uint32 250"
+        repeat: "uint32 30"
+        input_sources: "[('xkb', 'de+nodeadkeys')]"
+        xkb_options: "['caps:escape']"
+      touchpad:
+        enabled: "true"
+        speed: "0.29999999999999999"
+        natural_scrolling: "true"
+        two_finger_scrolling: "true"
+        tap_to_click: "true"
+      mouse:
+        speed: "0.33891213389121333"
+
+    power:
+      idle_dim: "true"
+      sleep_inactive_ac_timeout: 3600
+      sleep_inactive_ac_type: "suspend"
+      sleep_inactive_battery_timeout: 1800
+      sleep_inactive_battery_type: suspend
+
+    nightlight:
+      enabled: "true"
+      temperature: "uint32 3500"
+
+    keybindings:
+      custom:
+        - binding: "'<Super>Return'"
+          command: "'/usr/bin/kitty'"
+          name: "'Terminal (Host)'"
+        - binding: "'<Shift><Super>f'"
+          command: "'/usr/bin/nautilus'"
+          name: "'Files'"
+        - binding: "'<Primary><Shift>space'"
+          command: "'/usr/bin/1password --quick-access'"
+          name: "'1Password Quick Access'"
+        - binding: "'<Super><Shift>p'"
+          command: "'/usr/bin/1password --toggle'"
+          name: "'1Password Toggle'"
+      wm:
+        - binding: "'<Shift><Super>q', '<Alt>F4'"
+          command: "close"
+        - binding: "'<Super>d'"
+          command: "show-desktop"
+        # no longer needed?
+        #- binding: "'<Super>Tab'"
+        #  command: "switch-applications"
+        #- binding: "'<Shift><Super>Tab'"
+        #  command: "switch-applications-backward"
+        #- binding: "'<Alt>Tab'"
+        #  command: "switch-windows"
+        #- binding: "'<Shift><Alt>Tab'"
+        #  command: "switch-windows-backward"
+
+    interface:
+      clock_format: "'24h'"
+      enable_hot_corners: "false"
+      theme:
+        color_scheme: "'prefer-dark'"
+        gtk_theme: "'Adwaita-dark'"
+        icon_theme: "'Adwaita'"
+        cursor_theme: "'Adwaita'"
+      fonts:
+        hinting: "'slight'"
+        antialiasing: "'rgba'"
+        titlebar_font_name: "'Inter Medium 10'"
+        font_name: "'Inter 10'"
+        document_font_name: "'Sans 11'"
+        monospace_font_name: "'Monospace 10'"
+      tweaks:
+        button_layout: "'icon:close'"
+        resize_with_right_button: "true"
+        clock_show_weekday: "true"
+        show_battery_percentage: "true"
+        calendar_show_weekdate: "true"
+      enabled_extensions: "['appindicatorsupport@rgcjonas.gmail.com', 'dash-to-panel@jderose9.github.com', 'impatience@gfxmonk.net', 'drive-menu@gnome-shell-extensions.gcampax.github.com', 'windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'GPaste@gnome-shell-extensions.gnome.org', 'gsconnect@andyholmes.github.io', 'caffeine@patapon.info', 'workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'background-logo@fedorahosted.org', 'blur-my-shell@aunetx']"
+      favorite_apps: "['firefox.desktop', 'kitty.desktop']"
+
+gnome_extension_ids:
+  # removable drive menu
+  - 7
+  # windownavigator
+  - 10
+  # workspaceindicator
+  - 21
+  # impatience
+  - 277
+  # caffeine
+  - 517
+  # appindicators
+  - 615
+  # dash-to-panel
+  - 1160
+  # gsconnect
+  - 1319
+  # Blur My Shell
+  - 3193

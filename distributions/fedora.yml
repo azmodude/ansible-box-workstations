@@ -1,0 +1,164 @@
+---
+- name: Fedora | Enable RPMFusion Free and Non-Free, install packages
+  block:
+    - name: Fedora | DNF update
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+        # exclude mesa-va-drivers until RPMFusion and Fedora sort out their mess
+        exclude: mesa-va-drivers
+        update_only: true
+
+    - name: Fedora | RPMFusion | Enable RPMFusion
+      import_role:
+        name: ihmels.rpmfusion_repo
+      tags:
+        - rpmfusion
+
+    - name: Fedora | RPMFusion | Check whether RPMFusion updates have already run
+      ansible.builtin.stat:
+        path: "{{ ansible_env.HOME }}/.local/state/rpmfusion_updated"
+      register: rpmfusion_update
+
+    - name: Fedora | RPMFusion | Do rpmfusion post-installation steps
+      block:
+        - name: Gather the package facts
+          ansible.builtin.package_facts:
+            manager: auto
+        - name: Swap mesa-va-drivers with mesa-va-drivers-freeworld
+          ansible.builtin.command: dnf --assumeyes swap mesa-va-drivers mesa-va-drivers-freeworld --allowerasing
+        - name: Fedora | RPMFusion | Swap into "real" ffmpeg
+          ansible.builtin.command: dnf --assumeyes swap ffmpeg-free ffmpeg --allowerasing
+        - name: Fedora | RPMFusion | Do multimedia groupudate
+          ansible.builtin.command: dnf --assumeyes groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+        - name: Fedora | RPMFusion | Do sound-and-video groupupdate
+          ansible.builtin.command: dnf --assumeyes groupupdate sound-and-video
+        - name: Fedora | RPMFusion | Create state file to register successful updates
+          ansible.builtin.file:
+            path: "{{ ansible_env.HOME }}/.local/state/rpmfusion_updated"
+            state: touch
+            owner: "{{ ansible_env.USER }}"
+            group: "{{ ansible_env.USER }}"
+            mode: 0700
+      when: rpmfusion_update.stat.exists is defined and not rpmfusion_update.stat.exists
+
+
+    - name: Fedora | Enable COPR repositories
+      ansible.builtin.command:
+        cmd: dnf copr enable -y {{ item }}
+        creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:{{ item | replace('/', ':') | replace('@', 'group_') }}.repo
+      loop:
+        - atim/lazygit
+        - atim/starship
+        - awood/bat-extras
+      tags:
+        - copr
+        - repositories
+
+    - name: Fedora | Install additional RPM keys
+      rpm_key:
+        key: "{{ item }}"
+      loop:
+        - https://downloads.1password.com/linux/keys/1password.asc
+
+    - name: Fedora | Install additional proprietary packages
+      package:
+        name: "{{ item }}"
+      loop:
+        - https://downloads.1password.com/linux/rpm/stable/x86_64/1password-latest.rpm
+
+    - name: Fedora | Add Flatpak Repositories
+      flatpak_remote:
+        name: flathub
+        state: present
+        flatpakrepo_url: "{{ item.url }}"
+      loop: "{{ flatpak_repos }}"
+      when: flatpak_repos is defined
+      tags:
+        - flatpak
+  become: true
+  tags: packages
+
+- name: Fedora | Install flatpaks
+  flatpak:
+    name: "{{ item.name }}"
+    remote: "{{ item.remote }}"
+  loop: "{{ flatpaks }}"
+  when: flatpaks is defined
+  tags:
+    - flatpak
+
+- name: Fedora | Handle "server" workstations
+  block:
+    - name: Fedora Server | Enable COPR repositories for servers
+      command:
+        cmd: dnf copr enable -y {{ item }}
+        creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:{{ item | replace('/', ':') }}.repo
+      loop:
+        - gsauthof/dracut-sshd
+      tags:
+        - copr
+        - packages
+        - repositories
+    - name: Fedora Server | Disable NetworkManager on servers
+      service:
+        name: NetworkManager
+        enabled: false
+    # artemis is now getting its systemd configuration from dracut-sshd role
+    # probably change that
+    - name: Fedora Server | Enable systemd-networkd on servers
+      service:
+        name: systemd-networkd
+        enabled: true
+
+    - name: Fedora Server | Install and configure dracut-sshd
+      import_role:
+        name: dracut-sshd
+      tags:
+        - dracut
+  when: ansible_hostname == "artemis"
+  become: true
+
+- name: Fedora | Install packages (all)
+  ansible.builtin.dnf:
+    name: "{{ packages }}"
+    state: present
+  become: true
+
+- name: Fedora | Install packages (host)
+  ansible.builtin.dnf:
+    name: "{{ packages_host }}"
+    state: present
+  become: true
+
+- name: Fedora | Install packages (GNOME)
+  ansible.builtin.dnf:
+    name: "{{ packages_gnome }}"
+    state: present
+  become: true
+  when: packages_gnome is defined and gnome_installed
+
+- name: Fedora | Install packages (KDE)
+  ansible.builtin.dnf:
+    name: "{{ packages_kde }}"
+    state: present
+  become: true
+  when: packages_kde is defined and kde_installed
+
+- name: Install vscode
+  include_role:
+    name: gantsign.visual-studio-code
+  vars:
+    users:
+      - username: "{{ ansible_env.USER }}"
+  tags:
+    - vscode
+
+- name: Configure firewalld
+  import_role:
+    name: firewalld
+  tags:
+    - network
+    - firewalld
+  vars:
+    ansible_python_interpreter: /usr/bin/python3

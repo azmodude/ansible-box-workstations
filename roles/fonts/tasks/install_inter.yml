@@ -1,0 +1,49 @@
+---
+- name: Check whether directory for {{ item.name }} already exists
+  stat:
+    path: "{{ ansible_user_dir }}/.local/share/fonts/{{ item.name }}/"
+  register: font_directory
+
+- name: Install font
+  block:
+    - name: "{{ item.name }} | Ensure destination directory is present"
+      file:
+        path: "{{ ansible_user_dir }}/.local/share/fonts/{{ item.name }}"
+        state: directory
+
+    - name: "{{ item.name }} | Create temporary directory to hold download"
+      tempfile:
+        state: directory
+      register: tempdir
+
+    - name: "{{ item.name }} | Get font archive from GitHub"
+      uri:
+        url: "{{ item.url }}"
+        dest: "{{ tempdir.path }}/{{ item.name }}.zip"
+        status_code: 200,304
+        follow_redirects: all
+        force: true
+
+    - name: "{{ item.name }} | Unarchive download"
+      unarchive:
+        src: "{{ tempdir.path }}/{{ item.name }}.zip"
+        dest: "{{ tempdir.path }}"
+
+    - name: "{{ item.name }} | Find files we would like to keep"
+      find:
+        paths: "{{ tempdir.path }}/Inter Desktop"
+        patterns: "*.otf"
+      register: keep_files
+
+    - name: "{{ item.name }} | Copy files to destination directory"
+      copy:
+        src: "{{ font.path }}"
+        dest: "{{ ansible_user_dir }}/.local/share/fonts/{{ item.name }}"
+        remote_src: true
+      loop: "{{ keep_files.files }}"
+      loop_control:
+        label: "{{ font.path }}"
+        loop_var: font
+      notify:
+        - Regenerate font cache
+  when: not font_directory.stat.exists

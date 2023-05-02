@@ -1,0 +1,5 @@
+---
+- name: Regenerate dracut initramfs
+  command:
+    cmd: dracut -f
+  become: true

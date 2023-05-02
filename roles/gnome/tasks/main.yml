@@ -1,0 +1,271 @@
+---
+- import_role:
+    name: jaredhocutt.gnome-extensions
+
+- name: Check whether a monitor configuration exists
+  local_action:
+    module: stat
+    path: "{{ role_path }}/files/monitors.xml.{{ ansible_hostname }}"
+  register: monitors
+- name: Copy monitor configuration
+  copy:
+    src: files/monitors.xml.{{ ansible_hostname }}
+    dest: "{{ ansible_user_dir }}/.config/monitors.xml"
+    backup: true
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+  when: monitors.stat.exists
+
+- name: Set system locale region
+  community.general.dconf:
+    key: "/system/locale/region"
+    value: "{{ gnome.settings.system_locale_region }}"
+- name: Set automatic timezone detection
+  community.general.dconf:
+    key: "/org/gnome/desktop/datetime/automatic-timezone"
+    value: "{{ gnome.settings.automatic_timezone }}"
+- name: Set clock format (GTK)
+  community.general.dconf:
+    key: "/org/gtk/settings/file-chooser/clock-format"
+    value: "{{ gnome.settings.interface.clock_format }}"
+- name: Set clock format (Desktop)
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/clock-format"
+    value: "{{ gnome.settings.interface.clock_format }}"
+
+- name: Set app-switcher workspace setting
+  community.general.dconf:
+    key: "/org/gnome/shell/app-switcher"
+    value: "{{ gnome.settings.app_switcher.current_workspace_only }}"
+
+- name: Set Screensaver status
+  community.general.dconf:
+    key: "/org/gnome/desktop/screensaver/lock-enabled"
+    value: "{{ gnome.settings.screensaver.lock_enabled }}"
+- name: Set Screensaver lock delay
+  community.general.dconf:
+    key: "/org/gnome/desktop/screensaver/lock-delay"
+    value: "{{ gnome.settings.screensaver.lock_delay }}"
+- name: Set Screensaver notification display
+  community.general.dconf:
+    key: "/org/gnome/desktop/notifications/show-in-lock-screen"
+    value: "{{ gnome.settings.screensaver.show_notifications }}"
+- name: Set Screensaver session idle delay
+  community.general.dconf:
+    key: "/org/gnome/desktop/session/idle-delay"
+    value: "{{ gnome.settings.screensaver.session_idle_delay }}"
+
+- name: Set location services status
+  community.general.dconf:
+    key: "/org/gnome/system/location/enabled"
+    value: "{{ gnome.settings.privacy.location_enabled }}"
+- name: Set camera status
+  community.general.dconf:
+    key: "/org/gnome/desktop/privacy/disable-camera"
+    value: "{{ gnome.settings.privacy.disable_camera }}"
+- name: Set microphone status
+  community.general.dconf:
+    key: "/org/gnome/desktop/privacy/disable-microphone"
+    value: "{{ gnome.settings.privacy.disable_microphone }}"
+- name: Set whether to delete old temp files
+  community.general.dconf:
+    key: "/org/gnome/desktop/privacy/remove-old-temp-files"
+    value: "{{ gnome.settings.privacy.remove_old_temp_files }}"
+- name: Set whether to empty trash after time
+  community.general.dconf:
+    key: "/org/gnome/desktop/privacy/remove-old-trash-files"
+    value: "{{ gnome.settings.privacy.remove_old_trash_files }}"
+- name: Set days after which to delete old files/empty trash
+  community.general.dconf:
+    key: "/org/gnome/desktop/privacy/old-files-age"
+    value: "{{ gnome.settings.privacy.old_files_age }}"
+- name: Set whether to retain recent files
+  community.general.dconf:
+    key: "/org/gnome/desktop/privacy/remember-recent-files"
+    value: "{{ gnome.settings.privacy.remember_recent_files }}"
+- name: Set for how long to remember recent files
+  community.general.dconf:
+    key: "/org/gnome/desktop/privacy/recent-files-max-age"
+    value: "{{ gnome.settings.privacy.remember_recent_files_max_age }}"
+
+- name: Remember Num Lock State
+  community.general.dconf:
+    key: "/org/gnome/desktop/peripherals/keyboard/remember-numlock-state"
+    value: "{{ gnome.settings.peripherals.keyboard.remember_numlock_state }}"
+- name: Set Keyboard Delay Rate
+  community.general.dconf:
+    key: "/org/gnome/desktop/peripherals/keyboard/delay"
+    value: "{{ gnome.settings.peripherals.keyboard.delay }}"
+- name: Set Keyboard Repeat Interval
+  community.general.dconf:
+    key: "/org/gnome/desktop/peripherals/keyboard/repeat-interval"
+    value: "{{ gnome.settings.peripherals.keyboard.repeat }}"
+- name: Set input sources
+  community.general.dconf:
+    key: "/org/gnome/desktop/input-sources/sources"
+    value: "{{ gnome.settings.peripherals.keyboard.input_sources | string}}"
+- name: Set xkb options
+  community.general.dconf:
+    key: "/org/gnome/desktop/input-sources/xkb-options"
+    value: "{{ gnome.settings.peripherals.keyboard.xkb_options | string}}"
+
+- name: Set Touchpad Status
+  community.general.dconf:
+    key: "/org/gnome/desktop/peripherals/touchpad/send-events"
+    value: "{{ gnome.settings.peripherals.touchpad.enabled }}"
+- name: Set Touchpad speed
+  community.general.dconf:
+    key: "/org/gnome/desktop/peripherals/touchpad/speed"
+    value: "{{ gnome.settings.peripherals.touchpad.speed }}"
+- name: Set Touchpad natural scrolling
+  community.general.dconf:
+    key: "/org/gnome/desktop/peripherals/touchpad/natural-scroll"
+    value: "{{ gnome.settings.peripherals.touchpad.natural_scrolling }}"
+- name: Set Touchpad two finger scrolling
+  community.general.dconf:
+    key: "/org/gnome/desktop/peripherals/touchpad/two-finger-scrolling-enabled"
+    value: "{{ gnome.settings.peripherals.touchpad.two_finger_scrolling }}"
+- name: Set Touchpad tap-to-click
+  community.general.dconf:
+    key: "/org/gnome/desktop/peripherals/touchpad/tap-to-click"
+    value: "{{ gnome.settings.peripherals.touchpad.tap_to_click }}"
+
+- name: Set Mouse speed
+  community.general.dconf:
+    key: "/org/gnome/desktop/peripherals/mouse/speed"
+    value: "{{ gnome.settings.peripherals.mouse.speed }}"
+
+- name: Set idle dim status
+  community.general.dconf:
+    key: "/org/gnome/settings-daemon/plugins/power/idle-dim"
+    value: "{{ gnome.settings.power.idle_dim }}"
+- name: Set inactive battery timeout
+  community.general.dconf:
+    key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-timeout"
+    value: "{{ gnome.settings.power.sleep_inactive_battery_timeout }}"
+- name: Set inactive battery type
+  community.general.dconf:
+    key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type"
+    value: "'{{ gnome.settings.power.sleep_inactive_battery_type }}'"
+- name: Set inactive ac timeout
+  community.general.dconf:
+    key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-timeout"
+    value: "{{ gnome.settings.power.sleep_inactive_ac_timeout }}"
+- name: Set inactive ac type
+  community.general.dconf:
+    key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type"
+    value: "'{{ gnome.settings.power.sleep_inactive_ac_type }}'"
+
+- name: Set nightlight status
+  community.general.dconf:
+    key: "/org/gnome/settings-daemon/plugins/color/night-light-enabled"
+    value: "{{ gnome.settings.nightlight.enabled }}"
+- name: Set nightlight temperature
+  community.general.dconf:
+    key: "/org/gnome/settings-daemon/plugins/color/night-light-temperature"
+    value: "{{ gnome.settings.nightlight.temperature }}"
+
+- name: Set font hinting
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/font-hinting"
+    value: "{{ gnome.settings.interface.fonts.hinting }}"
+- name: Set font antialiasing
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/font-antialiasing"
+    value: "{{ gnome.settings.interface.fonts.antialiasing }}"
+- name: Set titlebar font
+  community.general.dconf:
+    key: "/org/gnome/desktop/wm/preferences/titlebar-font"
+    value: "{{ gnome.settings.interface.fonts.titlebar_font_name }}"
+- name: Set main font
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/font-name"
+    value: "{{ gnome.settings.interface.fonts.font_name }}"
+- name: Set document font
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/document-font-name"
+    value: "{{ gnome.settings.interface.fonts.document_font_name }}"
+- name: Set monospace font
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/monospace-font-name"
+    value: "{{ gnome.settings.interface.fonts.monospace_font_name }}"
+
+- name: Set GTK theme
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/gtk-theme"
+    value: "{{ gnome.settings.interface.theme.gtk_theme }}"
+- name: Set icon theme
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/icon-theme"
+    value: "{{ gnome.settings.interface.theme.icon_theme }}"
+- name: Set cursor theme
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/cursor-theme"
+    value: "{{ gnome.settings.interface.theme.cursor_theme }}"
+- name: Set light/dark preference
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/color-scheme"
+    value: "{{ gnome.settings.interface.theme.color_scheme }}"
+
+- name: Set button layout
+  community.general.dconf:
+    key: "/org/gnome/desktop/wm/preferences/button-layout"
+    value: "{{ gnome.settings.interface.tweaks.button_layout }}"
+- name: Set resize with right mouse button
+  community.general.dconf:
+    key: "/org/gnome/desktop/wm/preferences/resize-with-right-button"
+    value: "{{ gnome.settings.interface.tweaks.resize_with_right_button }}"
+- name: Set hot corner behavior
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/enable-hot-corners"
+    value: "{{ gnome.settings.interface.enable_hot_corners }}"
+- name: Set weekday shown in clock
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/clock-show-weekday"
+    value: "{{ gnome.settings.interface.tweaks.clock_show_weekday }}"
+- name: Set show battery percentage
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/show-battery-percentage"
+    value: "{{ gnome.settings.interface.tweaks.show_battery_percentage }}"
+- name: Set show calendar weekdate
+  community.general.dconf:
+    key: "/org/gnome/desktop/calendar/show-weekdate"
+    value: "{{ gnome.settings.interface.tweaks.calendar_show_weekdate }}"
+
+- name: Enable user extensions
+  community.general.dconf:
+    key: "/org/gnome/shell/disable-user-extensions"
+    value: "false"
+- name: Set enabled extensions
+  community.general.dconf:
+    key: "/org/gnome/shell/enabled-extensions"
+    value: "{{ gnome.settings.interface.enabled_extensions }}"
+- name: Empty disabled extensions (since we just explicitely enabled what we want)
+  community.general.dconf:
+    key: "/org/gnome/shell/disabled-extensions"
+    value: "'[]'"
+
+- name: Set favorite apps
+  community.general.dconf:
+    key: "/org/gnome/shell/favorite-apps"
+    value: "{{ gnome.settings.interface.favorite_apps }}"
+
+- name: Set Keybindings
+  community.general.dconf:
+    key: "/org/gnome/desktop/wm/keybindings/{{ item.command }}"
+    value: "[{{ item.binding }}]"
+  loop: "{{ gnome.settings.keybindings.wm }}"
+
+- name: Set custom Keybindings
+  include_tasks: gnome_keybindings_custom.yml
+  loop: "{{ gnome.settings.keybindings.custom }}"
+  loop_control:
+    extended: true
+
+- name: Set dash-to-panel settings
+  community.general.dconf:
+    key: "/org/gnome/shell/extensions/dash-to-panel/{{ item.name }}"
+    value: "{{ item.value }}"
+  loop: "{{ dash_to_panel }}"
+  # changed_when here because donf wrapper converts strings
+  changed_when: false

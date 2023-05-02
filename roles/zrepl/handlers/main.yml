@@ -1,0 +1,6 @@
+---
+- name: Restart zrepl
+  ansible.builtin.systemd:
+    name: zrepl
+    state: restarted
+  become: true

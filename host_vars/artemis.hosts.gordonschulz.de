@@ -1,0 +1,74 @@
+# -*- mode: YAML -*-
+---
+packages_host:
+  # fedora
+  - xorg-x11-drv-amdgpu
+  # amd video acceleration
+  - mesa-va-drivers-freeworld
+  - mesa-vdpau-drivers-freeworld
+  - libva
+  - libva-vdpau-driver
+  - libva-utils
+  - mesa-vulkan-drivers
+  - vulkan-loader
+  - vulkan-tools
+  - nvtop
+
+system_services:
+  - name: sshd.service
+    state: stopped
+    enabled: false
+  - name: sshd.socket
+    state: started
+    enabled: true
+  - name: pcscd.service
+    state: started
+    enabled: true
+  - name: libvirtd.socket
+    state: started
+    enabled: true
+  - name: podman.socket
+    state: started
+    enabled: true
+  - name: bluetooth.service
+    state: started
+    enabled: true
+
+user_services:
+  - dirmngr.socket
+  - gpg-agent-browser.socket
+  - gpg-agent-extra.socket
+  - gpg-agent.socket
+  - ssh-agent.timer
+  - systemd-tmpfiles-setup.service
+  - systemd-tmpfiles-clean.timer
+  - syncthing.service
+#  - msmtp-runqueue.timer
+  - podman.socket
+
+flatpaks:
+  - name: md.obsidian.Obsidian
+    remote: flathub
+  - name: com.hamrick.VueScan
+    remote: flathub
+  # gaming
+  - name: com.discordapp.Discord
+    remote: flathub
+  - name: org.freedesktop.Platform.VulkanLayer.MangoHud//22.08
+    remote: flathub
+  - name: com.valvesoftware.Steam
+    remote: flathub
+  - name: com.valvesoftware.Steam.Utility.gamescope
+    remote: flathub
+  - name: net.lutris.Lutris
+    remote: flathub
+
+harden_system: false
+
+gnome_installed: true
+kde_installed: false
+
+gaming: true
+
+zfs: false
+btrfs: true

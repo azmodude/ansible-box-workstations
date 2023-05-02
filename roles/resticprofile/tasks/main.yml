@@ -1,0 +1,116 @@
+---
+- name: Set architecture for downloads
+  set_fact:
+    architecture: linux_amd64
+  when: ansible_userspace_architecture == "x86_64"
+
+- name: Check whether latest resticprofile is installed
+  block:
+    - name: Get latest release from github
+      community.general.github_release:
+        token: "{{ github_pat }}"
+        user: creativeprojects
+        repo: resticprofile
+        action: latest_release
+      register: resticprofile_latest
+
+    - name: Check whether resticprofile is already on system
+      ansible.builtin.stat:
+        path: "{{ resticprofile_bin }}/resticprofile"
+      register: resticprofile_local
+    - name: Register resticprofile installation needed
+      set_fact:
+        install_resticprofile: "{{ not resticprofile_local.stat.exists }}"
+    - name: Check for local resticprofile version
+      ansible.builtin.command:
+        cmd: resticprofile version
+      when: resticprofile_local.stat.exists
+      register: resticprofile_current
+      changed_when: false
+    - name: Compare resticprofile versions
+      set_fact:
+        install_resticprofile: "{{ resticprofile_latest.tag != resticprofile_current_version }}"
+      vars:
+        resticprofile_current_version: "{{ resticprofile_current.stdout | regex_replace('^resticprofile version (\\d+\\.\\d+\\.\\d+) .+$', 'v\\1') }}"
+      when: resticprofile_local.stat.exists
+
+- name: Install resticprofile if needed
+  when: install_resticprofile
+  become: true
+  block:
+    - name: Create a temporary directory
+      ansible.builtin.tempfile:
+        state: directory
+      register: temp_dir
+    - name: Download resticprofile
+      get_url:
+        url: "https://github.com/creativeprojects/resticprofile/releases/download/{{ resticprofile_latest.tag }}/resticprofile_{{ resticprofile_version_number }}_{{ architecture }}.tar.gz"
+        dest: "{{ temp_dir.path }}/resticprofile.tar.gz"
+        mode: "0640"
+      vars:
+        resticprofile_version_number: "{{ resticprofile_latest.tag | regex_replace('^v(.*)$', '\\1') }}"
+    - name: Extract resticprofile.tgz
+      unarchive:
+        src: "{{ temp_dir.path }}/resticprofile.tar.gz"
+        dest: "{{ temp_dir.path }}/"
+        remote_src: yes
+    - name: Install resticprofile
+      shell: "install --mode 0755 --owner root --group root {{ temp_dir.path }}/resticprofile {{ resticprofile_bin }}/"
+    - name: Remove temp directory
+      file:
+        path: "{{ temp_dir.path }}"
+        state: absent
+
+- name: Template resticprofile profiles configuration
+  become: true
+  block:
+    - name: Create tmpfiles.d dropin to create and cleanup resticprofile status directory
+      ansible.builtin.copy:
+        dest: "/etc/tmpfiles.d/resticprofile-status.conf"
+        content: |
+          d  /var/log/resticprofile 0755 root root 7d -
+      notify: Trigger systemd-tmpfiles
+    - name: Create profiles directory
+      ansible.builtin.file:
+        path: "{{ resticprofile_config_directory }}"
+        state: directory
+        owner: root
+        group: root
+        mode: 0700
+    - name: Template resticprofile configuration
+      ansible.builtin.template:
+        src: profiles.yaml.j2
+        dest: "{{ resticprofile_config_directory}}/{{ resticprofile_config }}"
+        owner: root
+        group: root
+        mode: 0600
+    - name: Template resticprofile configuration files
+      ansible.builtin.template:
+        src: "{{ item }}"
+        dest: "{{ resticprofile_config_directory}}/{{ item | splitext | first }}"
+        owner: root
+        group: root
+        mode: 0600
+      loop:
+        - restic-password-workstations-borgbase-{{ ansible_hostname }}.j2
+    - name: Copy remaining static files over
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: "{{ resticprofile_config_directory}}/{{ item | basename }}"
+        remote_src: false
+        owner: root
+        group: root
+        mode: 0600
+      with_fileglob:
+        - files/*
+
+- name: Check schedule backup services
+  become: true
+  block:
+    - name: Populate service facts
+      ansible.builtin.service_facts:
+      changed_when: false
+    - name: Schedule backup services
+      ansible.builtin.command: "{{ resticprofile_bin }}/resticprofile --name {{ item }} schedule"
+      loop: "{{ resticprofile_schedule }}"
+      when: "'resticprofile-backup@profile-{{ item }}.service' not in ansible_facts.services or 'resticprofile-check@profile-{{ item }}.service' not in ansible_facts.services or 'resticprofile-prune@profile-{{ item }}.service' not in ansible_facts.services"

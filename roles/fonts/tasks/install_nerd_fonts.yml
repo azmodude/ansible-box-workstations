@@ -1,0 +1,49 @@
+---
+- name: Check whether directory for {{ item.name }} already exists
+  stat:
+    path: "{{ ansible_user_dir }}/.local/share/fonts/{{ item.name }}/"
+  register: font_directory
+
+- name: Install font
+  block:
+    - name: "{{ item.name }} | Ensure destination directory is present"
+      file:
+        path: "{{ ansible_user_dir }}/.local/share/fonts/{{ item.name }}"
+        state: directory
+
+    - name: "{{ item.name }} | Create temporary directory to hold download"
+      tempfile:
+        state: directory
+      register: tempdir
+
+    - name: "{{ item.name }} | Get font archive from GitHub"
+      uri:
+        url: "{{ item.url }}"
+        dest: "{{ tempdir.path }}/{{ item.name }}.zip"
+        status_code: 200,304
+        follow_redirects: all
+        force: true
+
+    - name: "{{ item.name }} | Unarchive download"
+      unarchive:
+        src: "{{ tempdir.path }}/{{ item.name }}.zip"
+        dest: "{{ ansible_user_dir }}/.local/share/fonts/{{ item.name }}/"
+      notify:
+        - Regenerate font cache
+
+    - name: "{{ item.name }} | Find obsolete files we would like to delete"
+      find:
+        paths: "{{ ansible_user_dir }}/.local/share/fonts/{{ item.name }}/"
+        patterns: ".*(Windows).*"
+        use_regex: true
+      register: obsolete_files
+
+    - name: "{{ item.name }} | Delete obsolete font files"
+      file:
+        path: "{{ font.path }}"
+        state: absent
+      loop: "{{ obsolete_files.files }}"
+      loop_control:
+        label: "{{ font.path }}"
+        loop_var: font
+  when: not font_directory.stat.exists

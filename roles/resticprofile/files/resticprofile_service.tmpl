@@ -1,0 +1,24 @@
+[Unit]
+Description={{ .JobDescription }}
+# Only run on AC-Power
+ConditionACPower=true
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+# We are changing from "notify" to "oneshot" here cause of the use of
+# systemd-inhibit. resticprofile is not the main PID and therefore cannot
+# notify systemd.
+Type=oneshot
+WorkingDirectory={{ .WorkingDirectory }}
+# Note that systemd-inhibit requires dbus and dbus-user-session to be installed.
+ExecStart=systemd-inhibit --who="resticprofile" --why="Prevent interrupting scheduled backup" {{ .CommandLine }}
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+CPUAccounting=true
+IOAccounting=true
+IPAccounting=true
+{{ if .Nice }}Nice={{ .Nice }}{{ end }}
+{{ range .Environment -}}
+Environment="{{ . }}"
+{{ end -}}

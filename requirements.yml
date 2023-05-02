@@ -1,0 +1,15 @@
+---
+collections:
+  - name: devsec.hardening
+  - name: community.general
+roles:
+  - src: https://github.com/ihmels/ansible-role-rpmfusion-repo
+    name: ihmels.rpmfusion_repo
+  - src: https://github.com/ryandaniels/ansible-role-create-users
+    name: ryandaniels.create-users
+  - src: https://github.com/gantsign/ansible-role-visual-studio-code
+    name: gantsign.visual-studio-code
+  - src: https://github.com/artis3n/ansible-role-tailscale
+    name: artis3n.tailscale
+  - src: https://github.com/jaredhocutt/ansible-gnome-extensions.git
+    name: jaredhocutt.gnome-extensions

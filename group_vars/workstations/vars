@@ -1,0 +1,7 @@
+# -*- mode: YAML -*-
+---
+ansible_become_password: "{{ vault_sudo_password }}"
+azmo_password_crypted: "{{ vault_azmo_password_crypted }}"
+
+github_pat: "{{ vault_github_pat }}"
+tailscale_authkey: "{{ vault_tailscale_authkey }}"

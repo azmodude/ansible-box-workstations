@@ -1,0 +1,13 @@
+---
+- name: battery_thresholds | Set battery charging thresholds when not using tlp
+  block:
+    - name: battery_thresholds | Get current value for {{ item.name }}
+      ansible.builtin.command:
+        cmd: "cat /sys/class/power_supply/{{ item.battery }}/{{ item.name }}"
+      changed_when: false
+      register: current_value
+    - name: battery_thresholds | Set desired value for {{ item.name }}
+      ansible.builtin.shell: "echo {{ item.value }} > /sys/class/power_supply/{{ item.battery }}/{{ item.name }}"
+      changed_when: current_value.stdout | int != item.value
+      when: current_value.stdout | int != item.value
+  become: true

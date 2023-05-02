@@ -1,0 +1,79 @@
+---
+- name: get partition uuid for mount root point and set to fact
+  set_fact:
+    root_device: "{{ (ansible_facts.mounts | selectattr('mount', 'in', '/') | list | sort(attribute='mount'))[-1]['uuid']  }}"
+
+- name: Setup btrbk
+  block:
+    - name: Check whether btrbk is already installed
+      ansible.builtin.stat:
+        path: /usr/local/bin/btrbk
+      register: btrbk_installed
+    - name: Make sure btrbtk is installed
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/digint/btrbk/master/btrbk
+        dest: /usr/local/bin/btrbk
+        owner: root
+        group: root
+        mode: 0755
+      when: not btrbk_installed.stat.exists
+
+    - name: Make sure mount point for btrfs-root is available
+      file:
+        path: /mnt/btrfs-root
+        state: directory
+        owner: root
+        group: root
+        mode: 0700
+
+    - name: Make sure btrfs-root mount is available in fstab
+      mount:
+        path: /mnt/btrfs-root
+        src: UUID="{{ root_device }}"
+        fstype: btrfs
+        opts: subvolid=5,compress=zstd
+        state: mounted
+
+    - name: List btrfs subvolumes
+      command: "btrfs subvol list /mnt/btrfs-root"
+      register: subvolumes
+      changed_when: false
+
+    - name: Create snapshots subvolume
+      command: "btrfs subvolume create /mnt/btrfs-root/btrbk-snapshots"
+      when: "'btrbk-snapshots' not in subvolumes.stdout"
+
+    - name: Ensure btrbk configuration directory exists
+      ansible.builtin.file:
+        path: /etc/btrbk
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: Template btrbtk configuration
+      template:
+        src: etc/btrbk/btrbk.conf
+        dest: /etc/btrbk/btrbk.conf
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Install btrbk.timer and service units
+      copy:
+        src: "{{ item }}"
+        dest: "/etc/systemd/system/{{ item | basename }}"
+        owner: root
+        group: root
+        mode: 0644
+      loop:
+        - etc/systemd/system/btrbk.timer
+        - etc/systemd/system/btrbk.service
+
+    - name: Make sure btrbk timer is enabled
+      systemd:
+        daemon_reload: true
+        name: btrbk.timer
+        state: started
+        enabled: true
+  become: true

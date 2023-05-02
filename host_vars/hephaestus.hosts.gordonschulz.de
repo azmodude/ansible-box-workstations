@@ -1,0 +1,52 @@
+# -*- mode: YAML -*-
+---
+packages_host:
+  # fedora
+  - intel-media-driver
+  - libva-utils
+  - gstreamer1-vaapi
+
+system_services:
+  - name: sshd.service
+    state: stopped
+    enabled: false
+  - name: sshd.socket
+    state: started
+    enabled: true
+  - name: pcscd.socket
+    state: started
+    enabled: true
+  - name: pcscd.service
+    state: stopped
+    enabled: false
+  - name: libvirtd.socket
+    state: started
+    enabled: true
+  - name: podman.socket
+    state: started
+    enabled: true
+  - name: bluetooth.service
+    state: started
+    enabled: true
+
+user_services:
+  - dirmngr.socket
+  - gpg-agent-browser.socket
+  - gpg-agent-extra.socket
+  - gpg-agent.socket
+  - ssh-agent.timer
+  - systemd-tmpfiles-setup.service
+  - systemd-tmpfiles-clean.timer
+  - syncthing.service
+  - msmtp-runqueue.timer
+  - podman.socket
+  - mpd.service
+
+charge_control_start_threshold: 85
+charge_control_end_threshold: 90
+battery: BAT0
+
+gnome_installed: true
+kde_installed: false
+gaming: false
+zfs: true

@@ -1,0 +1,52 @@
+---
+- name: "iosevka | Ensure destination directory is present"
+  file:
+    path: "{{ ansible_user_dir }}/.local/share/fonts/iosevka"
+    state: directory
+
+- name: Check whether font already exists
+  stat:
+    path: "{{ ansible_user_dir }}/.local/share/fonts/iosevka/{{ item.name }}.ttc"
+  register: iosevka
+
+- name: Install font if it's not already on the system
+  block:
+    - name: "{{ item.name }} | Create temporary directory to hold download"
+      tempfile:
+        state: directory
+      register: tempdir
+
+    - name: "{{ item.name }} | Get font archive from GitHub"
+      uri:
+        url: "{{ item.url }}"
+        dest: "{{ tempdir.path }}/{{ item.name }}.zip"
+        status_code: 200,304
+        follow_redirects: all
+        force: true
+
+    - name: "{{ item.name }} | Unarchive download"
+      unarchive:
+        src: "{{ tempdir.path }}/{{ item.name }}.zip"
+        dest: "{{ tempdir.path }}"
+
+    - name: "{{ item.name }} | Find files we would like to keep"
+      find:
+        paths: "{{ tempdir.path }}"
+        recurse: true
+        patterns:
+          - '.*\.ttc'
+        use_regex: true
+      register: keep_files
+
+    - name: "{{ item.name }} | Copy files to destination directory"
+      copy:
+        src: "{{ font.path }}"
+        dest: "{{ ansible_user_dir }}/.local/share/fonts/iosevka"
+        remote_src: true
+      loop: "{{ keep_files.files }}"
+      loop_control:
+        label: "{{ font.path }}"
+        loop_var: font
+      notify:
+        - Regenerate font cache
+  when: not iosevka.stat.exists

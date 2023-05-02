@@ -1,0 +1,40 @@
+# -*- mode: YAML -*-
+---
+# let ansible use sftp
+sftp_enabled: true
+ssh_allow_tcp_forwarding: local
+ssh_allow_agent_forwarding: true
+ssh_server_ports: ["22"]
+ssh_permit_root_login: "without-password"
+
+# os-hardening
+sysctl_overwrite:
+  # Enable IPv4 traffic forwarding for podman/docker/kubernetes
+  net.ipv4.ip_forward: 1
+  # enable ipv6
+  net.ipv6.conf.all.disable_ipv6: 0
+  # enable sysrq keys
+  kernel.sysrq: 1
+os_desktop_enable: true
+hidepid_option: 0
+
+flatpak_repos:
+  - name: flathub
+    url: https://dl.flathub.org/repo/flathub.flatpakrepo
+
+pipx_applications:
+  # gitguardian
+  - ggshield
+  - magic-wormhole
+
+firewalld:
+  trusted_networks:
+    - 172.29.50.0/24
+  trusted_interfaces:
+    - lxdbr0
+
+zfs_pool: dpool
+zfs_datasets:
+  - name: "{{ zfs_pool }}/libvirt"
+    mountpoint: "/var/lib/libvirt"
+

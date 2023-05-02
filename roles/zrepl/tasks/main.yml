@@ -1,0 +1,45 @@
+---
+- name: Install and setup zrepl
+  become: true
+  block:
+    - name: Import zrepl repository key
+      ansible.builtin.rpm_key:
+        state: present
+        key: https://zrepl.cschwarz.com/rpm/rpm-key.asc
+
+    - name: Create zrepl repository
+      ansible.builtin.yum_repository:
+          name: zrepl
+          description: Upstream zrepl RPM repository
+          baseurl: https://zrepl.cschwarz.com/rpm/repo
+
+    - name: Install zrepl
+      ansible.builtin.dnf:
+        name: zrepl
+
+    - name: Ensure zrepl configuration directory exists
+      file:
+        path: /etc/zrepl
+        owner: root
+        group: root
+        mode: 0700
+        state: directory
+
+    - name: Template zrepl configuration
+      ansible.builtin.template:
+        src: zrepl.yml.j2
+        dest: /etc/zrepl/zrepl.yml
+        owner: root
+        group: root
+        mode: 0600
+      become: true
+      notify: Restart zrepl
+
+    - name: Enable zrepl service
+      ansible.builtin.systemd:
+        name: zrepl
+        state: started
+        enabled: true
+        daemon_reload: true
+
+

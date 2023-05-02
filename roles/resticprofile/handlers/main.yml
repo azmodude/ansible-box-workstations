@@ -1,0 +1,4 @@
+---
+- name: Trigger systemd-tmpfiles
+  ansible.builtin.command: systemd-tmpfiles --create
+  become: true

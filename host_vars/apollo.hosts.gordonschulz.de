@@ -1,0 +1,67 @@
+# -*- mode: YAML -*-
+---
+packages_host:
+  # fedora
+  - xorg-x11-drv-amdgpu
+  # amd video acceleration
+  - mesa-va-drivers-freeworld
+  - mesa-vdpau-drivers-freeworld
+  - libva
+  - libva-vdpau-driver
+  - libva-utils
+  - mesa-vulkan-drivers
+  - vulkan-loader
+  - vulkan-tools
+
+system_services:
+  - name: sshd.service
+    state: stopped
+    enabled: false
+  - name: sshd.socket
+    state: started
+    enabled: true
+  - name: pcscd.service
+    state: started
+    enabled: true
+  - name: libvirtd.socket
+    state: started
+    enabled: true
+  - name: podman.socket
+    state: started
+    enabled: true
+  - name: bluetooth.service
+    state: started
+    enabled: true
+
+user_services:
+  - dirmngr.socket
+  - gpg-agent-browser.socket
+  - gpg-agent-extra.socket
+  - gpg-agent.socket
+  - ssh-agent.timer
+  - systemd-tmpfiles-setup.service
+  - systemd-tmpfiles-clean.timer
+  - syncthing.service
+#  - msmtp-runqueue.timer
+  - podman.socket
+
+flatpaks:
+  - name: md.obsidian.Obsidian
+    remote: flathub
+  - name: com.hamrick.VueScan
+    remote: flathub
+
+# mostly on AC, limit to low levels for better battery life
+charge_control_start_threshold: 50
+charge_control_end_threshold: 60
+battery: BAT0
+
+harden_system: false
+
+gnome_installed: true
+kde_installed: false
+
+gaming: false
+
+zfs: false
+btrfs: true

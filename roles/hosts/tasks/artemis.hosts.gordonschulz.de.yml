@@ -1,0 +1,17 @@
+---
+- name: Put xorg configuration files into place
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/X11/xorg.conf.d"
+    owner: root
+    group: root
+    mode: 0644
+  with_fileglob: "{{ inventory_hostname }}/etc/X11/xorg.conf.d/*.conf"
+  become: true
+
+- name: Blacklist iwlwifi, we don't need it
+  copy:
+    dest: /etc/modprobe.d/iwlwifi-blacklist.conf and it sometimes crashes the machine
+    content: |
+      blacklist iwlwifi
+  become: true

@@ -1,0 +1,9 @@
+[Unit]
+Description=Mount Subvolume for Flatpak {{ item.name }}
+After=home.mount
+
+[Mount]
+What=/dev/disk/by-uuid/{{ root_device }}
+Where={{ item.mountpoint }}
+Type=btrfs
+Options=subvol={{ item.name }}

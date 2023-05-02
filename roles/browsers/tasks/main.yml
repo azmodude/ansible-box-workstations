@@ -1,0 +1,63 @@
+---
+- name: Gather package facts
+  ansible.builtin.package_facts:
+    manager: auto
+- name: Install vivaldi browser
+  become: true
+  block:
+    - name: Grab Vivaldi repository
+      ansible.builtin.get_url:
+        url: "https://repo.vivaldi.com/archive/vivaldi-fedora.repo"
+        dest: "/etc/yum.repos.d/vivaldi-snapshot.repo"
+        checksum: sha256:922f07b20956a7272287c97514797b1e8c996b476eaeac42aabd76e9bd396cfe
+    - name: Install vivaldi-stable
+      ansible.builtin.dnf:
+        name: vivaldi-stable
+    - name: Patch vivaldi launcher to allow VAAPI Video acceleration
+      ansible.builtin.patch:
+        src: vivaldi-vaapi.patch
+        dest: /opt/vivaldi/vivaldi
+    - name: Remove obsolete Vivaldi repository
+      ansible.builtin.file:
+        path: "/etc/yum.repos.d/vivaldi-snapshot.repo"
+        state: absent
+    - name: Until vivaldi is supported officially - create 1password custom browser entry
+      block:
+        - name: Create 1password configuration directory
+          ansible.builtin.file:
+            path: /etc/1password
+            state: directory
+            owner: root
+            group: root
+            mode: 0755
+        - name: Create 1password custom_allowed_browsers for vivaldi
+          ansible.builtin.copy:
+            dest: /etc/1password/custom_allowed_browsers
+            content: |
+              vivaldi-bin
+            owner: root
+            group: root
+            # 1password wants 0755 here
+            mode: 0755
+  when: "'vivaldi-stable' not in ansible_facts.packages"
+
+- name: Install google-chrome
+  become: true
+  block:
+    - name: Create Google Chrome Yum repository
+      ansible.builtin.copy:
+        dest: /etc/yum.repos.d/google-chrome.repo
+        content: |
+          [google-chrome]
+          name=google-chrome
+          baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64
+          enabled=1
+          gpgcheck=1
+          gpgkey=https://dl.google.com/linux/linux_signing_key.pub
+        owner: root
+        group: root
+        mode: 0644
+    - name: Install google-chrome-stable
+      ansible.builtin.dnf:
+        name: google-chrome-stable
+  when: "'google-chrome-stable' not in ansible_facts.packages"

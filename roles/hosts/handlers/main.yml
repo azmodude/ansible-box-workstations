@@ -1,0 +1,12 @@
+---
+- name: Restart systemd-networkd
+  systemd:
+    name: systemd-networkd
+    state: restarted
+  become: true
+
+- name: Restart tlp
+  systemd:
+    name: tlp
+    state: restarted
+  become: true

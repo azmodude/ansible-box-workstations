@@ -1,0 +1,18 @@
+---
+- name: Enable and start services
+  systemd:
+    name: "{{ item.name }}"
+    enabled: "{{ item.enabled }}"
+    state: "{{ item.state }}"
+    masked: "{{ item.masked | default(false) }}"
+  with_items: "{{ system_services }}"
+  become: true
+
+- name: Enable and start user services
+  systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+    scope: user
+  loop: "{{ user_services }}"
+  when: user_services is defined

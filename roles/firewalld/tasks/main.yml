@@ -1,0 +1,34 @@
+---
+- name: Add home network to firewalld trusted zone
+  ansible.posix.firewalld:
+    zone: trusted
+    source: "{{ item }}"
+    permanent: true
+    immediate: true
+    state: enabled
+  loop: "{{ firewalld.trusted_networks }}"
+  become: true
+  when: firewalld.trusted_networks is defined
+
+- name: Add interfaces to firewalld trusted zone
+  ansible.posix.firewalld:
+    zone: trusted
+    interface: "{{ item }}"
+    permanent: true
+    immediate: true
+    state: enabled
+  loop: "{{ firewalld.trusted_interfaces }}"
+  become: true
+  when: firewalld.trusted_interfaces is defined and item in ansible_interfaces
+
+- name: Add public services
+  firewalld:
+    zone: public
+    service: "{{ item }}"
+    permanent: true
+    immediate: true
+    state: enabled
+  loop: "{{ firewalld.public_services }}"
+  become: true
+  when: firewalld.public_services is defined
+

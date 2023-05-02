@@ -1,0 +1,68 @@
+---
+- name: Create subvolumes for gaming flatpaks in home directory
+  become: true
+  when: gaming is true
+  block:
+    - name: get partition uuid for mount root point and set to fact
+      set_fact:
+        root_device: "{{ (ansible_facts.mounts | selectattr('mount', 'in', '/') | list | sort(attribute='mount'))[-1]['uuid']  }}"
+
+    - name: List btrfs subvolumes
+      command: "btrfs subvol list /"
+      register: subvolumes
+      changed_when: false
+
+    - name: Create Flatpak subvolumes
+      ansible.builtin.command: "btrfs subvolume create {{ item.path }}"
+      when: item.name not in subvolumes.stdout
+      loop:
+        - name: com.valvesoftware.Steam
+          path: "{{ ansible_env.HOME }}/.var/app/com.valvesoftware.Steam"
+        - name: net.lutris.Lutris
+          path: "{{ ansible_env.HOME }}/.var/app/net.lutris.Lutris"
+        - name: Games
+          path: "{{ ansible_env.HOME }}/Games"
+    - name: Adjust subvolume permissions
+      ansible.builtin.file:
+        path: "{{ item}}"
+        state: directory
+        owner: "{{ ansible_env.USER }}"
+        group: "{{ ansible_env.USER }}"
+        mode: 0755
+      loop:
+        - "{{ ansible_env.HOME }}/.var/app/com.valvesoftware.Steam"
+        - "{{ ansible_env.HOME }}/.var/app/net.lutris.Lutris"
+        - "{{ ansible_env.HOME }}/Games"
+
+    # this is not needed since the created subvolumes live on an already mounted
+    # subvolume. Keep this here for documentation purposes
+
+    # - name: Template systemd mount units
+    #   ansible.builtin.template:
+    #     src: systemd-flatpak-subvolume.mount.j2
+    #     dest: /etc/systemd/system/{{ item.unitfilename }}.mount
+    #     owner: root
+    #     group: root
+    #     mode: 0644
+    #   loop:
+    #     - name: "{{ (ansible_env.HOME)[1:] }}/.var/app/com.valvesoftware.Steam"
+    #       unitfilename: "{{ (ansible_env.HOME | replace('/','-'))[1:] }}-.var-app-com.valvesoftware.Steam"
+    #       mountpoint: "{{ ansible_env.HOME }}/.var/app/com.valvesoftware.Steam"
+    #     - name: "{{ (ansible_env.HOME)[1:] }}/.var/app/net.lutris.Lutris"
+    #       unitfilename: "{{ (ansible_env.HOME | replace('/','-'))[1:] }}-.var-app-net.lutris.Lutris"
+    #       mountpoint: "{{ ansible_env.HOME }}/.var/app/net.lutris.Lutris"
+    #   notify: daemon-reload
+    #
+    # - name: Flush handlers
+    #   meta: flush_handlers
+    #
+    # - name: Enable mount units
+    #   ansible.builtin.systemd:
+    #     name: "{{ item }}.mount"
+    #     state: started
+    #     enabled: true
+    #   loop:
+    #     - "{{ (ansible_env.HOME | replace('/','-'))[1:] }}-.var-app-com.valvesoftware.Steam"
+    #     - "{{ (ansible_env.HOME | replace('/','-'))[1:] }}-.var-app-net.lutris.Lutris"
+
+

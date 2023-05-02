@@ -1,0 +1,3 @@
+---
+- name: Regenerate font cache
+  command: "/usr/bin/fc-cache -f {{ ansible_user_dir }}/.local/share/fonts"

@@ -1,0 +1,39 @@
+---
+- name: Ensure sshd was started at least once so a host key exists
+  ansible.builtin.systemd:
+    name: sshd
+    state: started
+  become: true
+
+- name: Create sshd-dracut configuration
+  block:
+    - name: Create directory for dracut-sshd authorized_keys
+      ansible.builtin.file:
+        path: /etc/dracut-sshd
+        state: directory
+        group: root
+        owner: root
+        mode: 0700
+    - name: Copy authorized_keys file to destination
+      ansible.builtin.copy:
+        src: etc/dracut-sshd/authorized_keys
+        dest: /etc/dracut-sshd/authorized_keys
+        owner: root
+        group: root
+        mode: 0600
+    - name: Template systemd-networkd configuration into place
+      ansible.builtin.template:
+        src: etc/systemd/network/20-wired.network.j2
+        dest: /etc/systemd/network/20-wired.network
+        owner: root
+        group: root
+        mode: 0644
+    - name: Copy dracut configuration into place
+      ansible.builtin.copy:
+        src: etc/dracut.conf.d/90-networkd.conf
+        dest: /etc/dracut.conf.d/90-networkd.conf
+        owner: root
+        group: root
+        mode: 0644
+  become: true
+  notify: Regenerate dracut initramfs

@@ -1,0 +1,29 @@
+---
+- name: Reload systemd
+  systemd:
+    daemon_reload: true
+  become: true
+- name: Restart logind
+  systemd:
+    name: systemd-logind
+    state: restarted
+  become: true
+
+- name: Restart bluetooth
+  systemd:
+    name: bluetooth
+    state: restarted
+  become: true
+
+- name: Update hwdb
+  command: systemd-hwdb update
+  become: true
+
+- name: Reload sysctl
+  command: sysctl -p
+  become: true
+
+- name: Regenerate dracut initramfs
+  command:
+    cmd: dracut -f
+  become: true

@@ -1,0 +1,235 @@
+---
+- name: Provision Workstation
+  hosts: workstations
+  gather_facts: true
+  connection: local
+  # strategy: free
+  collections:
+    - devsec.hardening
+
+  tasks:
+    - name: Set hostname
+      become: true
+      block:
+        - name: Set hostname
+          ansible.builtin.hostname:
+            name: "{{ inventory_hostname }}"
+        - name: Make sure hostname is in /etc/hosts
+          ansible.builtin.lineinfile:
+            path: /etc/hosts
+            # the extra - here is important since we don't want YAML's extra
+            # linebreak
+            line: >-
+              127.0.1.1 {{ inventory_hostname }}
+              {{ inventory_hostname.split('.')[0] }}
+            owner: root
+            group: root
+            mode: "0644"
+    - name: Set Timezone
+      community.general.timezone:
+        name: "Europe/Berlin"
+      become: true
+
+    # TODO: Split into role
+    - name: Setup zfs datasets and zvols and enable monthly scrub
+      become: true
+      when: zfs is true
+      tags:
+        - zfs
+        - filesystem
+      block:
+        - name: Create zfs datasets
+          community.general.zfs:
+            name: "{{ item.name }}"
+            state: present
+            extra_zfs_properties:
+              mountpoint: "{{ item.mountpoint }}"
+          loop: "{{ zfs_datasets }}"
+
+        - name: Create zfs dataset for games
+          community.general.zfs:
+            name: "{{ zfs_pool }}/games"
+            state: present
+            extra_zfs_properties:
+              mountpoint: "{{ ansible_env.HOME }}/Games"
+          when: gaming is defined and gaming is true
+        - name: Create zfs dataset for steam
+          community.general.zfs:
+            name: "{{ zfs_pool }}/games/steam"
+            state: present
+            extra_zfs_properties:
+              mountpoint: "{{ ansible_env.HOME }}/.local/share/Steam"
+          when: gaming is defined and gaming is true
+        - name: Enable monthly zfs scrub
+          ansible.builtin.systemd:
+            name: zfs-scrub-monthly@{{ zfs_pool }}.timer
+            state: started
+            enabled: true
+        - name: Create zvol hierarchary for zvols for current user
+          community.general.zfs:
+            name: "{{ zfs_pool }}/{{ item }}"
+            state: present
+            extra_zfs_properties:
+              mountpoint: none
+              canmount: no
+          loop:
+            - "zvol"
+            - "zvol/{{ ansible_env.USER }}"
+        - name: Create zvol for podman containers
+          block:
+            - name: Create sparse podman zvol for current user
+              community.general.zfs:
+                name: "{{ zfs_pool }}/zvol/{{ ansible_env.USER }}/podman"
+                state: present
+                extra_zfs_properties:
+                  volsize: 50G
+                  refreservation: none
+              register: podman_zvol
+            - name: Make btrfs fileystem on podman containers zvol
+              community.general.filesystem:
+                fstype: btrfs
+                dev: "/dev/zvol/{{ zfs_pool }}/zvol/{{ ansible_env.USER }}/podman"
+            - name: Mount btrfs filesystem on podman containers zvol
+              ansible.posix.mount:
+                path: "{{ ansible_env.HOME }}/.local/share/containers"
+                src: "/dev/zvol/{{ zfs_pool }}/zvol/{{ ansible_env.USER }}/podman"
+                fstype: btrfs
+                # enable async discard fstrim to underlying ZFS knows space is free again
+                opts: defaults,noatime,compress=zstd,discard=async
+                state: mounted
+            - name: Change permissions on podman containers zvol
+              ansible.builtin.file:
+                path: "{{ ansible_env.HOME }}/.local/share/containers"
+                owner: "{{ ansible_env.USER }}"
+                group: "{{ ansible_env.USER }}"
+                mode: "0755"
+            - name: Make SELinux happy and restore contexts
+              ansible.builtin.command: restorecon -ir "{{ ansible_env.HOME }}/.local/share/containers"
+              when: podman_zvol.changed
+
+    - name: Setup BTRFS related housekeeping
+      import_role:
+        name: btrfs
+      tags:
+        - btrfs
+
+    - name: Include distribution specific stuff
+      tags:
+        - always
+      block:
+        - name: Include variables for distribution
+          ansible.builtin.include_vars:
+            file: "distributions/{{ ansible_distribution | lower }}_vars.yml"
+
+    - name: Include tasks for distribution
+      ansible.builtin.include_tasks:
+        file: "distributions/{{ ansible_distribution | lower }}.yml"
+        apply:
+          tags:
+            - distribution
+            - packages
+
+    - name: Setup zrepl
+      ansible.builtin.import_role:
+        name: zrepl
+      tags:
+        - services
+        - backup
+        - zrepl
+      when: zfs is true
+
+    - name: Create users
+      ansible.builtin.import_role:
+        name: ryandaniels.create-users
+      tags:
+        - system
+        - users
+      become: true
+
+    - name: Do system configuration tasks
+      ansible.builtin.import_role:
+        name: system
+      tags:
+        - system
+
+    - name: Do host specific tasks
+      ansible.builtin.import_role:
+        name: hosts
+      tags:
+        - hosts
+        - system
+
+    - name: Manage services
+      ansible.builtin.import_role:
+        name: services
+      tags:
+        - services
+        - system
+
+    - name: Install and configure tailscale
+      ansible.builtin.import_role:
+        name: artis3n.tailscale
+      tags:
+        - network
+        - tailscale
+
+    - name: Ensure network resolution is correct
+      become: true
+      block:
+        - name: Ensure systemd-resolved is running
+          ansible.builtin.systemd:
+            name: systemd-resolved
+            state: started
+            enabled: true
+
+        - name: Make sure /etc/resolv.conf is a symlink to systemd-resolved stub
+          ansible.builtin.file:
+            src: /run/systemd/resolve/stub-resolv.conf
+            dest: /etc/resolv.conf
+            state: link
+            force: true
+            owner: root
+            group: root
+    - name: Install custom fonts
+      import_role:
+        name: fonts
+      tags:
+        - fonts
+
+    - name: Setup btrbk
+      ansible.builtin.import_role:
+        name: btrbk
+      tags:
+        - backup
+        - btrbk
+      when: btrfs is true
+
+    - name: Setup resticprofile
+      ansible.builtin.import_role:
+        name: resticprofile
+      tags:
+        - backup
+        - resticprofile
+
+    - name: Configure Gnome settings
+      ansible.builtin.import_role:
+        name: gnome
+      tags:
+        - gnome
+      when: gnome_installed
+
+    - name: Install additional propietary browsers
+      ansible.builtin.import_role:
+        name: browsers
+      tags:
+        - browsers
+
+    - name: Install and/or upgrade additional pipx applications not packaged
+      community.general.pipx:
+        name: "{{ item }}"
+      loop: "{{ pipx_applications }}"
+      tags:
+        - pipx
+        - packages
+
+# vim: ft=yaml.ansible

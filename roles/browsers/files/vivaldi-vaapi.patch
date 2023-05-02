@@ -1,0 +1,13 @@
+*** vivaldi	2023-04-19 03:58:39.000000000 +0200
+--- vivaldi-azmo	2023-04-27 07:41:48.621677874 +0200
+*************** exec > >(exec cat)
+*** 60,63 ****
+  exec 2> >(exec cat >&2)
+  
+  # Note: exec -a below is a bashism.
+! exec -a "$0" "$HERE/vivaldi-bin" "$@"
+--- 60,63 ----
+  exec 2> >(exec cat >&2)
+  
+  # Note: exec -a below is a bashism.
+! exec -a "$0" "$HERE/vivaldi-bin" "$@" --ignore-gpu-blocklist --enable-gpu-rasterization --enable-zero-copy --enable-features=VaapiVideoDecoder --disable-features=UseChromeOSDirectVideoDecoder

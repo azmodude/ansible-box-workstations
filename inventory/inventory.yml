@@ -1,0 +1,11 @@
+workstations:
+  hosts:
+    apollo.hosts.gordonschulz.de:
+      ansible_host: localhost
+      ansible_connection: local
+    hephaestus.hosts.gordonschulz.de:
+      ansible_host: localhost
+      ansible_connection: local
+    artemis.hosts.gordonschulz.de:
+      ansible_host: localhost
+      ansible_connection: local

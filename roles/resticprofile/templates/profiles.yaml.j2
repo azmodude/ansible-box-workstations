@@ -1,0 +1,74 @@
+# -*- mode: yaml -*-
+
+global:
+  prevent-sleep: true
+  restic-lock-retry-after: 1m
+  restic-stale-lock-age: 1h
+  systemd-unit-template: resticprofile_service.tmpl
+  systemd-timer-template: resticprofile_timer.tmpl
+
+default:
+  initialize: false
+  force-inactive-lock: true
+  verbose: true
+  compression: auto
+
+  status-file: '{{ resticprofile_status_directory }}/{%raw%}{{ .Profile.Name }}-status.{{ .Now.Format "2006-01-02T15:04:05Z07:00" }}.json'{% endraw +%}
+  lock: {% raw %}"{{ if .Env.XDG_RUNTIME_DIR }} {{ .Env.XDG_RUNTIME_DIR }} {{ else }} /tmp/resticprofile/{{ .Profile.Name }}.lock{{ end }}"{% endraw +%}
+
+  backup:
+    one-file-system: true
+    schedule-lock-wait: "1h"
+    exclude-caches: true
+    exclude-if-present: ".nobackup"
+    check-before: false
+    tag:
+      - {% raw %}"{{ .Profile.Name }}" {% endraw +%}
+    host: true
+
+workstations-borgbase:
+  inherit: "default"
+  repository: "rest:https://{{ vars['resticprofile_borgbase_' + ansible_hostname].user }}:{{ vars['resticprofile_borgbase_' + ansible_hostname].password }}@{{ vars['resticprofile_borgbase_' + ansible_hostname].url }}"
+  password-file: {% raw %} "{{ .ConfigDir }}/restic-password-{{ .Profile.Name }}{% endraw %}-{{ ansible_hostname }}"
+  limit-upload: 3000
+
+  backup:
+    source: /home/azmo
+    exclude-file: {% raw %}"{{ .ConfigDir }}/restic-excludes-workstations-remote"{% endraw +%}
+
+    schedule: "00/3:00"
+    schedule-permission: "system"
+
+  retention:
+    before-backup: false
+    after-backup: true
+    keep-last: 3
+    keep-hourly: 24
+    keep-daily: 14
+    keep-weekly: 4
+    keep-monthly: 12
+    keep-yearly: 0
+    keep-within: "6h"
+    tag: true
+
+  forget:
+    keep-last: 3
+    keep-hourly: 24
+    keep-daily: 14
+    keep-weekly: 4
+    keep-monthly: 12
+    keep-yearly: 0
+    keep-within: "6h"
+    tag: true
+
+  check:
+    cache-dir: {% raw %}"{{ .Env.XDG_CACHE_HOME }}/restic-check"{% endraw +%}
+    with-cache: true
+    read-data: false
+    schedule: "Sun,Wed 10:30"
+    schedule-permission: "system"
+
+  prune:
+    schedule: "Sun 14:30"
+    schedule-permission: "system"
+

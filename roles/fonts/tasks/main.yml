@@ -1,0 +1,82 @@
+---
+- name: Install Nerd Fonts
+  include_tasks: install_nerd_fonts.yml
+  loop:
+    # - name: hack-nerd-font
+    #   url: https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ nerdfonts_version }}/Hack.zip
+    # - name: source-code-pro-nerd-font
+    #   url: https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ nerdfonts_version }}/SourceCodePro.zip
+    # - name: ibm-plex-mono-nerd-font
+    #   url: https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ nerdfonts_version }}/IBMPlexMono.zip
+    # - name: jetbrains-mono-nerd-font
+    #   url: https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ nerdfonts_version }}/JetBrainsMono.zip
+    # - name: firacode-nerd-font
+    #   url: https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ nerdfonts_version }}/FiraCode.zip
+    # - name: iosevka-nerd-font
+    #   url: https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ nerdfonts_version }}/Iosevka.zip
+    # - name: victormono-nerd-font
+    #   url: https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ nerdfonts_version }}/VictorMono.zip
+    - name: symbols-nerd-font
+      url: https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ nerdfonts_version }}/NerdFontsSymbolsOnly.zip
+
+- name: Install misc fonts
+  include_tasks: install_misc_fonts.yml
+  loop:
+    - name: ibm-plex
+      url: https://github.com/IBM/plex/releases/download/v{{ ibmplex_version }}/OpenType.zip
+    - name: jetbrains-mono
+      url: https://github.com/JetBrains/JetBrainsMono/releases/download/v{{ jetbrainsmono_version }}/JetBrainsMono-{{ jetbrainsmono_version }}.zip
+  when: ansible_distribution not in ("openSUSE Tumbleweed", "Fedora")
+
+- name: Install Adobe Fonts
+  include_tasks: install_adobe_fonts.yml
+  loop:
+    - name: source-code-pro
+      url: https://github.com/adobe-fonts/source-code-pro/releases/download/2.032R-ro%2F1.052R-it%2F1.012R-VAR/OTF-source-code-pro-2.032R-ro-1.052R-it.zip
+    - name: source-serif-pro
+      url: https://github.com/adobe-fonts/source-serif-pro/releases/download/3.001R/source-serif-pro-3.001R.zip
+    - name: source-sans-pro
+      url: https://github.com/adobe-fonts/source-sans-pro/releases/download/3.028R/source-sans-3v028R.zip
+  when: ansible_distribution in ('Ubuntu')
+
+# - name: Check if NerdFont Symbol Font already exists
+#   stat:
+#     path: "{{ ansible_user_dir }}/.local/share/fonts/Symbols-2048-em-Nerd-Font-Complete.ttf"
+#   register: symbol
+
+# - name: Install NerdFont Symbol Font
+#   uri:
+#     url: "https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/NerdFontsSymbolsOnly/complete/Symbols-2048-em%20Nerd%20Font%20Complete.ttf"
+#     dest: "{{ ansible_user_dir }}/.local/share/fonts/Symbols-2048-em-Nerd-Font-Complete.ttf"
+#     status_code: 200,304
+#     follow_redirects: all
+#     force: true
+#   notify:
+#     - Regenerate font cache
+#   when: not symbol.stat.exists
+
+- name: Install Iosevka Font Family
+  include_tasks: install_iosevka.yml
+  loop:
+    - name: iosevka
+      url: https://github.com/be5invis/Iosevka/releases/download/v{{ iosevka_version }}/super-ttc-iosevka-{{ iosevka_version }}.zip
+    - name: iosevka-slab
+      url: https://github.com/be5invis/Iosevka/releases/download/v{{ iosevka_version }}/super-ttc-iosevka-slab-{{ iosevka_version }}.zip
+    - name: iosevka-curly
+      url: https://github.com/be5invis/Iosevka/releases/download/v{{ iosevka_version }}/super-ttc-iosevka-curly-{{ iosevka_version }}.zip
+    - name: iosevka-curly-slab
+      url: https://github.com/be5invis/Iosevka/releases/download/v{{ iosevka_version }}/super-ttc-iosevka-curly-slab-{{ iosevka_version }}.zip
+    - name: iosevka-{{ iosevka_variant }}
+      url: https://github.com/be5invis/Iosevka/releases/download/v{{ iosevka_version }}/super-ttc-iosevka-{{ iosevka_variant}}-{{ iosevka_version }}.zip
+    - name: iosevka-etoile
+      url: https://github.com/be5invis/Iosevka/releases/download/v{{ iosevka_version }}/super-ttc-iosevka-etoile-{{ iosevka_version }}.zip
+    - name: iosevka-aile
+      url: https://github.com/be5invis/Iosevka/releases/download/v{{ iosevka_version }}/super-ttc-iosevka-aile-{{ iosevka_version }}.zip
+  when: ansible_distribution not in ('openSUSE Tumbleweed')
+
+- name: Install Inter Font Family
+  include_tasks: install_inter.yml
+  loop:
+    - name: inter
+      url: https://github.com/rsms/inter/releases/download/v{{ inter_version }}/Inter-{{ inter_version }}.zip
+  when: ansible_distribution not in ('openSUSE Tumbleweed')

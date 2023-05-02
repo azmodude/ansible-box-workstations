@@ -1,0 +1,104 @@
+---
+- name: Lookup host specific file
+  set_fact:
+    host_file: "{{ lookup('first_found', host_file_location, errors='ignore') }}"
+  vars:
+    host_file_location:
+      - "{{ role_path }}/tasks/{{ inventory_hostname }}.yml"
+- name: Include host specific file
+  include_tasks: "{{ host_file }}"
+  when: host_file is defined and host_file != ""
+
+- name: Configure TLP
+  block:
+    - name: Ensure tlp is installed
+      ansible.builtin.package:
+        name: tlp
+        state: present
+    - name: tlp | Put configuration files into place on notebooks
+      # this conflicts with power-profiles-daemon
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: "/etc/tlp.d"
+      with_fileglob: "{{ inventory_hostname }}/etc/tlp.d/*.conf"
+      notify: Restart tlp
+    - name: tlp | Template remaining configuration files
+      ansible.builtin.template:
+        src: "{{ item }}"
+        dest: "/etc/tlp.d/{{ item | basename | replace ('.j2','') }}"
+      with_fileglob: "templates/etc/tlp.d/*.conf.j2"
+      notify: Restart tlp
+    - name: tlp | Remove power-profiles-daemon (conflicts with tlp)
+      ansible.builtin.package:
+        name: power-profiles-daemon
+        state: absent
+    - name: Ensure tlp related services are running or disabled
+      ansible.builtin.systemd:
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+        enabled: "{{ item.enabled }}"
+        masked: "{{ item.masked | default(false) }}"
+      loop:
+        - name: tlp.service
+          state: started
+          enabled: true
+        - name: systemd-rfkill.service
+          state: stopped
+          enabled: false
+          masked: true
+        - name: systemd-rfkill.socket
+          state: stopped
+          enabled: false
+          masked: true
+        - name: NetworkManager-dispatcher.service
+          enabled: true
+          state: stopped
+  when: ansible_form_factor == "Notebook" and (ansible_env['XDG_CURRENT_DESKTOP'] != "KDE")
+  become: true
+
+- name: Set battery thresholds when using KDE
+  include_tasks: battery_thresholds.yml
+  loop:
+    - name: charge_control_start_threshold
+      value: "{{ charge_control_start_threshold }}"
+      battery: "{{ battery }}"
+    - name: charge_control_end_threshold
+      value: "{{ charge_control_end_threshold }}"
+      battery: "{{ battery }}"
+  when: ansible_form_factor == "Notebook" and ansible_env['XDG_CURRENT_DESKTOP'] == "KDE"
+
+- name: Ensure sleep states and CPU scaling drivers are correct
+  block:
+    - name: Ensure deep sleep state is enabled
+      ansible.builtin.slurp:
+        src: /sys/power/mem_sleep
+      register: mem_sleep
+      failed_when: not mem_sleep.content | b64decode | regex_search('\[deep\]')
+
+    - name: Check if amd-pstate scaling driver is enabled for AMD CPUs
+      ansible.builtin.lineinfile:
+        path: /sys/devices/system/cpu/cpufreq/policy0/scaling_driver
+        line: "amd-pstate"
+        state: present
+      check_mode: true
+      register: amd_pstate
+      changed_when: '"line added" in amd_pstate.msg'
+      failed_when: amd_pstate is failed
+      when: '"AuthenticAMD" in ansible_processor'
+
+    - name: Add amd_pstate options to kernel config when kernel >= 6.3 for amd_pstate_epp
+      block:
+        - name: Check if amd_pstate option is already set in grub kernel config
+          lineinfile:
+            backup: true
+            path: /etc/default/grub
+            regexp: '^GRUB_CMDLINE_LINUX=".*\bamd_pstate=passive\b.*'
+            state: absent
+          check_mode: true
+          changed_when: false
+          register: grub_cmdline_check
+        - name: Add amd_pstate option in grub kernel config
+          ansible.builtin.command: "grubby --args='amd_pstate=passive' --update-kernel=ALL"
+      when: amd_pstate.changed
+  become: true
+  when: ansible_kernel is version('6.3', '>=')
