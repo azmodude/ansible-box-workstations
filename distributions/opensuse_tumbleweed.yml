@@ -1,0 +1,137 @@
+---
+- name: openSUSE | Enable Packman, setup Flathub and proprietary packages
+  become: true
+  tags: packages
+  block:
+    - name: openSUSE | Add Packman repository
+      community.general.zypper_repository:
+        name: packman
+        repo: 'https://ftp.fau.de/packman/suse/openSUSE_Tumbleweed/'
+        priority: 90
+        auto_import_keys: true
+        runrefresh: true
+
+    - name: openSUSE | Packman | Check whether Packman vendor-change has already run
+      ansible.builtin.stat:
+        path: "{{ ansible_env.HOME }}/.local/state/packman_vendor_changed"
+      register: packman_vendor_changed
+
+    - name: openSUSE | Packman | Do Packman vendor-change
+      block:
+        - name: openSUSE | Packman | Do Packman vendor-change
+          ansible.builtin.command: zypper dup -y --from packman --allow-vendor-change
+        - name: openSUSE | RPMFusion | Create state file to register successful updates
+          ansible.builtin.file:
+            path: "{{ ansible_env.HOME }}/.local/state/packman_vendor_changed"
+            state: touch
+            owner: "{{ ansible_env.USER }}"
+            group: "{{ ansible_env.USER }}"
+            mode: 0700
+      when: packman_vendor_changed.stat.exists is defined and not packman_vendor_changed.stat.exists
+
+    - name: openSUSE | Install additional RPM keys
+      rpm_key:
+        key: "{{ item }}"
+      loop:
+        - https://downloads.1password.com/linux/keys/1password.asc
+
+    - name: openSUSE | Install additional proprietary packages
+      package:
+        name: "{{ item }}"
+      loop:
+        - https://downloads.1password.com/linux/rpm/stable/x86_64/1password-latest.rpm
+
+    - name: openSUSE | Add Flatpak Repositories
+      flatpak_remote:
+        name: flathub
+        state: present
+        flatpakrepo_url: "{{ item.url }}"
+      loop: "{{ flatpak_repos }}"
+      when: flatpak_repos is defined
+      tags:
+        - flatpak
+
+    - name: openSUSE | Install flatpaks
+      flatpak:
+        name: "{{ item.name }}"
+        remote: "{{ item.remote }}"
+      loop: "{{ flatpaks }}"
+      when: flatpaks is defined
+      tags:
+        - flatpak
+#
+# - name: Fedora | Handle "server" workstations
+#   block:
+#     - name: Fedora Server | Enable COPR repositories for servers
+#       command:
+#         cmd: dnf copr enable -y {{ item }}
+#         creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:{{ item | replace('/', ':') }}.repo
+#       loop:
+#         - gsauthof/dracut-sshd
+#       tags:
+#         - copr
+#         - packages
+#         - repositories
+#     - name: Fedora Server | Disable NetworkManager on servers
+#       service:
+#         name: NetworkManager
+#         enabled: false
+#     # artemis is now getting its systemd configuration from dracut-sshd role
+#     # probably change that
+#     - name: Fedora Server | Enable systemd-networkd on servers
+#       service:
+#         name: systemd-networkd
+#         enabled: true
+#
+#     - name: Fedora Server | Install and configure dracut-sshd
+#       import_role:
+#         name: dracut-sshd
+#       tags:
+#         - dracut
+#   when: ansible_hostname == "artemis"
+#   become: true
+#
+- name: openSUSE | Install packages (all)
+  community.general.zypper:
+    name: "{{ packages }}"
+    state: present
+  become: true
+
+- name: openSUSE | Install packages (host)
+  community.general.zypper:
+    name: "{{ packages_host[ansible_distribution | lower | replace(' ', '_')] }}"
+    state: present
+  become: true
+  when: packages_host[ansible_distribution | lower | replace(' ', '_')] is defined
+
+- name: openSUSE | Install packages (GNOME)
+  community.general.zypper:
+    name: "{{ packages_gnome }}"
+    state: present
+  become: true
+  when: packages_gnome is defined and gnome_installed
+
+- name: openSUSE | Install packages (KDE)
+  community.general.zypper:
+    name: "{{ packages_kde }}"
+    state: present
+  become: true
+  when: packages_kde is defined and kde_installed
+
+- name: openSUSE | Install vscode
+  include_role:
+    name: gantsign.visual-studio-code
+  vars:
+    users:
+      - username: "{{ ansible_env.USER }}"
+  tags:
+    - vscode
+
+- name: Configure firewalld
+  import_role:
+    name: firewalld
+  tags:
+    - network
+    - firewalld
+  vars:
+    ansible_python_interpreter: /usr/bin/python3

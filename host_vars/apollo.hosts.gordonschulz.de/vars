@@ -1,17 +1,19 @@
 # -*- mode: YAML -*-
 ---
 packages_host:
-  # fedora
-  - xorg-x11-drv-amdgpu
-  # amd video acceleration
-  - mesa-va-drivers-freeworld
-  - mesa-vdpau-drivers-freeworld
-  - libva
-  - libva-vdpau-driver
-  - libva-utils
-  - mesa-vulkan-drivers
-  - vulkan-loader
-  - vulkan-tools
+  fedora:
+    - xorg-x11-drv-amdgpu
+    # amd video acceleration
+    - mesa-va-drivers-freeworld
+    - mesa-vdpau-drivers-freeworld
+    - libva
+    - libva-vdpau-driver
+    - libva-utils
+    - mesa-vulkan-drivers
+    - vulkan-loader
+    - vulkan-tools
+  opensuse_tumbleweed:
+    - xf86-video-amdgpu
 
 system_services:
   - name: sshd.service

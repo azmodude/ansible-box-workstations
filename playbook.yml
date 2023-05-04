@@ -119,11 +119,11 @@
       block:
         - name: Include variables for distribution
           ansible.builtin.include_vars:
-            file: "distributions/{{ ansible_distribution | lower }}_vars.yml"
+            file: "distributions/{{ ansible_distribution | lower | replace(' ', '_') }}_vars.yml"
 
     - name: Include tasks for distribution
       ansible.builtin.include_tasks:
-        file: "distributions/{{ ansible_distribution | lower }}.yml"
+        file: "distributions/{{ ansible_distribution | lower | replace(' ', '_') }}.yml"
         apply:
           tags:
             - distribution
@@ -165,14 +165,14 @@
       tags:
         - services
         - system
-
-    - name: Install and configure tailscale
-      ansible.builtin.import_role:
-        name: artis3n.tailscale
-      tags:
-        - network
-        - tailscale
-
+#
+#     - name: Install and configure tailscale
+#       ansible.builtin.import_role:
+#         name: artis3n.tailscale
+#       tags:
+#         - network
+#         - tailscale
+#
     - name: Ensure network resolution is correct
       become: true
       block:
@@ -203,33 +203,33 @@
         - backup
         - btrbk
       when: btrfs is true
-
-    - name: Setup resticprofile
-      ansible.builtin.import_role:
-        name: resticprofile
-      tags:
-        - backup
-        - resticprofile
-
-    - name: Configure Gnome settings
-      ansible.builtin.import_role:
-        name: gnome
-      tags:
-        - gnome
-      when: gnome_installed
-
-    - name: Install additional propietary browsers
-      ansible.builtin.import_role:
-        name: browsers
-      tags:
-        - browsers
-
-    - name: Install and/or upgrade additional pipx applications not packaged
-      community.general.pipx:
-        name: "{{ item }}"
-      loop: "{{ pipx_applications }}"
-      tags:
-        - pipx
-        - packages
-
-# vim: ft=yaml.ansible
+#
+#     - name: Setup resticprofile
+#       ansible.builtin.import_role:
+#         name: resticprofile
+#       tags:
+#         - backup
+#         - resticprofile
+#
+#     - name: Configure Gnome settings
+#       ansible.builtin.import_role:
+#         name: gnome
+#       tags:
+#         - gnome
+#       when: gnome_installed
+#
+#     - name: Install additional propietary browsers
+#       ansible.builtin.import_role:
+#         name: browsers
+#       tags:
+#         - browsers
+#
+#     - name: Install and/or upgrade additional pipx applications not packaged
+#       community.general.pipx:
+#         name: "{{ item }}"
+#       loop: "{{ pipx_applications }}"
+#       tags:
+#         - pipx
+#         - packages
+#
+# # vim: ft=yaml.ansible
