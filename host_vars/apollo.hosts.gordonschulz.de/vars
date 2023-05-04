@@ -16,9 +16,6 @@ packages_host:
     - xf86-video-amdgpu
 
 system_services:
-  - name: sshd.service
-    state: stopped
-    enabled: false
   - name: sshd.socket
     state: started
     enabled: true
