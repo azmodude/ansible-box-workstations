@@ -81,6 +81,10 @@ packages:
   - python3-github3py
   - pipx
   - pre-commit
+  - golang
+  - cargo
+  - rust
+  - meld
 
   # containers / virtualization
   - podman
