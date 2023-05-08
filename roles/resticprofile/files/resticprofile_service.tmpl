@@ -12,7 +12,7 @@ After=network-online.target
 Type=oneshot
 WorkingDirectory={{ .WorkingDirectory }}
 # Note that systemd-inhibit requires dbus and dbus-user-session to be installed.
-ExecStart=systemd-inhibit --who="resticprofile" --why="Prevent interrupting scheduled backup" {{ .CommandLine }}
+ExecStart=systemd-inhibit --who="resticprofile" --why="{{ .JobDescription }} - Prevent interrupting scheduled backup" {{ .CommandLine }}
 IOSchedulingClass=best-effort
 IOSchedulingPriority=7
 CPUAccounting=true
