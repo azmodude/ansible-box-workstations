@@ -76,6 +76,7 @@ packages:
   - lazygit
   - make
   - git
+  - git-lfs
   - sqlite3
   - ansible
   - python3-github3py
