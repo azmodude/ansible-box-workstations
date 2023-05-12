@@ -1,6 +1,7 @@
 *.iso
 *.qcow2
 **/.venv
+*home/azmo/.jdks
 *home/azmo/.var
 *home/azmo/.vagrant.d
 *home/azmo/.ansible
