@@ -75,6 +75,7 @@ packages:
   - gh
   - lazygit
   - make
+  - strace
   - git
   - git-lfs
   - sqlite3
