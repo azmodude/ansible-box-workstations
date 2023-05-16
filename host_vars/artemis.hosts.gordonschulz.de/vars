@@ -15,7 +15,7 @@ packages_host:
   - nvtop
 
 system_services:
-  - name: sshd.socket
+  - name: sshd.service
     state: started
     enabled: true
   - name: pcscd.service
