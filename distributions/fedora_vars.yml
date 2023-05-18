@@ -120,6 +120,7 @@ packages:
   - hunspell-de
 
   # media / video / audio
+  - mpv
   - ffmpeg
   - ffmpeg-libs
   - libavcodec-freeworld
